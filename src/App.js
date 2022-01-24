@@ -14,6 +14,7 @@ const App = () => {
   return (
     <div className="App">
       <Router>
+      
         <Sidebar />
         <Navbar/>
         {/* <Dashboard /> */}

@@ -1,7 +1,7 @@
 .App {
   height: 100vh;
   width: 100vw;
-  background-color: rgb(53, 51, 51);
+
 
 }
 
@@ -17,15 +17,20 @@ body {
 
 }
 
-.about, .contact, .logout, .setting {
+.about, .contact,.home,.logout, .setting {
   display: flex;
-  height: 90vh;
+  /* margin-right: 300px; */
+  height: 100vh;
+  width: 100vw;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  /* font-size: 3rem; */
+  background-color: rgb(53, 51, 51);
+
 }
 
 .donate .donate__form {
+
   border: 1px solid grey;
   margin-left: 325px;
   padding: 0px 30px 0px 30px;
@@ -33,7 +38,6 @@ body {
   height: 500px;
   width: 600px;
 
-  /* padding-right: 120px; */
 }
 
 .donate .donate__form .input__container {
@@ -49,27 +53,28 @@ body {
 
 .home .grid {
 
-  margin-left: 300px;
+  height: calc(100vh - 80px);
+  width: calc(100vw - 240px);
+  background-color: rgb(53, 51, 51);
+  
+  padding-top: 80px;
+  padding-left: 240px;
+
 
 }
 
 .home .grid .upper__div {
   background-color: rgb(53, 51, 51);
+  /* border: 1px solid black; */
   padding: 20px;
-  height: 400px;
+  height: 60%;
+  width: 94%;
   display: flex;
   justify-content: center;
 
 }
 
-.upper__divimage {
-  height: 400px;
-  width: 1500px;
-  display: flex;
-  justify-content: center;
-  /* position: relative; */
 
-}
 
 .upper__divimageText {
   position: absolute;
@@ -78,13 +83,13 @@ body {
   padding: 150px;
   display: block;
   font-style: italic;
-  font-display: unset;
-  /* background-color: rgba(224, 224, 217, 0.911); */
+  font-display: unset; 
+  /* background-color: rgba(224, 224, 217, 0.911);*/
 
 }
 .home .grid .lower__div  {
 
-  /* padding-top: 20px; */
+  padding-top: 20px;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 30px;
