@@ -12,36 +12,32 @@ export const SidebarData = [
     {
         title: "Home",
         icon: <HomeIcon />,
-        link: "/home"
+        path: "/"
     },
     {
         title: "About",
         icon: <InfoIcon />,
-        link: "/about"
+        path: "/about"
     },
     {
         title: "Donate",
         icon: <MonetizationOnRoundedIcon />,
-        link: "/donate"
+        path: "/donate"
     },
     {
         title: "Contact",
         icon: <ContactPhoneIcon />,
-        link: "/contact"
+        path: "/contact"
     },
     {
-        title: ""
-
-    },
-    {
-        title: "Setting",
+        title: "Settings",
         icon: <SettingsIcon />,
-        link: "/setting"
+        path: "/setting"
     },
     {
         title: "Logout",
         icon: <LogoutIcon />,
-        link: "/logout"
+        path: "/logout"
     },
 
 
