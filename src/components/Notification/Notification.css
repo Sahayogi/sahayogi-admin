@@ -1,0 +1,12 @@
+.notification {
+  display: float;
+  z-index: 130;
+  height: auto;
+  position: fixed;
+  right: 130px;
+  padding: 50px;
+  top: 20px;
+  width: 250px;
+  background-color: aliceblue;
+  border-radius: 10px;
+}
