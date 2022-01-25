@@ -1,5 +1,5 @@
 import './App.css';
-import { MetaMaskProvider } from 'metamask-react';
+// import { MetaMaskProvider } from 'metamask-react';
 import Sidebar from './components/sidebar/Sidebar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import About from './pages/About'
@@ -13,7 +13,7 @@ import Navbar from './components/navbar/Navbar';
 
 const App = () => {
   return (
-    <MetaMaskProvider>
+    // <MetaMaskProvider>
      <div className="App">
       <Router>
         <Sidebar />
@@ -31,7 +31,7 @@ const App = () => {
 
 
     </div>
-    </MetaMaskProvider>
+    // </MetaMaskProvider>
    
   );
 }

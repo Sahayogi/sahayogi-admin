@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap');
 
-.App{
+.App {
   height: 100vh;
   width: 100vw;
 }
@@ -14,27 +14,23 @@
 
 }
 
-.body{
+.about,
+.contact,
+.home,
+.donate,
+.logout,
+.setting {
 
-  
-}
-
-
-.about, .contact,.home,.donate, .logout, .setting {
-  display: flex;
-  /* margin-right: 300px; */
   padding-top: 80px;
   padding-left: 240px;
-  padding-bottom: 1px;
+  padding-bottom: 0px;
   padding-right: 0px;
-  height: 100vh;
-  width: 100vw;
+  flex: 4;
+  height: 100%;
   color: white;
-  /* align-items: center;
-  justify-content: center; */
   font-size: 1rem;
   background-color: rgb(53, 51, 51);
-  /* background-color: pink; */
+
 
 }
 
@@ -58,82 +54,4 @@
   padding: 30px;
   gap: 3rem;
 
-}
-
-/* .home .grid {
-
-  height: calc(100vh - 80px);
-  width: calc(100vw - 240px);
-  background-color: rgb(53, 51, 51);
-  
-  padding-top: 80px;
-  padding-left: 240px;
-
-
-} */
-
-.home .grid .upper__div {
-  background-color: rgb(53, 51, 51);
-  /* border: 1px solid black; */
-  padding: 20px;
-  height: 60%;
-  width: 94%;
-  display: flex;
-  justify-content: center;
-
-}
-
-
-
-.upper__divimageText {
-  position: absolute;
-  font-size: 20px;
-  color: white;
-  padding: 150px;
-  display: block;
-  font-style: italic;
-  font-display: unset; 
-  /* background-color: rgba(224, 224, 217, 0.911);*/
-
-}
-.home .grid .lower__div  {
-
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 30px;
-  height: auto;
-  background-color: rgb(53, 51, 51);
-  /* border: 1px solid pink; */
-  display: flex;
-  justify-content: center;
-  
-
-}
-
-.home .grid .lower__div .lower__divcontainer {
-
-  padding-top: 40px;
-  padding-left: 20px;
-  padding-bottom: 20px;
-  width: 1500px;
-  height: auto;
-  background-color: rgb(53, 51, 51);
-  gap: 3rem;
-  display: flex;
-  justify-content: center;
-  background-color:grey;
-
-}
-
-.lower__divcontainer .one, .two, .three {
-  height: 350px;
-  width: 400px;
-  border-radius: 2rem;
-  background-color: rgb(22, 21, 21);
-
-}
-
-.one, .two {
-  margin-right: 20px;
 }
