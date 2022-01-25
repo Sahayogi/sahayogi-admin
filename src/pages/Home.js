@@ -6,10 +6,8 @@ import {donationData} from '../components/constants/Constant'
 const Home = () => {
     return (
         <div className="home">
-
          <Milstones/>
          <Charts data={donationData} title="Donation Analytics" grid dataKey="Donations" />
-         
         </div>
     )
 }
