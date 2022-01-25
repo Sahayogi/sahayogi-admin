@@ -1,45 +1,46 @@
 .featured {
-    width: 100%;
-    padding-top: 30px;
-    display: flex;
-    justify-content: space-between;
-
+  width: 100%;
+  padding-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
 }
-
+.featured a {
+  flex: 1;
+}
 .featuredItem {
-    background-color: rgb(61, 60, 60);
-    flex: 1;
-    height: 200px;
-    margin: 0px 20px;
-    padding: 60px;
-    border-radius: 1rem;
-    cursor: pointer;
-  
-    /* box shadow CSS generator */
-    box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
-    -webkit-box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
-    -moz-box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
+  background-color: rgb(61, 60, 60);
+  flex: 1;
+  height: 200px;
+  margin: 0px 20px;
+  padding: 60px;
+  /* text-align: center; */
+  border-radius: 1rem;
+  cursor: pointer;
 
+  /* box shadow CSS generator */
+  box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
+  -webkit-box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
+  -moz-box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
 }
 
 .featuredItemName {
-    font-size: 20px;
-    
-    
+  font-size: 20px;
 }
 
 .featuredContainer {
-    padding-top: 10px;
-    margin: 10px 0px;
-    display: flex;
-    align-items: center;
+  padding-top: 10px;
+  margin: 10px 0px;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 
 .featuredItemCount {
-    font-size: 30px;
-    font-weight: bold;
-    align-items: center;
-    display: flex;
-    margin-left: 20px;
-
+  font-size: 30px;
+  font-weight: bold;
+  /* align-items: center; */
+  text-align: center;
+  display: flex;
+  margin-left: 20px;
 }
