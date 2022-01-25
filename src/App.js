@@ -1,5 +1,5 @@
 import './App.css';
-import Dashboard from './components/dashboard/Dashboard';
+import { MetaMaskProvider } from 'metamask-react';
 import Sidebar from './components/sidebar/Sidebar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import About from './pages/About'
@@ -10,14 +10,14 @@ import Vendor from './pages/Vendor';
 import Logout from './pages/Logout';
 import Navbar from './components/navbar/Navbar';
 
+
 const App = () => {
   return (
-    <div className="App">
+    <MetaMaskProvider>
+     <div className="App">
       <Router>
-      
         <Sidebar />
         <Navbar/>
-        {/* <Dashboard /> */}
         <Routes>
          <Route path="/" element={<Home/>}/>
          <Route path="/about" element={<About/>}/>
@@ -31,6 +31,8 @@ const App = () => {
 
 
     </div>
+    </MetaMaskProvider>
+   
   );
 }
 

@@ -1,0 +1,24 @@
+.featured {
+    width: 100%;
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.featuredItem {
+    background-color: rgb(61, 60, 60);
+    flex: 1;
+    height: 200px;
+    margin: 0px 20px;
+    padding: 60px;
+    border-radius: 1rem;
+    cursor: pointer;
+    box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
+    -webkit-box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
+    -moz-box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
+    /* box-shadow: 22px 23px 37px -28px rgba(247, 238, 238, 0.62);
+    -webkit-box-shadow: 22px 23px 37px -28px rgba(247, 238, 238, 0.62);
+    -moz-box-shadow: 22px 23px 37px -28px rgba(247, 238, 238, 0.62); */
+
+}
