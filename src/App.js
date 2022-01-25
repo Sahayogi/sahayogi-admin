@@ -5,8 +5,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import About from './pages/About'
 import Home from './pages/Home'
 import Donate from './pages/Donate';
-import Contact from './pages/Contact';
-import Setting from './pages/Setting';
+import Beneficiary from './pages/Beneficiary';
+import Vendor from './pages/Vendor';
 import Logout from './pages/Logout';
 import Navbar from './components/navbar/Navbar';
 
@@ -22,8 +22,8 @@ const App = () => {
          <Route path="/" element={<Home/>}/>
          <Route path="/about" element={<About/>}/>
          <Route path="/donate" element={<Donate/>}/>
-         <Route path="/contact" element={<Contact/>}/>
-         <Route path="/setting" element={<Setting/>}/>
+         <Route path="/Beneficiary" element={<Beneficiary/>}/>
+         <Route path="/Vendor" element={<Vendor/>}/>
          <Route path="/logout" element={<Logout/>}/>
         </Routes>
 

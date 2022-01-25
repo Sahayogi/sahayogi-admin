@@ -2,9 +2,9 @@ import React from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
-import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
-import SettingsIcon from '@mui/icons-material/Settings';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PeopleIcon from '@mui/icons-material/People';
 
 export const SidebarData = [
 
@@ -20,19 +20,19 @@ export const SidebarData = [
         path: "/about"
     },
     {
-        title: "Donate",
+        title: "Donation Projects",
         icon: <MonetizationOnRoundedIcon />,
         path: "/donate"
     },
     {
-        title: "Contact",
-        icon: <ContactPhoneIcon />,
-        path: "/contact"
+        title: "Beneficiaries",
+        icon: <PeopleIcon />,
+        path: "/Beneficiary"
     },
     {
-        title: "Settings",
-        icon: <SettingsIcon />,
-        path: "/setting"
+        title: "Vendors",
+        icon: <ShoppingCartIcon />,
+        path: "/Vendor"
     },
     {
         title: "Logout",
