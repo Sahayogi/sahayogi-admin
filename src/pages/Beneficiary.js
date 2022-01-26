@@ -1,7 +1,7 @@
 import React from 'react';
 
 const  Beneficiary=()=> {
-  return (<div>
+  return (<div className="beneficiary">
       bene
   </div>)
 }

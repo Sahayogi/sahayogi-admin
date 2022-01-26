@@ -25,12 +25,12 @@ export const SidebarData = [
   {
     title: "Beneficiaries",
     icon: <PeopleIcon />,
-    path: "/Beneficiary",
+    path: "/beneficiary",
   },
   {
     title: "Vendors",
     icon: <ShoppingCartIcon />,
-    path: "/Vendor",
+    path: "/vendor",
   },
   {
       title: "Logout",

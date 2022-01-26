@@ -1,14 +1,31 @@
 .navbar {
-  /* background-color: rgb(53, 51, 51); */
-  background-color: gray;
-  height: 80px;
   width: 100%;
-  position: fixed;
-  display: flex;
-  justify-content: center;
+  height: 80px;
 }
 
-.navbarLeft {
+.navbarWrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-image: linear-gradient(
+    to left,
+    #8c908c,
+    #777c7a,
+    #646969,
+    #535657,
+    #424445,
+    #393b3c,
+    #313233,
+    #292a2b,
+    #262828,
+    #242626,
+    #222323,
+    #202120
+  );
+}
+
+.navbarLeft img {
   height: 80px;
   display: flex;
 }
@@ -16,8 +33,8 @@
 .navbarRight {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  margin-left: auto;
+  gap: 1rem;
+  /* margin-left: auto; */
   padding-right: 20px;
 }
 
@@ -29,14 +46,13 @@
 }
 
 .navbarRight .image img {
-  height: 45px;
+  height: 50px;
   width: 50px;
-  border-radius: 6rem;
+  border-radius: 25px;
   display: flex;
 }
 
 .metamaskButton {
-  /* background-color: rgb(168, 97, 71); */
   background-color: rgb(51, 50, 50);
   padding: 13px;
   border-radius: 4rem;
@@ -44,18 +60,19 @@
   cursor: pointer;
 }
 
-@media only screen and (min-width: 280px) and (max-width: 1080px ){
-  .navbar{
-    display:flex;
-    padding: 1px;
-    
-  }
-
-  .navbarRight .image img{
+@media only screen and (min-width: 280px) and (max-width: 1080px) {
+ 
+  .navbarWrapper {
+    height: 100%;
     display: flex;
+    flex: auto;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom:1px solid rgb(207, 207, 207);
+
   }
 
-  .metamaskButton{
+  .metamaskButton {
     display: flex;
     padding: 10px;
   }

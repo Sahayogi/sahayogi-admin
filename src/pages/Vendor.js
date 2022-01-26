@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Vendor = () => {
-  return ( <div>
+  return ( <div className="vendor">
     vendor
   </div>
   )

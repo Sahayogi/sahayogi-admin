@@ -32,8 +32,8 @@ const App = () => {
     >
       <div className="App">
         <Router>
-          {!isLoginActive && <Sidebar />}
           {!isLoginActive && <Navbar />}
+          <div className="container">{!isLoginActive && <Sidebar />} 
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -42,6 +42,9 @@ const App = () => {
             <Route path="/vendor" element={<Vendor />} />
             <Route path="/logout" element={<Login />} />
           </Routes>
+       
+          </div>
+        
         </Router>
       </div>
     </DetailContext.Provider>
