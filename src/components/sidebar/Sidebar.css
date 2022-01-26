@@ -31,11 +31,6 @@
     background-color: rgb(39, 38, 38);
 }
 
-.SidebarList #active {
-    background-color: rgb(126, 125, 125);
-
-}
-
 .row #icon {
 
     flex: 30%;
@@ -46,14 +41,35 @@
 .row #title {
     flex: 70%;
 }
-@media only screen and (min-width: 280px) and (max-width: 1080px ) {
-  .Sidebar {
-    position: initial;
-    width: 100%;
-  }
-  .SidebarList  {
-      display: flex;
-      justify-content: space-evenly
-      
-  }
+
+@media only screen and (min-width: 280px) and (max-width: 1080px) {
+    .Sidebar {
+        position: initial;
+        width: 100%;
+    }
+
+    .SidebarList {
+        display: flex;
+        justify-content: space-evenly;
+        margin: auto;
+        border-bottom: 1px white solid;
+
+    }
+   
+    .SidebarList .row:hover {
+        cursor: pointer;
+        background-color: rgb(39, 38, 38);
+    }
+
+
+    .row #icon {
+
+        flex: 50%;
+        display: grid;
+        place-items: center;
+    }
+
+    .row #title {
+        display: none;
+    }
 }
