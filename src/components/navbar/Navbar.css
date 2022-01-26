@@ -61,15 +61,17 @@
 }
 
 @media only screen and (min-width: 280px) and (max-width: 1080px) {
- 
+  .navbar {
+    top: 0;
+    position: sticky; 
+  }
   .navbarWrapper {
     height: 100%;
     display: flex;
     flex: auto;
     align-items: center;
     justify-content: space-between;
-    border-bottom:1px solid rgb(207, 207, 207);
-
+    border-bottom: 1px solid rgb(207, 207, 207);
   }
 
   .metamaskButton {
