@@ -18,15 +18,22 @@ export const DetailContext = React.createContext();
 const App = () => {
   const [loginStatus, setLoginStatus] = useState(false);
   const [notification, setNotification] = useState(false);
+  const [isLoginActive, setIsLoginActive] = useState(false);
   return (
     // <MetaMaskProvider>
     <DetailContext.Provider
-      value={{ notification, setNotification, loginStatus, setLoginStatus }}
+      value={{
+        notification,
+        setNotification,
+        loginStatus,
+        setIsLoginActive,
+        setLoginStatus,
+      }}
     >
       <div className="App">
         <Router>
-          <Sidebar />
-          <Navbar />
+          {!isLoginActive && <Sidebar />}
+          {!isLoginActive && <Navbar />}
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -34,7 +41,6 @@ const App = () => {
             <Route path="/beneficiary" element={<Beneficiary />} />
             <Route path="/vendor" element={<Vendor />} />
             <Route path="/logout" element={<Login />} />
-           
           </Routes>
         </Router>
       </div>
