@@ -8,11 +8,16 @@ import Notification from "../Notification/Notification";
 import { DetailContext } from "../../App";
 import React, { useContext } from "react";
 
+
 const Navbar = () => {
+  const handleMetamask =()=>{ 
+    return
+
+  }
   const { notification, setNotification } = useContext(DetailContext);
   return (
     <nav className="navbar">
-      <Link to="/">
+      <Link to="/home">
         <div className="navbarLeft">
           <img src={logo} alt="" />
         </div>
@@ -25,6 +30,9 @@ const Navbar = () => {
         />
         <div className="image">
           <img src={avatar} alt="" />
+        </div>
+        <div className="metamaskButton" onClick={handleMetamask}>
+            Connect To Metamask
         </div>
       </div>
     </nav>

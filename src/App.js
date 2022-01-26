@@ -28,13 +28,13 @@ const App = () => {
           <Sidebar />
           <Navbar />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/donate" element={<Donate />} />
             <Route path="/beneficiary" element={<Beneficiary />} />
             <Route path="/vendor" element={<Vendor />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Login />} />
+           
           </Routes>
         </Router>
       </div>

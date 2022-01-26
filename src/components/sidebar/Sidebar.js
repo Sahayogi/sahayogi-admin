@@ -8,6 +8,7 @@ function Sidebar() {
   const { loginStatus } = useContext(DetailContext);
   return (
     <div className="Sidebar">
+      
       <ul className="SidebarList">
         {SidebarData.map((val, key) => {
           return (
@@ -19,25 +20,7 @@ function Sidebar() {
             </Link>
           );
         })}
-        {loginStatus === true ? (
-          <Link to="/logout">
-            <li className="row">
-              <div id="icon">
-                <LogoutIcon />
-              </div>
-              <div id="title">logout</div>
-            </li>
-          </Link>
-        ) : (
-          <Link to="/login">
-            <li className="row">
-              <div id="icon">
-                <LogoutIcon />
-              </div>
-              <div id="title">login</div>
-            </li>
-          </Link>
-        )}
+        
       </ul>
     </div>
   );

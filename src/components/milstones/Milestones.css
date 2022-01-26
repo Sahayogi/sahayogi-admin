@@ -44,3 +44,15 @@
   display: flex;
   margin-left: 20px;
 }
+@media only screen and (min-width: 280px) and (max-width: 1080px ) {
+  .featured{
+    display: flex;
+    gap: 4rem;
+    flex-direction: column;
+    
+  }
+  .featuredItem{
+    padding: 60px;
+  }
+  
+}

@@ -34,3 +34,29 @@
   border-radius: 6rem;
   display: flex;
 }
+
+.metamaskButton {
+  /* background-color: rgb(168, 97, 71); */
+  background-color: rgb(51, 50, 50);
+  padding: 13px;
+  border-radius: 4rem;
+  color: white;
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 280px) and (max-width: 1080px ){
+  .navbar{
+    display:flex;
+    padding: 1px;
+    
+  }
+
+  .navbarRight .image img{
+    display: flex;
+  }
+
+  .metamaskButton{
+    display: flex;
+    padding: 10px;
+  }
+}

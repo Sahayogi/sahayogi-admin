@@ -10,7 +10,7 @@ export const SidebarData = [
   {
     title: "Home",
     icon: <HomeIcon />,
-    path: "/",
+    path: "/home",
   },
   {
     title: "About",
@@ -32,9 +32,9 @@ export const SidebarData = [
     icon: <ShoppingCartIcon />,
     path: "/Vendor",
   },
-  // {
-  //     title: "Logout",
-  //     icon: <LogoutIcon />,
-  //     path: "/logout"
-  // },
+  {
+      title: "Logout",
+      icon: <LogoutIcon />,
+      path: "/logout"
+  },
 ];

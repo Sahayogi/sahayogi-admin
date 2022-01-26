@@ -46,3 +46,14 @@
 .row #title {
     flex: 70%;
 }
+@media only screen and (min-width: 280px) and (max-width: 1080px ) {
+  .Sidebar {
+    position: initial;
+    width: 100%;
+  }
+  .SidebarList  {
+      display: flex;
+      justify-content: space-evenly
+      
+  }
+}
