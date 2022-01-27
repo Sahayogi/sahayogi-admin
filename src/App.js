@@ -3,12 +3,12 @@ import React, { useState, useContext } from "react";
 // import { MetaMaskProvider } from 'metamask-react';
 import Sidebar from "./components/sidebar/Sidebar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import About from "./pages/About";
+import Transaction from "./pages/Transaction";
 import Home from "./pages/Home";
 import Donate from "./pages/Donate";
 import Beneficiary from "./pages/Beneficiary";
 import Vendor from "./pages/Vendor";
-import Logout from "./pages/Logout";
+import AidAgency from "./pages/AidAgency";
 import Login from "./pages/Login";
 import Navbar from "./components/navbar/Navbar";
 
@@ -35,8 +35,9 @@ const App = () => {
           {!isLoginActive && <Navbar />}
           <div className="container">{!isLoginActive && <Sidebar />} 
           <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/aidAgency" element={<AidAgency />} />
+            <Route path="/transaction" element={<Transaction />} />
             <Route path="/donate" element={<Donate />} />
             <Route path="/beneficiary" element={<Beneficiary />} />
             <Route path="/vendor" element={<Vendor />} />

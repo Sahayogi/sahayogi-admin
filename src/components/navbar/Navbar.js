@@ -33,9 +33,9 @@ const Navbar = () => {
             <img src={avatar} alt="" />
           </div>
 
-          <div className="metamaskButton" onClick={handleMetamask}>
+          {/* <div className="metamaskButton" onClick={handleMetamask}>
             Connect To Metamask
-          </div>
+          </div> */}
         </div>
       </div>
     </nav>

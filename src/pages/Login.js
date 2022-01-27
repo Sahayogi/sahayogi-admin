@@ -31,7 +31,7 @@ const Login = () => {
               </div>
 
               <button onClick={() => setIsLoginActive(false)}>
-                <Link to="/home">login</Link>
+                <Link to="/">login</Link>
               </button>
             </form>
             <div className="banner">
