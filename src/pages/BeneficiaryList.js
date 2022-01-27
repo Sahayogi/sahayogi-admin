@@ -16,22 +16,38 @@ function createData(id, name, address, status) {
 const rows = [
   createData(
     1,
-    "NGO",
+    "mina@gmail.com",
     "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
     "inactive"
   ),
-  createData(2, "BridhaaAshram", "0x3f5dc1f63a197fd1fbd0d471d1", "active"),
-  createData(3, "pinkey@gmail.com", "0x5193a197fd1fbd0d471d1", "inactive"),
+  createData(
+    2,
+    "hari@gmail.com",
+    "0x3f5dc1f63a197fd1fbd0d471d1",
+    "active"
+  ),
+  createData(
+    3,
+    "pinkey@gmail.com",
+    "0x5193a197fd1fbd0d471d1",
+    "inactive"
+  ),
   createData(
     4,
-    "Maiti Nepal",
+
+    "sita@gmail.com",
     "0xc4803f5dc1f6ad15193a197fd1fbd0d471d1",
     "active"
   ),
-  createData(5, "Sahayogi", "0xc6ad15193a197fd1fbd0d471d1", "inactive"),
+  createData(
+    5,
+    "blbla@gmail.com",
+    "0xc6ad15193a197fd1fbd0d471d1",
+    "inactive"
+  ),
   createData(
     6,
-    "Brndaban",
+    "Ice@gmail.com",
     "0x3f5dc1f6ad15193a197fd1fbd0d471d1",
     "inactive"
   ),
@@ -46,15 +62,16 @@ const Container = styled.div`
   padding: 40px;
 `;
 
-const AidAgency = () => {
+const BeneficiaryList = () => {
   return (
     <Container>
+      <h1>Add Beneficiary</h1>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align="left"> Aid Agency</TableCell>
+              <TableCell align="left">Beneficiary Email</TableCell>
               <TableCell align="center">Wallet Adress</TableCell>
               <TableCell align="center">Status</TableCell>
             </TableRow>
@@ -82,4 +99,4 @@ const AidAgency = () => {
   );
 };
 
-export default AidAgency;
+export default BeneficiaryList;

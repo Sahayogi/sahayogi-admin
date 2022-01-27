@@ -6,11 +6,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Transaction from "./pages/Transaction";
 import Home from "./pages/Home";
 import Donate from "./pages/Donate";
-import Beneficiary from "./pages/Beneficiary";
+import BeneficiaryList from "./pages/BeneficiaryList";
 import Vendor from "./pages/Vendor";
 import AidAgency from "./pages/AidAgency";
 import Login from "./pages/Login";
 import Navbar from "./components/navbar/Navbar";
+import AddBeneficiary from "./pages/AddBeneficiary";
 
 //  Context API for the data throughout the app
 export const DetailContext = React.createContext();
@@ -39,7 +40,8 @@ const App = () => {
             <Route path="/aidAgency" element={<AidAgency />} />
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/donate" element={<Donate />} />
-            <Route path="/beneficiary" element={<Beneficiary />} />
+            <Route path="/beneficiary" element={<BeneficiaryList />} />
+            <Route path="/addBeneficiary" element={<AddBeneficiary />} />
             <Route path="/vendor" element={<Vendor />} />
             <Route path="/logout" element={<Login />} />
           </Routes>

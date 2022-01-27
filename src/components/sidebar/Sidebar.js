@@ -3,7 +3,7 @@ import "./Sidebar.css";
 import { SidebarData } from "./SidebarData";
 import { Link } from "react-router-dom";
 import { DetailContext } from "../../App";
-import LogoutIcon from "@mui/icons-material/Logout";
+
 function Sidebar() {
   const { loginStatus } = useContext(DetailContext);
   return (
