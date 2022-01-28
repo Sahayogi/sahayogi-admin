@@ -1,4 +1,4 @@
-import React, {usebene} from "react";
+import React from "react";
 import styled, { css } from "styled-components";
 
 const sharedStyles = css`
@@ -11,6 +11,7 @@ const sharedStyles = css`
   border: none;
   font-size: 20px;
 `;
+
 const Container = styled.div`
   flex: 4;
   height: calc(100vh - 80px);
@@ -31,6 +32,7 @@ const FormWrapper = styled.div`
   padding: 20px;
   height: 100%;
 `;
+
 const Form = styled.form`
   padding: 40px;
   max-width: 700px;
@@ -56,77 +58,26 @@ const FormButton = styled.button`
  cursor: pointer;
  
 `;
-const StyledFieldset = styled.fieldset`
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 20px 0;
-  legend {
-    padding: 0 10px;
-  }
-  label {
-    padding-right: 30px;
-  }
-  input {
-    margin-right: 10px;
-  }
-`;
 
-// const initialBeneficiary={
-//   name:'',
-//   address:'',
-//   number:'',
-//   gender:'',
-//   email:'',
-//   password:'',
-//   password2:''
-// }
-const AddBeneficiary = () => {
-  // const [bene, setBene]= usebene(initialBeneficiary)
-  // const handleInput =(e) =>{
-  //   const inputName = e.target.name;
-  //   const value = e.target.value;
-  // }
+const AddVendor = () => {
   return (
     <Container>
       <FormWrapper>
         <Form>
-          <NewBeneficiaryTitle> Register New Beneficiary</NewBeneficiaryTitle>
+          <NewBeneficiaryTitle> Register New Vendor</NewBeneficiaryTitle>
+
           <label htmlFor="name">Full Name</label>
           <FormInput type="text"  name="name" />
           <label htmlFor="address">Address</label>
           <FormInput type="text"  name="address" />
           <label htmlFor="number">Phone Number</label>
           <FormInput type="number" name="number" />
-          <StyledFieldset>
-            <legend>Gender</legend>
-            <label>
-              <input
-                type="radio"
-                value="female"
-                name="gender"
-                // checked={bene.gender === "female"}
-                // onChange={handleInput}
-              />
-              Female
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="male"
-                name="gender"
-                // checked={bene.gender === "male"}
-                // onChange={handleInput}
-              />
-              Male
-            </label>
-          </StyledFieldset>
           <label htmlFor="email">Email</label>
           <FormInput type="email"  name="email" />
           <label htmlFor="password">Password</label>
           <FormInput type="password" name="password" />
-          <label htmlFor="password2">Confirm Password</label>
-          <FormInput type="password" name="password2" />
+          <label htmlFor="password">Confirm Password</label>
+          <FormInput type="password" name="password" />
           <FormButton type="submit">Register</FormButton>
         </Form>
       </FormWrapper>
@@ -134,4 +85,4 @@ const AddBeneficiary = () => {
   );
 };
 
-export default AddBeneficiary;
+export default AddVendor;

@@ -9,6 +9,8 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+
+import { Link } from "react-router-dom";
 function createData(id, name, address, status) {
   return { id, name, address, status };
 }
@@ -20,18 +22,8 @@ const rows = [
     "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
     "inactive"
   ),
-  createData(
-    2,
-    "hari@gmail.com",
-    "0x3f5dc1f63a197fd1fbd0d471d1",
-    "active"
-  ),
-  createData(
-    3,
-    "pinkey@gmail.com",
-    "0x5193a197fd1fbd0d471d1",
-    "inactive"
-  ),
+  createData(2, "hari@gmail.com", "0x3f5dc1f63a197fd1fbd0d471d1", "active"),
+  createData(3, "pinkey@gmail.com", "0x5193a197fd1fbd0d471d1", "inactive"),
   createData(
     4,
 
@@ -39,12 +31,7 @@ const rows = [
     "0xc4803f5dc1f6ad15193a197fd1fbd0d471d1",
     "active"
   ),
-  createData(
-    5,
-    "blbla@gmail.com",
-    "0xc6ad15193a197fd1fbd0d471d1",
-    "inactive"
-  ),
+  createData(5, "blbla@gmail.com", "0xc6ad15193a197fd1fbd0d471d1", "inactive"),
   createData(
     6,
     "Ice@gmail.com",
@@ -61,11 +48,19 @@ const Container = styled.div`
   background-color: rgb(53, 51, 51);
   padding: 40px;
 `;
-
+const AddDiv = styled.div`
+  padding-bottom: 20px;
+  font-size: 30px;
+  cursor: pointer;
+`;
 const BeneficiaryList = () => {
   return (
     <Container>
-      <h1>Add Beneficiary</h1>
+
+      <Link to="/addBeneficiary">
+      <AddDiv>Add Beneficiary</AddDiv>
+      </Link>
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

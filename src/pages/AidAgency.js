@@ -9,6 +9,8 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+
+import {Link } from 'react-router-dom'
 function createData(id, name, address, status) {
   return { id, name, address, status };
 }
@@ -45,10 +47,18 @@ const Container = styled.div`
   background-color: rgb(53, 51, 51);
   padding: 40px;
 `;
+const AddDiv = styled.div`
+  padding-bottom: 20px;
+  font-size: 30px;
+  cursor: pointer;
+`;
 
 const AidAgency = () => {
   return (
     <Container>
+       <Link to="/addAgency">
+      <AddDiv>Add Aid Agency</AddDiv>
+      </Link>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
