@@ -13,7 +13,7 @@ import Login from "./pages/Login";
 import Navbar from "./components/navbar/Navbar";
 import AddBeneficiary from "./pages/AddBeneficiary";
 import AddAgency from "./pages/AddAgency";
-import AddVendor from "./pages/AddVendor"
+import AddVendor from "./pages/AddVendor";
 import AddProject from "./pages/AddProject";
 
 //  Context API for the data throughout the app
@@ -37,23 +37,23 @@ const App = () => {
       <div className="App">
         <Router>
           {!isLoginActive && <Navbar />}
-          <div className="container">{!isLoginActive && <Sidebar />} 
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/aidAgency" element={<AidAgency />} />
-            <Route path="/addAgency" element={<AddAgency />} />
-            <Route path="/transaction" element={<Transaction />} />
-            <Route path="/donate" element={<Projects />} />
-            <Route path="/addProject" element={<AddProject />} />
-            <Route path="/beneficiary" element={<BeneficiaryList />} />
-            <Route path="/addBeneficiary" element={<AddBeneficiary />} />
-            <Route path="/vendor" element={<Vendor />} />
-            <Route path="/addVendor" element={<AddVendor />} />
-            <Route path="/logout" element={<Login />} />
-          </Routes>
-       
+          <div className="container">
+            {!isLoginActive && <Sidebar />}
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/aidAgency" element={<AidAgency />} />
+              <Route path="/addAgency" element={<AddAgency />} />
+              <Route path="/transaction" element={<Transaction />} />
+              <Route path="/donate" element={<Projects />} />
+              <Route path="/addProject" element={<AddProject />} />
+              <Route path="/beneficiary" element={<BeneficiaryList />} />
+              <Route path="/addBeneficiary" element={<AddBeneficiary />} />
+              <Route path="/vendor" element={<Vendor />} />
+              <Route path="/addVendor" element={<AddVendor />} />
+              <Route path="/logout" element={<Login />} />
+            </Routes>
           </div>
-        
         </Router>
       </div>
     </DetailContext.Provider>
