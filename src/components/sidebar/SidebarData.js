@@ -4,13 +4,13 @@ import MonetizationOnRoundedIcon from "@mui/icons-material/MonetizationOnRounded
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PeopleIcon from "@mui/icons-material/People";
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import CorporateFareIcon from '@mui/icons-material/CorporateFare';
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 export const SidebarData = [
   {
     title: "Home",
     icon: <HomeIcon />,
-    path: "/",
+    path: "/home",
   },
   {
     title: "Aid Agency",
@@ -38,8 +38,8 @@ export const SidebarData = [
     path: "/transaction",
   },
   {
-      title: "Logout",
-      icon: <LogoutIcon />,
-      path: "/logout"
+    title: "Logout",
+    icon: <LogoutIcon />,
+    path: "/logout",
   },
 ];
