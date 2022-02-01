@@ -6,6 +6,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PeopleIcon from "@mui/icons-material/People";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import SettingsIcon from "@mui/icons-material/Settings";
+
 export const SidebarData = [
   {
     title: "Home",
@@ -23,6 +26,11 @@ export const SidebarData = [
     path: "/donate",
   },
   {
+    title: "Bank",
+    icon: <AccountBalanceIcon />,
+    path: "/bank",
+  },
+  {
     title: "Beneficiaries",
     icon: <PeopleIcon />,
     path: "/beneficiary",
@@ -36,6 +44,49 @@ export const SidebarData = [
     title: "Transactions",
     icon: <CompareArrowsIcon />,
     path: "/transaction",
+  },
+  {
+    title: "Logout",
+    icon: <LogoutIcon />,
+    path: "/logout",
+  },
+];
+
+export const SidebarDataForA = [
+  {
+    title: "Home",
+    icon: <HomeIcon />,
+    path: "/home",
+  },
+  {
+    title: "Donation Projects",
+    icon: <MonetizationOnRoundedIcon />,
+    path: "/donate",
+  },
+  {
+    title: "Bank",
+    icon: <AccountBalanceIcon />,
+    path: "/bank",
+  },
+  {
+    title: "Beneficiaries",
+    icon: <PeopleIcon />,
+    path: "/beneficiary",
+  },
+  {
+    title: "Vendors",
+    icon: <ShoppingCartIcon />,
+    path: "/vendor",
+  },
+  {
+    title: "Transactions",
+    icon: <CompareArrowsIcon />,
+    path: "/transaction",
+  },
+  {
+    title: "Settings",
+    icon: <SettingsIcon />,
+    path: "/settings",
   },
   {
     title: "Logout",

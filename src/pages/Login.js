@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/sahayogi.png";
+import { useAuth } from "../context/UserContext";
 import { DetailContext } from "../App";
 const Login = () => {
   const { setIsLoginActive } = useContext(DetailContext);
-  //useeffect
+  const { data } = useAuth();
   setIsLoginActive(true);
   return (
     <>
@@ -21,6 +22,10 @@ const Login = () => {
             <h1>Login</h1>
 
             <form className="loginCard">
+              <div className="form-control">
+                <label htmlFor="role"> Role: </label>
+                <input type="text" value={data.role} />
+              </div>
               <div className="form-control">
                 <label htmlFor="email"> Email: </label>
                 <input type="email" name="" placeholder="email" id="" />

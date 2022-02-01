@@ -11,31 +11,18 @@ import {
 } from "@mui/material";
 
 import { Link } from "react-router-dom";
-function createData(id, name, address, status) {
-  return { id, name, address, status };
+import { useAuth } from "../../context/UserContext";
+function createData(id, name, email, location, address, status) {
+  return { id, name, email, location, address, status };
 }
 
 const rows = [
   createData(
     1,
-    "mina@gmail.com",
+    "Nepal Rastra Bank",
+    "nrb@gmail.com",
+    "lalitpur",
     "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "inactive"
-  ),
-  createData(2, "hari@gmail.com", "0x3f5dc1f63a197fd1fbd0d471d1", "active"),
-  createData(3, "pinkey@gmail.com", "0x5193a197fd1fbd0d471d1", "inactive"),
-  createData(
-    4,
-
-    "sita@gmail.com",
-    "0xc4803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "active"
-  ),
-  createData(5, "blbla@gmail.com", "0xc6ad15193a197fd1fbd0d471d1", "inactive"),
-  createData(
-    6,
-    "Ice@gmail.com",
-    "0x3f5dc1f6ad15193a197fd1fbd0d471d1",
     "inactive"
   ),
 ];
@@ -53,21 +40,25 @@ const AddDiv = styled.div`
   font-size: 30px;
   cursor: pointer;
 `;
-const BeneficiaryList = () => {
+
+const Bank = () => {
+  const { data} = useAuth();
   return (
     <Container>
-
-      <Link to="/addBeneficiary">
-      <AddDiv>Add Beneficiary</AddDiv>
-      </Link>
-
+      { data.role && data.role!=="admin" &&
+        <Link to="/addBank">
+          <AddDiv>Add Bank</AddDiv>
+        </Link>
+      }
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align="left">Beneficiary Email</TableCell>
-              <TableCell align="center">Wallet Adress</TableCell>
+              <TableCell align="left"> Bank</TableCell>
+              <TableCell align="center"> Email</TableCell>
+              <TableCell align="center">Location</TableCell>
+              <TableCell align="center">Wallet Address</TableCell>
               <TableCell align="center">Status</TableCell>
             </TableRow>
           </TableHead>
@@ -81,6 +72,8 @@ const BeneficiaryList = () => {
                   {row.id}
                 </TableCell>
                 <TableCell align="left">{row.name}</TableCell>
+                <TableCell align="center">{row.email}</TableCell>
+                <TableCell align="center">{row.location}</TableCell>
                 <TableCell align="center">{row.address}</TableCell>
                 <TableCell align="center">
                   <button className="statusButton">{row.status}</button>
@@ -94,4 +87,4 @@ const BeneficiaryList = () => {
   );
 };
 
-export default BeneficiaryList;
+export default Bank;

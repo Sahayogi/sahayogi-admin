@@ -1,4 +1,4 @@
-import React, {usebene} from "react";
+import React from "react";
 import styled, { css } from "styled-components";
 
 const sharedStyles = css`
@@ -20,7 +20,7 @@ const Container = styled.div`
 const NewBeneficiaryTitle = styled.div`
   color: black;
   padding-bottom: 30px;
-  font-weight:bold;
+  font-weight: bold;
   font-size: 30px;
 `;
 const FormWrapper = styled.div`
@@ -46,15 +46,14 @@ const FormInput = styled.input`
   ${sharedStyles}
 `;
 const FormButton = styled.button`
- border: none;
- color: white;
- background-color: black;
- height:30px;
- border-radius: 10px;
- padding: 10px;
- justify-content: center;
- cursor: pointer;
- 
+  border: none;
+  color: white;
+  background-color: black;
+  height: 30px;
+  border-radius: 10px;
+  padding: 10px;
+  justify-content: center;
+  cursor: pointer;
 `;
 const StyledFieldset = styled.fieldset`
   border: 1px solid #ddd;
@@ -93,9 +92,9 @@ const AddBeneficiary = () => {
         <Form>
           <NewBeneficiaryTitle> Register New Beneficiary</NewBeneficiaryTitle>
           <label htmlFor="name">Full Name</label>
-          <FormInput type="text"  name="name" />
+          <FormInput type="text" name="name" />
           <label htmlFor="address">Address</label>
-          <FormInput type="text"  name="address" />
+          <FormInput type="text" name="address" />
           <label htmlFor="number">Phone Number</label>
           <FormInput type="number" name="number" />
           <StyledFieldset>
@@ -120,9 +119,19 @@ const AddBeneficiary = () => {
               />
               Male
             </label>
+            <label>
+              <input
+                type="radio"
+                value="other"
+                name="gender"
+                // checked={bene.gender === "male"}
+                // onChange={handleInput}
+              />
+              Others
+            </label>
           </StyledFieldset>
           <label htmlFor="email">Email</label>
-          <FormInput type="email"  name="email" />
+          <FormInput type="email" name="email" />
           <label htmlFor="password">Password</label>
           <FormInput type="password" name="password" />
           <label htmlFor="password2">Confirm Password</label>

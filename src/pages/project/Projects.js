@@ -9,29 +9,18 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import {Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { useAuth } from "../../context/UserContext";
 
-function createData(id, name, address, status) {
-  return { id, name, address, status };
+function createData(id, name, num, tokens, status) {
+  return { id, name, num, tokens, status };
 }
 
 const rows = [
-  createData(
-    1,
-    "mina@gmail.com",
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "inactive"
-  ),
-  createData(2, "hari@gmail.com", "0x3f5dc1f63a197fd1fbd0d471d1", "active"),
-  createData(3, "pinkey@gmail.com", "0x5193a197fd1fbd0d471d1", "inactive"),
-  createData(
-    4,
-    "sita@gmail.com",
-    "0xc4803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "active"
-  ),
-  createData(5, "blbla@gmail.com", "0xc6ad15193a197fd1fbd0d471d1", "inactive"),
-  createData(6, "Ice@gmail.com", "0x3f5dc1f6ad15193a197fd1fbd0d471d1", "inactive"),
+  createData(1, "LandSlide", 20, 23000, "closed"),
+  createData(2, "Earthquake", 2, 3000, "active"),
+  createData(3, "Covid", 3, 5000, "active"),
+  createData(4, "Orphanage", 11, 2000, "closed"),
 ];
 
 const Container = styled.div`
@@ -47,19 +36,24 @@ const AddDiv = styled.div`
   font-size: 30px;
   cursor: pointer;
 `;
-const Vendor = () => {
+
+const Projects = () => {
+  const { data } = useAuth();
   return (
     <Container>
-      <Link to="/addVendor">
-      <AddDiv>Add Vendor</AddDiv>
-      </Link>
+      {data.role && data.role !== "admin" && (
+        <Link to="/addProject">
+          <AddDiv>Add Projects</AddDiv>
+        </Link>
+      )}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align="left">Vendors Email</TableCell>
-              <TableCell align="center">Wallet Adress</TableCell>
+              <TableCell align="center">Donation Projects</TableCell>
+              <TableCell align="center">Number of Beneficiaries</TableCell>
+              <TableCell align="center">Tokens</TableCell>
               <TableCell align="center">Status</TableCell>
             </TableRow>
           </TableHead>
@@ -72,9 +66,12 @@ const Vendor = () => {
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="center">{row.address}</TableCell>
-                <TableCell align="center"><button className="statusButton">{row.status}</button></TableCell>
+                <TableCell align="center">{row.name}</TableCell>
+                <TableCell align="center">{row.num}</TableCell>
+                <TableCell align="center">{row.tokens}</TableCell>
+                <TableCell align="center">
+                  <button className="statusButton">{row.status}</button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -84,4 +81,4 @@ const Vendor = () => {
   );
 };
 
-export default Vendor;
+export default Projects;

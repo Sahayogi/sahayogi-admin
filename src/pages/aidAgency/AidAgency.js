@@ -10,38 +10,20 @@ import {
   Paper,
 } from "@mui/material";
 
-function createData(id, from, to, timestamp, status) {
-  return { id, from, to, timestamp, status };
+import { Link } from "react-router-dom";
+
+function createData(id, name, email, location, address, status) {
+  return { id, name, email, location, address, status };
 }
 
 const rows = [
   createData(
     1,
+    "NGO",
+    "ngo@gmail.com",
+    "KATHMANDU",
     "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "2022-01-27T14:13:23+00:00",
-    "failed"
-  ),
-  createData(
-    2,
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "2022-01-27T14:13:23+00:00",
-    "completed"
-  ),
-  createData(
-    3,
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "2022-01-27T14:13:23+00:00",
-    "failed"
-  ),
-  createData(
-    4,
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "0xc4803f5dc1f6ad15193a197fd1fbd0d471d1rtrv",
-    "2022-01-27T14:13:23+00:00",
-    "pending"
+    "inactive"
   ),
 ];
 
@@ -52,22 +34,30 @@ const Container = styled.div`
   font-size: 1rem;
   background-color: rgb(53, 51, 51);
   padding: 40px;
-
-  @media only screen and (min-width: 280px) and (max-width: 1080px) {
-  }
+`;
+const AddDiv = styled.div`
+  padding-bottom: 20px;
+  font-size: 30px;
+  cursor: pointer;
 `;
 
-const Transaction = () => {
+const AidAgency = () => {
+
   return (
+    
     <Container>
+      <Link to="/addAgency">
+        <AddDiv>Add Aid Agency</AddDiv>
+      </Link>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align="left">From</TableCell>
-              <TableCell align="left">To</TableCell>
-              <TableCell align="left">Timestamp</TableCell>
+              <TableCell align="left"> Aid Agency</TableCell>
+              <TableCell align="center">Email</TableCell>
+              <TableCell align="center">Location</TableCell>
+              <TableCell align="center">Wallet Adress</TableCell>
               <TableCell align="center">Status</TableCell>
             </TableRow>
           </TableHead>
@@ -80,9 +70,10 @@ const Transaction = () => {
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="left">{row.from}</TableCell>
-                <TableCell align="left">{row.to}</TableCell>
-                <TableCell align="left">{row.timestamp}</TableCell>
+                <TableCell align="left">{row.name}</TableCell>
+                <TableCell align="center">{row.email}</TableCell>
+                <TableCell align="center">{row.location}</TableCell>
+                <TableCell align="center">{row.address}</TableCell>
                 <TableCell align="center">
                   <button className="statusButton">{row.status}</button>
                 </TableCell>
@@ -95,4 +86,5 @@ const Transaction = () => {
   );
 };
 
-export default Transaction;
+
+export default AidAgency;

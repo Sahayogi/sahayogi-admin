@@ -10,32 +10,18 @@ import {
   Paper,
 } from "@mui/material";
 
-import {Link } from 'react-router-dom'
-function createData(id, name, address, status) {
-  return { id, name, address, status };
+function createData(id, from, to,token, timestamp, status) {
+  return { id, from, to,token, timestamp, status };
 }
 
 const rows = [
   createData(
     1,
-    "NGO",
     "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "inactive"
-  ),
-  createData(2, "BridhaaAshram", "0x3f5dc1f63a197fd1fbd0d471d1", "active"),
-  createData(3, "pinkey@gmail.com", "0x5193a197fd1fbd0d471d1", "inactive"),
-  createData(
-    4,
-    "Maiti Nepal",
-    "0xc4803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "active"
-  ),
-  createData(5, "Sahayogi", "0xc6ad15193a197fd1fbd0d471d1", "inactive"),
-  createData(
-    6,
-    "Brndaban",
-    "0x3f5dc1f6ad15193a197fd1fbd0d471d1",
-    "inactive"
+    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
+    2000,
+    "2022-01-27T14:13:23+00:00",
+    "failed"
   ),
 ];
 
@@ -46,26 +32,23 @@ const Container = styled.div`
   font-size: 1rem;
   background-color: rgb(53, 51, 51);
   padding: 40px;
-`;
-const AddDiv = styled.div`
-  padding-bottom: 20px;
-  font-size: 30px;
-  cursor: pointer;
+
+  @media only screen and (min-width: 280px) and (max-width: 1080px) {
+  }
 `;
 
-const AidAgency = () => {
+const Transaction = () => {
   return (
     <Container>
-       <Link to="/addAgency">
-      <AddDiv>Add Aid Agency</AddDiv>
-      </Link>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align="left"> Aid Agency</TableCell>
-              <TableCell align="center">Wallet Adress</TableCell>
+              <TableCell align="left">From</TableCell>
+              <TableCell align="left">To</TableCell>
+              <TableCell align="left">Tokens</TableCell>
+              <TableCell align="left">Timestamp</TableCell>
               <TableCell align="center">Status</TableCell>
             </TableRow>
           </TableHead>
@@ -78,8 +61,10 @@ const AidAgency = () => {
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="center">{row.address}</TableCell>
+                <TableCell align="left">{row.from}</TableCell>
+                <TableCell align="left">{row.to}</TableCell>
+                <TableCell align="left">{row.token}</TableCell>
+                <TableCell align="left">{row.timestamp}</TableCell>
                 <TableCell align="center">
                   <button className="statusButton">{row.status}</button>
                 </TableCell>
@@ -92,4 +77,4 @@ const AidAgency = () => {
   );
 };
 
-export default AidAgency;
+export default Transaction;

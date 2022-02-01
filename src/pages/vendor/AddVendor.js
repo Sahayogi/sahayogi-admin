@@ -68,8 +68,8 @@ const AddVendor = () => {
 
           <label htmlFor="name">Full Name</label>
           <FormInput type="text"  name="name" />
-          <label htmlFor="address">Address</label>
-          <FormInput type="text"  name="address" />
+          <label htmlFor="location">Location</label>
+          <FormInput type="text"  name="location" />
           <label htmlFor="number">Phone Number</label>
           <FormInput type="number" name="number" />
           <label htmlFor="email">Email</label>

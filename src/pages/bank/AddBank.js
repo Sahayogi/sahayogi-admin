@@ -60,17 +60,14 @@ const FormButton = styled.button`
 
 const initialState = {
   name: "",
-  area: "",
-  message: "",
+  location:"",
+  email: "",
+  password: "",
 };
-const AddProject = () => {
+const AddBank = () => {
+  
   const [state, setState] = useState(initialState);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("submitted!!!");
-    console.log("state");
-  };
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -84,14 +81,18 @@ const AddProject = () => {
     <Container>
       <FormWrapper>
         <Form>
-          <NewBeneficiaryTitle> Add New Donation Project</NewBeneficiaryTitle>
+          <NewBeneficiaryTitle> Add New Bank</NewBeneficiaryTitle>
 
-          <label htmlFor="name">Donation Project</label>
+          <label htmlFor="name">Bank Name</label>
           <FormInput type="text" name="name" value={state.name} onChange={handleInput} />
-          <label htmlFor="area">Targeted Area</label>
-          <FormInput type="text" name="area"value={state.area} onChange={handleInput} />
-          <label htmlFor="message">Description</label>
-          <FormInput type="text" name="message"value={state.message} onChange="handleInput" />
+          <label htmlFor="location">Location</label>
+          <FormInput type="text" name="location" value={state.location} onChange={handleInput} />
+          <label htmlFor="email">Email</label>
+          <FormInput type="email" name="email"value={state.email} onChange={handleInput} />
+          <label htmlFor="password">Password</label>
+          <FormInput type="password" name="password"value={state.password} onChange="handleInput" />
+          <label htmlFor="Cpassword">Confirm Password</label>
+          <FormInput type="password" name="Cpassword"value={state.password} onChange="handleInput" />
 
           <FormButton type="submit">Add</FormButton>
         </Form>
@@ -100,4 +101,4 @@ const AddProject = () => {
   );
 };
 
-export default AddProject;
+export default AddBank;

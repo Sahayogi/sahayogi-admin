@@ -1,29 +1,46 @@
-import React, { useContext } from "react";
-import "./Sidebar.css";
-import { SidebarData } from "./SidebarData";
-import { Link } from "react-router-dom";
-import { DetailContext } from "../../App";
+import React from "react";
 
-function Sidebar() {
-  const { loginStatus } = useContext(DetailContext);
+import "./Sidebar.css";
+import { SidebarData as AdminSidebar, SidebarDataForA as AgencySidebar} from "./SidebarData";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../context/UserContext"
+
+const Sidebar = () => {
+  const { data } = useAuth();
+ 
   return (
+   
     <div className="Sidebar">
-      
-      <ul className="SidebarList">
-        {SidebarData.map((val, key) => {
-          return (
-            <Link to={val.path}>
-              <li className="row" key={key}>
-                <div id="icon">{val.icon}</div>
-                <div id="title">{val.title}</div>
-              </li>
-            </Link>
-          );
-        })}
-        
-      </ul>
+    
+      <div className="SidebarList">
+        { data.role&&
+          data.role === "admin" &&
+          AdminSidebar.map((val, key) => {
+            return (
+              <Link to={val.path}>
+                <div className="row" key={key}>
+                  <div id="icon">{val.icon}</div>
+                  <div id="title">{val.title}</div>
+                </div>
+              </Link>
+            );
+          })}
+        {data.role&&
+          data.role !== "admin" &&
+          AgencySidebar.map((val, key) => {
+            return (
+              <Link to={val.path}>
+                <div className="row" key={key}>
+                  <div id="icon">{val.icon}</div>
+                  <div id="title">{val.title}</div>
+                </div>
+              </Link>
+            );
+          })}
+      </div>
     </div>
+  
   );
-}
+};
 
 export default Sidebar;
