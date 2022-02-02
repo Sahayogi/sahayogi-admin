@@ -1,15 +1,13 @@
 import "./App.css";
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
+import {  Routes, Route } from "react-router-dom";
 // import { MetaMaskProvider } from 'metamask-react';
 
 import Navbar from "./components/navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
 
 import Home from "./pages/Home";
-import Login from "./pages/Login";
 import Settings from "./pages/Settings";
-import NotFound from "./pages/NotFound";
 
 import AidAgency from "./pages/aidAgency/AidAgency";
 import Projects from "./pages/project/Projects";
@@ -25,62 +23,43 @@ import AddVendor from "./pages/vendor/AddVendor";
 import AddProject from "./pages/project/AddProject";
 import AddBank from "./pages/bank/AddBank";
 
-
-
-//  Context API for the data throughout the app
-import {Provider as AuthProvider} from './context/UserContext'
-export const DetailContext = React.createContext();
+import NotFound from "./pages/NotFound"
+import Logout from "./pages/Logout";
 
 const App = () => {
-  const [loginStatus, setLoginStatus] = useState(false);
-  const [notification, setNotification] = useState(false);
-  const [isLoginActive, setIsLoginActive] = useState(false);
   return (
-     <AuthProvider>
-    <DetailContext.Provider
-      value={{
-        notification,
-        setNotification,
-        loginStatus,
-        setIsLoginActive,
-        setLoginStatus,
-      }}
-    >
-      <div className="App">
-       
-        <Router>
-          {!isLoginActive && <Navbar />}
-          <div className="container">
-            {!isLoginActive && <Sidebar />}
-            <Routes>
-              <Route  path="/" element={<Login />} />
-              <Route exact path="/home" element={<Home />} />
-              {/* aid agency */}
-              <Route exact path="/aidAgency" element={<AidAgency />} />
-              <Route exact path="/addAgency" element={<AddAgency />} />
-              {/* project */}
-              <Route exact path="/donate" element={<Projects />} />
-              <Route exact path="/addProject" element={<AddProject />} />
-              {/* bank */}
-              <Route exact path="/bank" element={<Bank />} />
-              <Route exact path="/addBank" element={<AddBank />} />
-              {/* beneficiary */}
-              <Route exact path="/beneficiary" element={<BeneficiaryList />} />
-              <Route exact path="/addBeneficiary" element={<AddBeneficiary />} />
-              {/* vendors */}
-              <Route exact path="/vendor" element={<Vendor />} />
-              <Route exact path="/addVendor" element={<AddVendor />} />
-              {/* transactions */}
-              <Route exact path="/transaction" element={<Transaction />} />
-              <Route exact path="/settings" element={<Settings />} />
-              <Route path="*" element={<NotFound />} />
-              <Route exact path="/logout" element={<Login />} />
-            </Routes>
-          </div>
-        </Router>
+   
+    <div className="App">
+      <Navbar />
+      <div className="container">
+        <Sidebar />
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          {/* aid agency */}
+          <Route path="/aidAgency" element={<AidAgency />} />
+          <Route path="/addAgency" element={<AddAgency />} />
+          {/* project */}
+          <Route path="/donate" element={<Projects />} />
+          <Route path="/addProject" element={<AddProject />} />
+          {/* bank */}
+          <Route path="/bank" element={<Bank />} />
+          <Route path="/addBank" element={<AddBank />} />
+          {/* beneficiary */}
+          <Route path="/beneficiary" element={<BeneficiaryList />} />
+          <Route path="/addBeneficiary" element={<AddBeneficiary />} />
+          {/* vendors */}
+          <Route path="/vendor" element={<Vendor />} />
+          <Route path="/addVendor" element={<AddVendor />} />
+          {/* transactions */}
+          <Route path="/transaction" element={<Transaction />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/logout" element={<Logout />} />
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
-    </DetailContext.Provider>
-    </AuthProvider>
+    </div>
+   
   );
 };
 

@@ -3,13 +3,11 @@ import avatar from "../../assets/metamask.png";
 import { FiBell } from "react-icons/fi";
 import logo from "../../assets/sahayogi.png";
 import { Link } from "react-router-dom";
-import Notification from "../Notification/Notification";
-import { DetailContext } from "../../App";
-import React, { useContext } from "react";
+
+import React from "react";
 
 const Navbar = () => {
-  const { notification, setNotification } = useContext(DetailContext);
-  return (
+    return (
     <nav className="navbar">
       <div className="navbarWrapper">
         <Link to="/home">
@@ -19,10 +17,10 @@ const Navbar = () => {
         </Link>
 
         <div className="navbarRight">
-          {notification && <Notification />}
+          {/* {<Notification />} */}
           <FiBell
             className="bell"
-            onClick={() => setNotification(!notification)}
+            onClick={() => {}}
           />
 
           <div className="image">

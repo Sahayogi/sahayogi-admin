@@ -13,7 +13,7 @@ export const SidebarData = [
   {
     title: "Home",
     icon: <HomeIcon />,
-    path: "/home",
+    path: "/",
   },
   {
     title: "Aid Agency",
@@ -56,7 +56,7 @@ export const SidebarDataForA = [
   {
     title: "Home",
     icon: <HomeIcon />,
-    path: "/home",
+    path: "/",
   },
   {
     title: "Donation Projects",
@@ -88,9 +88,5 @@ export const SidebarDataForA = [
     icon: <SettingsIcon />,
     path: "/settings",
   },
-  {
-    title: "Logout",
-    icon: <LogoutIcon />,
-    path: "/logout",
-  },
+
 ];

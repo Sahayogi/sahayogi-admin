@@ -1,21 +1,24 @@
 import React from "react";
 
 import "./Sidebar.css";
-import { SidebarData as AdminSidebar, SidebarDataForA as AgencySidebar} from "./SidebarData";
+import {
+  SidebarData as AdminSidebar,
+  SidebarDataForA as AgencySidebar,
+} from "./SidebarData";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../context/UserContext"
+import { useAuth } from "../../context/UserContext";
 
 const Sidebar = () => {
-  const { data } = useAuth();
- 
+  const {
+    data: { role },
+  } = useAuth();
+
   return (
-   
     <div className="Sidebar">
-    
       <div className="SidebarList">
-        { data.role&&
-          data.role === "admin" &&
-          AdminSidebar.map((val, key) => {
+        {role &&
+          role === "admin" &&
+          AdminSidebar.map((val,key) => {
             return (
               <Link to={val.path}>
                 <div className="row" key={key}>
@@ -25,9 +28,9 @@ const Sidebar = () => {
               </Link>
             );
           })}
-        {data.role&&
-          data.role !== "admin" &&
-          AgencySidebar.map((val, key) => {
+        {role&&
+          role !== "admin" &&
+          AgencySidebar.map((val,key) => {
             return (
               <Link to={val.path}>
                 <div className="row" key={key}>
@@ -39,7 +42,6 @@ const Sidebar = () => {
           })}
       </div>
     </div>
-  
   );
 };
 

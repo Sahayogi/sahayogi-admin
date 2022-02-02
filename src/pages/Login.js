@@ -1,12 +1,24 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/sahayogi.png";
 import { useAuth } from "../context/UserContext";
-import { DetailContext } from "../App";
+
 const Login = () => {
-  const { setIsLoginActive } = useContext(DetailContext);
-  const { data } = useAuth();
-  setIsLoginActive(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const {
+    data: { role },
+    loginUser,
+  } = useAuth();
+
+
+  const handleLogin = (e) => {
+    if (email === "anisha@gmail.com" && password === "12345") {
+      loginUser({ email });
+    }
+  };
+
   return (
     <>
       <div className="login">
@@ -24,19 +36,28 @@ const Login = () => {
             <form className="loginCard">
               <div className="form-control">
                 <label htmlFor="role"> Role: </label>
-                <input type="text" value={data.role} />
+                <input type="text" value={role} onChange={(e) => {}} />
               </div>
               <div className="form-control">
                 <label htmlFor="email"> Email: </label>
-                <input type="email" name="" placeholder="email" id="" />
+                <input
+                  type="email"
+                  value={email}
+                  placeholder="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="form-control">
                 <label htmlFor="password"> Password: </label>
-                <input type="password" name="" id="" />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
 
-              <button onClick={() => setIsLoginActive(false)}>
-                <Link to="/home">login</Link>
+              <button onClick={handleLogin}>
+                <span>login</span>
               </button>
             </form>
             <div className="banner">

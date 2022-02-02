@@ -30,8 +30,7 @@
   display: grid;
   place-items: center;
 }
-
-.row #title {
+ #title {
   flex: 70%;
 }
 
@@ -39,6 +38,8 @@
   .Sidebar {
     display: initial;
     height: 80px;
+  background-color: rgb(41, 40, 40);
+
     
   }
   .SidebarList {
