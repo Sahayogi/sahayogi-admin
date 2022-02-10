@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const sharedStyles = css`
   background-color: grey;
@@ -57,40 +59,68 @@ const FormButton = styled.button`
   justify-content: center;
   cursor: pointer;
 `;
+const Error = styled.h1`
+  height: 40px;
+  color: red;
+  padding: 10px;
+  font-size: 15px;
+`;
 
-const initialState = {
-  name: "",
-  area: "",
-  message: "",
-};
 const AddProject = () => {
-  const [state, setState] = useState(initialState);
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log("submitted!!!");
-  //   console.log("state");
-  // };
-
-  const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setState((prev) => ({
-      [name]: value,
-    }));
+  const initialValues = {
+    name: "",
+    location: "",
+    description: "",
   };
+  const validationSchema = Yup.object({
+    name: Yup.string().required("required").max(20),
+    location: Yup.string().required("required").max(100),
+    description: Yup.string().required("required").max(100),
+  });
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   return (
     <Container>
       <FormWrapper>
-        <Form>
-          <NewBeneficiaryTitle> Add New Donation Project</NewBeneficiaryTitle>
+        <Form onSubmit={formik.handleSubmit}>
+          <NewBeneficiaryTitle> + Add New Donation Project</NewBeneficiaryTitle>
           <label htmlFor="name">Donation Project</label>
-          <FormInput type="text" name="name" value={state.name} onChange={handleInput} />
-          <label htmlFor="area">Targeted Area</label>
-          <FormInput type="text" name="area"value={state.area} onChange={handleInput} />
-          <label htmlFor="message">Description</label>
-          <FormInput type="text" name="message"value={state.message} onChange="handleInput" />
+          <FormInput
+            type="text"
+            id="name"
+            name="name"
+            {...formik.getFieldProps("name")}
+          />
+          {formik.errors.name && formik.touched.name ? (
+            <Error>{formik.errors.name}</Error>
+          ) : null}
+          <label htmlFor="location">Targeted Area</label>
+          <FormInput
+            type="text"
+            id="location"
+            name="location"
+            {...formik.getFieldProps("location")}
+          />
+          {formik.errors.location && formik.touched.location ? (
+            <Error>{formik.errors.location}</Error>
+          ) : null}
+          <label htmlFor="description">Description</label>
+          <FormInput
+            type="message"
+            id="description"
+            name="description"
+            {...formik.getFieldProps("description")}
+          />
+          {formik.errors.description && formik.touched.description ? (
+            <Error>{formik.errors.description}</Error>
+          ) : null}
 
           <FormButton type="submit">Add</FormButton>
         </Form>

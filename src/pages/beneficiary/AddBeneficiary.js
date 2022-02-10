@@ -1,5 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const sharedStyles = css`
   background-color: grey;
@@ -70,33 +72,76 @@ const StyledFieldset = styled.fieldset`
     margin-right: 10px;
   }
 `;
+const Error = styled.h1`
+  height: 40px;
+  color: red;
+  padding: 10px;
+  font-size: 15px;
+`;
 
-// const initialBeneficiary={
-//   name:'',
-//   address:'',
-//   number:'',
-//   gender:'',
-//   email:'',
-//   password:'',
-//   password2:''
-// }
 const AddBeneficiary = () => {
-  // const [bene, setBene]= usebene(initialBeneficiary)
-  // const handleInput =(e) =>{
-  //   const inputName = e.target.name;
-  //   const value = e.target.value;
-  // }
+  const initialValues = {
+    name: "",
+    address: "",
+    number: "",
+    gender: "",
+    email: "",
+    password: "",
+    cpassword: "",
+  };
+  const validationSchema = Yup.object({
+    name: Yup.string().required("required").max(20),
+    address: Yup.string().required("required").max(100),
+    number: Yup.string().max(10).required("required"),
+    gender: Yup.bool().required("required"),
+    email: Yup.string().email("INVALID EMAIL").required("required"),
+    password: Yup.string().required("required").min(6),
+    cpassword: Yup.string().required("").min(6),
+  });
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
   return (
     <Container>
       <FormWrapper>
-        <Form>
-          <NewBeneficiaryTitle> Register New Beneficiary</NewBeneficiaryTitle>
+        <Form onSubmit={formik.handleSubmit}>
+          <NewBeneficiaryTitle> + Register New Beneficiary</NewBeneficiaryTitle>
           <label htmlFor="name">Full Name</label>
-          <FormInput type="text" name="name" />
+          <FormInput
+            type="text"
+            id="name"
+            name="name"
+            {...formik.getFieldProps("name")}
+          />
+          {formik.errors.name && formik.touched.name ? (
+            <Error>{formik.errors.name}</Error>
+          ) : null}
           <label htmlFor="address">Address</label>
-          <FormInput type="text" name="address" />
+          <FormInput
+            type="text"
+            id="address"
+            name="address"
+            {...formik.getFieldProps("address")}
+          />
+          {formik.errors.address && formik.touched.address ? (
+            <Error>{formik.errors.address}</Error>
+          ) : null}
           <label htmlFor="number">Phone Number</label>
-          <FormInput type="number" name="number" />
+          <FormInput
+            type="string"
+            id="number"
+            name="number"
+            {...formik.getFieldProps("number")}
+          />
+          {formik.errors.number && formik.touched.number ? (
+            <Error>{formik.errors.number}</Error>
+          ) : null}
           <StyledFieldset>
             <legend>Gender</legend>
             <label>
@@ -104,8 +149,7 @@ const AddBeneficiary = () => {
                 type="radio"
                 value="female"
                 name="gender"
-                // checked={bene.gender === "female"}
-                // onChange={handleInput}
+                // {...formik.getFieldProps("gender")}
               />
               Female
             </label>
@@ -114,8 +158,7 @@ const AddBeneficiary = () => {
                 type="radio"
                 value="male"
                 name="gender"
-                // checked={bene.gender === "male"}
-                // onChange={handleInput}
+                // {...formik.getFieldProps("gender")}
               />
               Male
             </label>
@@ -124,18 +167,44 @@ const AddBeneficiary = () => {
                 type="radio"
                 value="other"
                 name="gender"
-                // checked={bene.gender === "male"}
-                // onChange={handleInput}
+                // {...formik.getFieldProps("gender")}
               />
               Others
             </label>
+            {/* {formik.errors.gender && formik.touched.name ? (
+              <Error>{formik.errors.gender}</Error>
+            ) : null} */}
           </StyledFieldset>
           <label htmlFor="email">Email</label>
-          <FormInput type="email" name="email" />
+          <FormInput
+            type="email"
+            id="email"
+            name="email"
+            {...formik.getFieldProps("email")}
+          />
+          {formik.errors.email && formik.touched.email ? (
+            <Error>{formik.errors.email}</Error>
+          ) : null}
           <label htmlFor="password">Password</label>
-          <FormInput type="password" name="password" />
-          <label htmlFor="password2">Confirm Password</label>
-          <FormInput type="password" name="password2" />
+          <FormInput
+            type="password"
+            id="password"
+            name="password"
+            {...formik.getFieldProps("password")}
+          />
+          {formik.errors.password && formik.touched.password ? (
+            <Error>{formik.errors.password}</Error>
+          ) : null}
+          <label htmlFor="password">Confirm Password</label>
+          <FormInput
+            type="password"
+            id="cpassword"
+            name="cpassword"
+            {...formik.getFieldProps("cpassword")}
+          />
+          {formik.errors.cpassword && formik.touched.cpassword ? (
+            <Error>{formik.errors.cpassword}</Error>
+          ) : null}
           <FormButton type="submit">Register</FormButton>
         </Form>
       </FormWrapper>
