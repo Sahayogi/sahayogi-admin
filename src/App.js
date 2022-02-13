@@ -32,29 +32,29 @@ const App = () => {
       <Navbar />
       <div className="container">
         <Sidebar />
-        <Home />
         <Routes>
+          <Route path="/" element={<Home />} />
           {/* aid agency */}
           <Route exact path="/aidAgency" element={<AidAgency />} />
-          <Route path="/addAgency" element={<AddAgency />} />
+          <Route exact path="/addAgency" element={<AddAgency />} />
           {/* project */}
-          <Route path="/donate" element={<Projects />} />
-          <Route path="/addProject" element={<AddProject />} />
+          <Route exact path="/projects" element={<Projects />} />
+          <Route exact path="/addProject" element={<AddProject />} />
           {/* bank */}
-          <Route path="/bank" element={<Bank />} />
-          <Route path="/addBank" element={<AddBank />} />
+          <Route exact path="/bank" element={<Bank />} />
+          <Route exact path="/addBank" element={<AddBank />} />
           {/* beneficiary */}
-          <Route path="/beneficiary" element={<BeneficiaryList />} />
-          <Route path="/addBeneficiary" element={<AddBeneficiary />} />
+          <Route exact path="/beneficiary" element={<BeneficiaryList />} />
+          <Route exact path="/addBeneficiary" element={<AddBeneficiary />} />
           {/* vendors */}
-          <Route path="/vendor" element={<Vendor />} />
-          <Route path="/addVendor" element={<AddVendor />} />
+          <Route exact path="/vendor" element={<Vendor />} />
+          <Route exact path="/addVendor" element={<AddVendor />} />
           {/* transactions */}
-          <Route path="/transaction" element={<Transaction />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/logout" element={<Logout />} />
+          <Route exact path="/transaction" element={<Transaction />} />
+          <Route exact path="/settings" element={<Settings />} />
+          <Route exact path="/logout" element={<Logout />} />
 
-          <Route path="*" element={<NotFound />} />
+          <Route exact path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>

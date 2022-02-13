@@ -7,10 +7,16 @@ import { useAuth } from "../context/UserContext";
 const Container = styled.div`
   flex: 4;
   height: calc(100vh - 80px);
-  color: white;
   font-size: 1rem;
   background-color: rgb(53, 51, 51);
   padding: 40px;
+  
+`;
+
+const Wrapper = styled.div`
+  height: 100%;
+  background-color: rgb(53, 51, 51);
+
 `;
 const LogoutC = styled.button`
   display: flex;
@@ -27,9 +33,11 @@ const Logout = () => {
   };
   return (
     <Container>
-      <LogoutC onClick={handleLogout}>
-        Logout <LogoutIcon />
-      </LogoutC>
+      <Wrapper>
+        <LogoutC onClick={handleLogout}>
+          Logout <LogoutIcon />
+        </LogoutC>
+      </Wrapper>
     </Container>
   );
 };

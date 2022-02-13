@@ -6,7 +6,6 @@ import { login as loginApi } from "../apis";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-
 const Container = styled.div`
   height: 100%;
   width: 100%;
@@ -19,10 +18,9 @@ const Container = styled.div`
     flex-direction: column;
   }
 `;
-const PasswordField= styled.div`
-display: flex;
-flex-direction: row;
-
+const PasswordField = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 const VisibilityButton = styled.button`
   align-items: center;
@@ -30,7 +28,6 @@ const VisibilityButton = styled.button`
   display: flex;
   border: none;
   width: 20%;
-
 `;
 
 const LoginLeft = styled.div`
@@ -101,7 +98,6 @@ const LoginInput = styled.input`
     background-color: rgb(63, 65, 65);
     border: none;
   }
-  
 `;
 const InputLabel = styled.label`
   color: black;
@@ -121,7 +117,6 @@ const LoginButton = styled.button`
     background-color: grey;
   }
   @media only screen and (min-width: 280px) and (max-width: 1080px) {
-
     justify-content: center;
     align-items: center;
   }
@@ -135,14 +130,12 @@ const Login = () => {
   };
 
   const {
-    data,
-    // loadUser,
     login: loginAction,
     loginSuccess,
     loginError,
   } = useAuth();
 
-  const loginP = async (e) => {
+  const login = async (e) => {
     try {
       loginAction();
       const res = await loginApi({
@@ -159,13 +152,6 @@ const Login = () => {
       loginError(err);
     }
   };
-
-  // const handleLogin = (e) => {
-  //   if (email === "anisha@gmail.com" && password === "12345") {
-  //     loadUser({ email });
-  //   }
-  // };
-
   return (
     <Container>
       <LoginLeft>
@@ -197,10 +183,7 @@ const Login = () => {
                 {show ? <VisibilityOffIcon /> : <VisibilityIcon />}
               </VisibilityButton>
             </PasswordField>
-
-            <LoginButton onClick={loginP}>
-              {data.loggingIn ? "logging In..." : "login"}
-            </LoginButton>
+            <LoginButton onClick={login}>login</LoginButton>
           </LoginForm>
         </Wrapper>
       </LoginRight>

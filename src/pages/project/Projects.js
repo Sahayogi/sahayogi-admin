@@ -30,6 +30,7 @@ const Container = styled.div`
   font-size: 1rem;
   background-color: rgb(53, 51, 51);
   padding: 40px;
+
 `;
 const AddDiv = styled.div`
   padding-bottom: 20px;

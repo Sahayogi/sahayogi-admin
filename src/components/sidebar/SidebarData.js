@@ -23,7 +23,7 @@ export const SidebarData = [
   {
     title: "Donation Projects",
     icon: <MonetizationOnRoundedIcon />,
-    path: "/donate",
+    path: "/projects",
   },
   {
     title: "Bank",
@@ -61,7 +61,7 @@ export const SidebarDataForA = [
   {
     title: "Donation Projects",
     icon: <MonetizationOnRoundedIcon />,
-    path: "/donate",
+    path: "/projects",
   },
   {
     title: "Bank",

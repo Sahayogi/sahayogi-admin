@@ -18,10 +18,10 @@ const Sidebar = () => {
       <div className="SidebarList">
         {role &&
           role === "admin" &&
-          AdminSidebar.map((val,key) => {
+          AdminSidebar.map((val) => {
             return (
               <Link to={val.path}>
-                <div className="row" key={key}>
+                <div className="row" key={val.path}>
                   <div id="icon">{val.icon}</div>
                   <div id="title">{val.title}</div>
                 </div>
@@ -30,10 +30,10 @@ const Sidebar = () => {
           })}
         {role&&
           role !== "admin" &&
-          AgencySidebar.map((val,key) => {
+          AgencySidebar.map((val) => {
             return (
               <Link to={val.path}>
-                <div className="row" key={key}>
+                <div className="row" key={val.path}>
                   <div id="icon">{val.icon}</div>
                   <div id="title">{val.title}</div>
                 </div>
