@@ -27,127 +27,8 @@ a {
 .statusButton:hover {
   background-color: #5f5f5f;
 }
-.login {
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-}
 
-.loginLeft {
-  /* background-color: rgb(53, 51, 51); */
-  background-image: radial-gradient(
-    circle,
-    #3c3d3f,
-    #2f3132,
-    #242525,
-    #191a19,
-    #0d0d0c
-  );
-  flex: 50%;
-  position: relative;
-  display: flex;
-}
 
-.loginRight {
-  background-color: grey;
-  flex: 50%;
-  display: flex;
-  position: relative;
-}
-
-.loginWrapper {
-  text-align: center;
-
-  margin: auto;
-
-  color: white;
-}
-
-.loginWrapper h1 {
-  margin: 0 200px;
-}
-.loginWrapper img {
-  height: 9rem;
-  margin: auto;
-  margin-right: 40px;
-}
-
-/* login card */
-.loginCard {
-  padding: 50px;
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  max-width: 400px;
-  justify-content: center;
-  margin: auto;
-  gap: 3rem;
-  border-radius: 20px;
-  background-color: white;
-}
-.loginCard button {
-  /* width: 50px; */
-  padding: 5px 20px;
-  background-color: rgb(53, 51, 51);
-  border-radius: 10px;
-  width: 30%;
-  margin: auto;
-  color: white;
-  font-size: 16px;
-}
-.loginCard button:hover {
-  background-color: black;
-}
-.form-control {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-control label {
-  color: black;
-  text-align: left;
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-.loginCard input {
-  height: 2.8rem;
-  border-radius: 10px;
-  border: none;
-  padding: 10px;
-  font-size: 16px;
-  color: aliceblue;
-}
-.loginWrapper h1 {
-  margin-bottom: 20px;
-}
-.loginCard input:focus {
-  background-color: rgb(63, 65, 65);
-  border: none;
-}
-input[type="email"],
-textarea {
-  background-color: rgb(54, 53, 53);
-  border: none;
-}
-input[type="password"],
-textarea {
-  background-color: rgb(54, 53, 53);
-  border: none;
-}
-
-.banner {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-}
-.bannerSubmit {
-  background-color: black;
-  color: white;
-  padding: 10px;
-}
 /* for full screen edits */
 
 @media only screen and (min-width: 280px) and (max-width: 1080px) {
@@ -163,16 +44,5 @@ textarea {
     display: flex;
     flex-direction: column;
     height: 100%;
-  }
-  .login {
-    flex-direction: column;
-  }
-  .loginWrapper h1 {
-    margin: auto;
-    padding: 5px 0px;
-    font-size: 20px;
-  }
-  .loginCard {
-    padding: 30px 30px;
   }
 }

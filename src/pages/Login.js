@@ -1,101 +1,210 @@
-import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
-// import { Link } from "react-router-dom";
 import logo from "../assets/sahayogi.png";
 import { useAuth } from "../context/UserContext";
-// import { login as loginApi } from "../apis";
+import { login as loginApi } from "../apis";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
+
+const Container = styled.div`
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  @media only screen and (min-width: 280px) and (max-width: 1080px) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+const PasswordField= styled.div`
+display: flex;
+flex-direction: row;
+
+`;
 const VisibilityButton = styled.button`
-  height: 12px;
   align-items: center;
   justify-content: center;
   display: flex;
+  border: none;
+  width: 20%;
+
 `;
 
+const LoginLeft = styled.div`
+  background-image: radial-gradient(
+    circle,
+    #3c3d3f,
+    #2f3132,
+    #242525,
+    #191a19,
+    #0d0d0c
+  );
+  flex: 50%;
+  position: relative;
+  display: flex;
+`;
+const LoginRight = styled.div`
+  background-color: grey;
+  flex: 50%;
+  display: flex;
+  position: relative;
+`;
+
+const Wrapper = styled.div`
+  text-align: center;
+  margin: auto;
+  color: white;
+  h1 {
+    margin: 0 200px;
+  }
+  img {
+    height: 9rem;
+    margin: auto;
+    margin-right: 40px;
+  }
+  @media only screen and (min-width: 280px) and (max-width: 1080px) {
+    h1 {
+      margin: auto;
+      padding: 5px 0px;
+      font-size: 20px;
+    }
+  }
+`;
+
+const LoginForm = styled.div`
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  max-width: 400px;
+  margin: auto;
+  gap: 2rem;
+  border-radius: 20px;
+  background-color: white;
+
+  @media only screen and (min-width: 280px) and (max-width: 1080px) {
+    padding: 30px 30px;
+  }
+`;
+const LoginInput = styled.input`
+  height: 2.8rem;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  background-color: rgb(53, 51, 51);
+  &:focus {
+    background-color: rgb(63, 65, 65);
+    border: none;
+  }
+  
+`;
+const InputLabel = styled.label`
+  color: black;
+  text-align: left;
+  font-size: 20px;
+  margin-bottom: 10px;
+`;
+const LoginButton = styled.button`
+  padding: 10px;
+  background-color: rgb(53, 51, 51);
+  border-radius: 10px;
+  margin: auto;
+  color: white;
+  font-size: 16px;
+  border: none;
+  &:hover {
+    background-color: grey;
+  }
+  @media only screen and (min-width: 280px) and (max-width: 1080px) {
+
+    justify-content: center;
+    align-items: center;
+  }
+`;
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  const handleShow = () => {
+    setShow(!show);
+  };
 
-  const { data, loadUser } = useAuth();
+  const {
+    data,
+    // loadUser,
+    login: loginAction,
+    loginSuccess,
+    loginError,
+  } = useAuth();
 
-  const login = async (e) => {
+  const loginP = async (e) => {
     try {
-      console.log("login pending ");
-      const res = await axios({
-        url: "http://167.71.226.245:3005/api/auth/login",
-        method: "POST",
-        data: {
-          userName: email,
-          password,
-          userRole: "ADMIN",
-        },
+      loginAction();
+      const res = await loginApi({
+        userName: email,
+        password,
+        userRole: "ADMIN",
       });
-
-      console.log(res, "res");
-      loadUser(res.data);
+      if (res.status === 200) {
+        loginSuccess(res.data);
+        console.log("login sucessful");
+      }
     } catch (err) {
       console.log(err, "err");
+      loginError(err);
     }
   };
 
-  const handleLogin = (e) => {
-    if (email === "anisha@gmail.com" && password === "12345") {
-      loadUser({ email });
-    }
-  };
+  // const handleLogin = (e) => {
+  //   if (email === "anisha@gmail.com" && password === "12345") {
+  //     loadUser({ email });
+  //   }
+  // };
+
   return (
-    <>
-      <div className="login">
-        <div className="loginLeft">
-          <div className="loginWrapper">
-            <img src={logo} alt="" />
-            <h1>CASH AND VOUCHER ASSISTANCE USING BLOCKCHAIN</h1>
-          </div>
-        </div>
+    <Container>
+      <LoginLeft>
+        <Wrapper>
+          <img src={logo} alt="" />
+          <h1>CASH AND VOUCHER ASSISTANCE USING BLOCKCHAIN</h1>
+        </Wrapper>
+      </LoginLeft>
 
-        <div className="loginRight">
-          <div className="loginWrapper">
-            <h1>Login</h1>
-
-            <form className="loginCard">
-              <div className="form-control">
-                <label htmlFor="email"> Email: </label>
-                <input
-                  type="email"
-                  value={email}
-                  placeholder="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="form-control">
-                <label htmlFor="password"> Password: </label>
-                <input
-                  type={show ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <VisibilityButton onClick={(e) => setShow(!show)}>
-                <>{show ? <VisibilityOffIcon /> : <VisibilityIcon />}</>
+      <LoginRight>
+        <Wrapper>
+          <h1>Login</h1>
+          <LoginForm>
+            <InputLabel htmlFor="email"> Email: </InputLabel>
+            <LoginInput
+              type="email"
+              value={email}
+              placeholder="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <InputLabel htmlFor="password"> Password: </InputLabel>
+            <PasswordField>
+              <LoginInput
+                type={show ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <VisibilityButton onClick={handleShow}>
+                {show ? <VisibilityOffIcon /> : <VisibilityIcon />}
               </VisibilityButton>
+            </PasswordField>
 
-              <button onClick={handleLogin}>
-                <span>login</span>
-              </button>
-            </form>
-            {/* <div className="banner">
-              <div className="bannerContent">
-                Not registered? <Link to="#">Sign up</Link>
-              </div>
-            </div> */}
-          </div>
-        </div>
-      </div>
-    </>
+            <LoginButton onClick={loginP}>
+              {data.loggingIn ? "logging In..." : "login"}
+            </LoginButton>
+          </LoginForm>
+        </Wrapper>
+      </LoginRight>
+    </Container>
   );
 };
 

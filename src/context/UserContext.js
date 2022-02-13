@@ -7,6 +7,9 @@ const initialState = {
   type: "",
   role: "admin",
   initialLoading: true,
+  loggingIn: false,
+  loginInSucess: false,
+  loginError: null,
 };
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -14,6 +17,22 @@ const authReducer = (state, action) => {
       return { ...state, user: action.payload };
     case "LOGOUT_USER":
       return { ...state, user: null };
+    case "LOGIN":
+      return { ...state, loggingIn: true, loginInSucess: false };
+    case "LOGIN_SUCCESS":
+      return {
+        ...state,
+        loggingIn: true,
+        loginInSucess: true,
+        user: action.payload,
+      };
+    case "LOGIN_ERROR":
+      return {
+        ...state,
+        loggingIn: false,
+        loginInSucess: false,
+        loginError: action.payload,
+      };
 
     default:
       return state;
@@ -33,8 +52,26 @@ const Provider = ({ children }) => {
     localStorage.setItem("userLoggedIn", null);
     dispatch({ type: "LOGOUT_USER", payload: data });
   };
+  const login = (data) => {
+    dispatch({ type: "LOGIN", payload: data });
+  };
+  const loginSuccess = (data) => {
+    dispatch({ type: "LOGIN_SUCCESS", payload: data });
+  };
+  const loginError = (data) => {
+    dispatch({ type: "LOGIN_ERROR", payload: data });
+  };
   return (
-    <Context.Provider value={{ data: authState, loadUser, logoutUser, }}>
+    <Context.Provider
+      value={{
+        data: authState,
+        loadUser,
+        logoutUser,
+        login,
+        loginSuccess,
+        loginError,
+      }}
+    >
       {children}
     </Context.Provider>
   );

@@ -38,9 +38,9 @@
   .Sidebar {
     display: initial;
     height: 80px;
-  background-color: rgb(41, 40, 40);
-
-    
+    background-color: rgb(41, 40, 40);
+    top: 80px;
+    position: sticky; 
   }
   .SidebarList {
     display: flex;

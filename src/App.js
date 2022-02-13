@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import {  Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 // import { MetaMaskProvider } from 'metamask-react';
 
 import Navbar from "./components/navbar/Navbar";
@@ -23,21 +23,19 @@ import AddVendor from "./pages/vendor/AddVendor";
 import AddProject from "./pages/project/AddProject";
 import AddBank from "./pages/bank/AddBank";
 
-import NotFound from "./pages/NotFound"
+import NotFound from "./pages/NotFound";
 import Logout from "./pages/Logout";
 
 const App = () => {
   return (
-   
     <div className="App">
       <Navbar />
       <div className="container">
         <Sidebar />
-      
+        <Home />
         <Routes>
-          <Route path="/" element={<Home/>} />
           {/* aid agency */}
-          <Route path="/aidAgency" element={<AidAgency />} />
+          <Route exact path="/aidAgency" element={<AidAgency />} />
           <Route path="/addAgency" element={<AddAgency />} />
           {/* project */}
           <Route path="/donate" element={<Projects />} />
@@ -60,7 +58,6 @@ const App = () => {
         </Routes>
       </div>
     </div>
-   
   );
 };
 
