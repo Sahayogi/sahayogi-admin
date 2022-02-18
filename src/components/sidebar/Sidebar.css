@@ -3,13 +3,16 @@
   background-color: rgb(41, 40, 40);
   flex: 1;
   height: calc(100vh - 80px);
+  
 }
 
 .SidebarList {
+  width: 100%;
   height: auto;
 }
 
 .SidebarList .row {
+  width: 100%;
   height: 80px;
   padding: 10px;
   display: flex;
@@ -51,6 +54,7 @@
     margin: auto;
     border-bottom: 1px white solid;
   }
+
 
   .SidebarList .row:hover {
     cursor: pointer;

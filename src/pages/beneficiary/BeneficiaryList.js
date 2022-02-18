@@ -47,7 +47,7 @@ const BeneficiaryList = () => {
   const { data:{user:{role}}} = useAuth();
   return (
     <Container>
-      {role && role!=="admin" &&
+      {role && role!=="Admin" &&
         <Link to="/addBeneficiary">
           <AddDiv> + Add Beneficiary</AddDiv>
         </Link>

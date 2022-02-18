@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "../context/UserContext";
+import { useNavigate } from "react-router";
 
 const Container = styled.div`
   flex: 4;
@@ -29,10 +30,11 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 const Settings = () => {
-  const { LogoutUser } = useAuth();
-  
+  const { logoutUser } = useAuth();
+  const navigate = useNavigate();
   const handleLogout = (e) => {
-    LogoutUser();
+    logoutUser();
+    navigate("/");
    
   };
   return (

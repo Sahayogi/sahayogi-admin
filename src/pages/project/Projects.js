@@ -12,8 +12,8 @@ import {
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/UserContext";
 
-function createData(id, name, num, tokens, status) {
-  return { id, name, num, tokens, status };
+function createData(id, projectName, numOfBene, tokens, status) {
+  return { id, projectName, numOfBene, tokens, status };
 }
 
 const rows = [
@@ -43,7 +43,7 @@ const Projects = () => {
   
   return (
     <Container>
-      {role && role !== "admin" && (
+      {role && role !== "Admin" && (
         <Link to="/addProject">
           <AddDiv> + Add Projects</AddDiv>
         </Link>
@@ -68,8 +68,8 @@ const Projects = () => {
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="center">{row.num}</TableCell>
+                <TableCell align="center">{row.projectName}</TableCell>
+                <TableCell align="center">{row.numOfBene}</TableCell>
                 <TableCell align="center">{row.tokens}</TableCell>
                 <TableCell align="center">
                   <button className="statusButton">{row.status}</button>

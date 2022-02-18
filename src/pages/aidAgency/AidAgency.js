@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   Table,
@@ -11,9 +11,12 @@ import {
 } from "@mui/material";
 
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../../context/UserContext";
+import { getAgency as getAgencyApi } from "../../apis";
 
-function createData(id, name, email, location, address, status) {
-  return { id, name, email, location, address, status };
+function createData(id, username, email, location, address, status) {
+  return { id, username, email, location, address, status };
 }
 
 const rows = [
@@ -42,13 +45,45 @@ const AddDiv = styled.div`
 `;
 
 const AidAgency = () => {
+  const [agencyData, setAgencyData] = useState([]);
+
+  useEffect(() => {
+    const getAgency = async () => {
+      try {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+          },
+        };
+        const { data } = await axios.get(
+          "http://localhost:5000/api/user/aidagencies",
+          config
+        );
+        console.log("data", data);
+        const lists = data.agencyList;
+        console.log(lists);
+        setAgencyData(lists);
+        console.log("agencyData", { agencyData });
+      } catch (err) {
+        console.log(err, "error occured");
+      }
+    };
+    getAgency();
+  }, []);
+  const {
+    data: {
+      user: { role },
+    },
+  } = useAuth();
 
   return (
-    
     <Container>
-      <Link to="/addAgency">
-        <AddDiv> + Add Aid Agency</AddDiv>
-      </Link>
+      {role && role === "Admin" && (
+        <Link to="/addAgency">
+          <AddDiv> + Add Aid Agency</AddDiv>
+        </Link>
+      )}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -70,7 +105,7 @@ const AidAgency = () => {
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="left">{row.name}</TableCell>
+                <TableCell align="left">{row.username}</TableCell>
                 <TableCell align="center">{row.email}</TableCell>
                 <TableCell align="center">{row.location}</TableCell>
                 <TableCell align="center">{row.address}</TableCell>
@@ -85,6 +120,5 @@ const AidAgency = () => {
     </Container>
   );
 };
-
 
 export default AidAgency;

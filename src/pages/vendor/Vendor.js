@@ -54,7 +54,7 @@ const Vendor = () => {
  
   return (
     <Container>
-      {role && role!=="admin" &&
+      {role && role!=="Admin" &&
         <Link to="/addVendor">
           <AddDiv> + Add Vendor</AddDiv>
         </Link>

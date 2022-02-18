@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const sharedStyles = css`
   background-color: grey;
@@ -68,21 +69,41 @@ const Error = styled.h1`
 
 const AddProject = () => {
   const initialValues = {
-    name: "",
-    location: "",
+    projectName: "",
+    targetedArea: "",
     description: "",
   };
   const validationSchema = Yup.object({
-    name: Yup.string().required("required").max(20),
-    location: Yup.string().required("required").max(100),
+    projectName: Yup.string().required("required").max(20),
+    targetedArea: Yup.string().required("required").max(100),
     description: Yup.string().required("required").max(100),
   });
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      try {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+          },
+        };
+        const { data } = await axios.post(
+          "http://localhost:5000/api/project/add",
+          values,
+          config
+        );
+        console.log("data:", data);
+
+        if (data.success === true) {
+          alert(JSON.stringify(values, null, 2));
+          console.log("added sucessful");
+        }
+      } catch (err) {
+        console.log(err, "err");
+      }
     },
   });
 
@@ -91,25 +112,25 @@ const AddProject = () => {
       <FormWrapper>
         <Form onSubmit={formik.handleSubmit}>
           <NewBeneficiaryTitle> + Add New Donation Project</NewBeneficiaryTitle>
-          <label htmlFor="name">Donation Project</label>
+          <label htmlFor="projectName">Donation Project</label>
           <FormInput
             type="text"
-            id="name"
-            name="name"
-            {...formik.getFieldProps("name")}
+            id="projectName"
+            name="projectName"
+            {...formik.getFieldProps("projectName")}
           />
-          {formik.errors.name && formik.touched.name ? (
-            <Error>{formik.errors.name}</Error>
+          {formik.errors.projectName && formik.touched.projectName ? (
+            <Error>{formik.errors.projectName}</Error>
           ) : null}
-          <label htmlFor="location">Targeted Area</label>
+          <label htmlFor="targetedArea">Targeted Area</label>
           <FormInput
             type="text"
-            id="location"
-            name="location"
-            {...formik.getFieldProps("location")}
+            id="targetedArea"
+            name="targetedArea"
+            {...formik.getFieldProps("targetedArea")}
           />
-          {formik.errors.location && formik.touched.location ? (
-            <Error>{formik.errors.location}</Error>
+          {formik.errors.targetedArea && formik.touched.targetedArea ? (
+            <Error>{formik.errors.targetedArea}</Error>
           ) : null}
           <label htmlFor="description">Description</label>
           <FormInput

@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const sharedStyles = css`
   background-color: grey;
@@ -57,21 +58,7 @@ const FormButton = styled.button`
   justify-content: center;
   cursor: pointer;
 `;
-const StyledFieldset = styled.fieldset`
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 20px 0;
-  legend {
-    padding: 0 10px;
-  }
-  label {
-    padding-right: 30px;
-  }
-  input {
-    margin-right: 10px;
-  }
-`;
+
 const Error = styled.h1`
   height: 40px;
   color: red;
@@ -81,29 +68,45 @@ const Error = styled.h1`
 
 const AddBeneficiary = () => {
   const initialValues = {
-    name: "",
+    username: "",
     address: "",
-    number: "",
-    gender: "",
+    phoneNumber: "",
     email: "",
     password: "",
-    cpassword: "",
   };
   const validationSchema = Yup.object({
-    name: Yup.string().required("required").max(20),
+    username: Yup.string().required("required").max(20),
     address: Yup.string().required("required").max(100),
-    number: Yup.string().max(10).required("required"),
-    gender: Yup.bool().required("required"),
+    phoneNumber: Yup.string().max(10).required("required"),
     email: Yup.string().email("INVALID EMAIL").required("required"),
     password: Yup.string().required("required").min(6),
-    cpassword: Yup.string().required("").min(6),
   });
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async(values) => {
+      try {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+          },
+        };
+        const { data } = await axios.post(
+          "http://localhost:5000/api/aidagency/add/beneficiary",
+          values,
+          config
+        );
+        console.log("data:", data);
+
+        if (data.success === true) {
+          alert(JSON.stringify(values, null, 2));
+          console.log("added sucessful");
+        }
+      } catch (err) {
+        console.log(err, "err");
+      }
     },
   });
 
@@ -112,15 +115,15 @@ const AddBeneficiary = () => {
       <FormWrapper>
         <Form onSubmit={formik.handleSubmit}>
           <NewBeneficiaryTitle> + Register New Beneficiary</NewBeneficiaryTitle>
-          <label htmlFor="name">Full Name</label>
+          <label htmlFor="username">Full Name</label>
           <FormInput
             type="text"
-            id="name"
-            name="name"
-            {...formik.getFieldProps("name")}
+            id="username"
+            name="username"
+            {...formik.getFieldProps("username")}
           />
-          {formik.errors.name && formik.touched.name ? (
-            <Error>{formik.errors.name}</Error>
+          {formik.errors.username && formik.touched.username ? (
+            <Error>{formik.errors.username}</Error>
           ) : null}
           <label htmlFor="address">Address</label>
           <FormInput
@@ -132,49 +135,16 @@ const AddBeneficiary = () => {
           {formik.errors.address && formik.touched.address ? (
             <Error>{formik.errors.address}</Error>
           ) : null}
-          <label htmlFor="number">Phone Number</label>
+          <label htmlFor="phoneNumber">Phone Number</label>
           <FormInput
             type="string"
-            id="number"
-            name="number"
-            {...formik.getFieldProps("number")}
+            id="phoneNumber"
+            name="phoneNumber"
+            {...formik.getFieldProps("phoneNumber")}
           />
-          {formik.errors.number && formik.touched.number ? (
-            <Error>{formik.errors.number}</Error>
+          {formik.errors.phoneNumber && formik.touched.phoneNumber ? (
+            <Error>{formik.errors.phoneNumber}</Error>
           ) : null}
-          <StyledFieldset>
-            <legend>Gender</legend>
-            <label>
-              <input
-                type="radio"
-                value="female"
-                name="gender"
-                // {...formik.getFieldProps("gender")}
-              />
-              Female
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="male"
-                name="gender"
-                // {...formik.getFieldProps("gender")}
-              />
-              Male
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="other"
-                name="gender"
-                // {...formik.getFieldProps("gender")}
-              />
-              Others
-            </label>
-            {/* {formik.errors.gender && formik.touched.name ? (
-              <Error>{formik.errors.gender}</Error>
-            ) : null} */}
-          </StyledFieldset>
           <label htmlFor="email">Email</label>
           <FormInput
             type="email"
@@ -195,16 +165,7 @@ const AddBeneficiary = () => {
           {formik.errors.password && formik.touched.password ? (
             <Error>{formik.errors.password}</Error>
           ) : null}
-          <label htmlFor="password">Confirm Password</label>
-          <FormInput
-            type="password"
-            id="cpassword"
-            name="cpassword"
-            {...formik.getFieldProps("cpassword")}
-          />
-          {formik.errors.cpassword && formik.touched.cpassword ? (
-            <Error>{formik.errors.cpassword}</Error>
-          ) : null}
+
           <FormButton type="submit">Register</FormButton>
         </Form>
       </FormWrapper>

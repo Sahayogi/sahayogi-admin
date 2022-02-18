@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const sharedStyles = css`
   background-color: grey;
@@ -81,27 +82,45 @@ const Error = styled.h1`
 
 const AddVendor = () => {
   const initialValues = {
-    name: "",
-    location: "",
-    number: "",
+    username: "",
+    address: "",
+    phoneNumber: "",
     email: "",
     password: "",
-    cpassword: "",
   };
   const validationSchema = Yup.object({
-    name: Yup.string().required("required").max(20),
-    location: Yup.string().required("required").max(100),
-    number: Yup.string().max(10).required("required"),
+    username: Yup.string().required("required").max(20),
+    address: Yup.string().required("required").max(100),
+    phoneNumber: Yup.string().max(10).required("required"),
     email: Yup.string().email("INVALID EMAIL").required("required"),
     password: Yup.string().required("required").min(6),
-    cpassword: Yup.string().required("").min(6),
   });
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      try {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+          },
+        };
+        const { data } = await axios.post(
+          "http://localhost:5000/api/aidagency/add/vendor",
+          values,
+          config
+        );
+        console.log("data:", data);
+
+        if (data.success === true) {
+          alert(JSON.stringify(values, null, 2));
+          console.log("added sucessful");
+        }
+      } catch (err) {
+        console.log(err, "err");
+      }
     },
   });
 
@@ -110,35 +129,35 @@ const AddVendor = () => {
       <FormWrapper>
         <Form onSubmit={formik.handleSubmit}>
           <NewBeneficiaryTitle> + Register New Vendor</NewBeneficiaryTitle>
-          <label htmlFor="name">Full Name</label>
+          <label htmlFor="username">Full Name</label>
           <FormInput
             type="text"
-            id="name"
-            name="name"
-            {...formik.getFieldProps("name")}
+            id="username"
+            name="username"
+            {...formik.getFieldProps("username")}
           />
-          {formik.errors.name && formik.touched.name ? (
-            <Error>{formik.errors.name}</Error>
+          {formik.errors.username && formik.touched.username ? (
+            <Error>{formik.errors.username}</Error>
           ) : null}
-          <label htmlFor="location">Location</label>
+          <label htmlFor="address">Location</label>
           <FormInput
             type="text"
-            id="location"
-            name="location"
-            {...formik.getFieldProps("location")}
+            id="address"
+            name="address"
+            {...formik.getFieldProps("address")}
           />
-          {formik.errors.location && formik.touched.location ? (
-            <Error>{formik.errors.location}</Error>
+          {formik.errors.address && formik.touched.address ? (
+            <Error>{formik.errors.address}</Error>
           ) : null}
-          <label htmlFor="number">Phone Number</label>
+          <label htmlFor="phoneNumber">Phone Number</label>
           <FormInput
             type="string"
-            id="number"
-            name="number"
-            {...formik.getFieldProps("number")}
+            id="phoneNumber"
+            name="phoneNumber"
+            {...formik.getFieldProps("phoneNumber")}
           />
-          {formik.errors.number && formik.touched.number ? (
-            <Error>{formik.errors.number}</Error>
+          {formik.errors.phoneNumber && formik.touched.phoneNumber ? (
+            <Error>{formik.errors.phoneNumber}</Error>
           ) : null}
 
           <label htmlFor="email">Email</label>
@@ -161,16 +180,7 @@ const AddVendor = () => {
           {formik.errors.password && formik.touched.password ? (
             <Error>{formik.errors.password}</Error>
           ) : null}
-          <label htmlFor="password">Confirm Password</label>
-          <FormInput
-            type="password"
-            id="cpassword"
-            name="cpassword"
-            {...formik.getFieldProps("cpassword")}
-          />
-          {formik.errors.cpassword && formik.touched.cpassword ? (
-            <Error>{formik.errors.cpassword}</Error>
-          ) : null}
+       
           <FormButton type="submit">Register</FormButton>
         </Form>
       </FormWrapper>

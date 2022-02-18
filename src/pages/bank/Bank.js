@@ -12,8 +12,8 @@ import {
 
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/UserContext";
-function createData(id, name, email, location, address, status) {
-  return { id, name, email, location, address, status };
+function createData(id, username, email, address, walletAddress, status) {
+  return { id, username, email, address, walletAddress, status };
 }
 
 const rows = [
@@ -42,14 +42,18 @@ const AddDiv = styled.div`
 `;
 
 const Bank = () => {
-  const { data:{user:{role}}} = useAuth();
+  const {
+    data: {
+      user: { role },
+    },
+  } = useAuth();
   return (
     <Container>
-      { role && role!=="admin" &&
+      {role && role !== "Admin" && (
         <Link to="/addBank">
           <AddDiv> + Add Bank</AddDiv>
         </Link>
-      }
+      )}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -71,9 +75,9 @@ const Bank = () => {
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="left">{row.name}</TableCell>
+                <TableCell align="left">{row.username}</TableCell>
                 <TableCell align="center">{row.email}</TableCell>
-                <TableCell align="center">{row.location}</TableCell>
+                <TableCell align="center">{row.walletAddress}</TableCell>
                 <TableCell align="center">{row.address}</TableCell>
                 <TableCell align="center">
                   <button className="statusButton">{row.status}</button>
