@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "http://167.71.226.245:3005/api";
+const baseUrl = "http://localhost:5000/api";
 
 //get token from local storage
 
@@ -9,13 +9,7 @@ const getHeaders = () => {
     Authorization: `Bearer ${loginToken}`,
   };
 };
-export const getProducts = () => {
-  return axios({
-    url: baseUrl + "/products/verified",
-    method: "GET",
-    Headers: getHeaders(),
-  });
-};
+
 
 export const login = (data) => {
   return axios({

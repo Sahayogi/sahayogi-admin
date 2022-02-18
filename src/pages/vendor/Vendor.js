@@ -50,12 +50,13 @@ const CopyButton = styled.button`
   background: none;
 `;
 const Vendor = () => {
-  const { data } = useAuth();
+  const { data:{user:{role}}} = useAuth();
+ 
   return (
     <Container>
-      {data.role && data.role!=="admin" &&
+      {role && role!=="admin" &&
         <Link to="/addVendor">
-          <AddDiv>Add Vendor</AddDiv>
+          <AddDiv> + Add Vendor</AddDiv>
         </Link>
       }
       <TableContainer component={Paper}>

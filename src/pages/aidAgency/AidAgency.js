@@ -47,7 +47,7 @@ const AidAgency = () => {
     
     <Container>
       <Link to="/addAgency">
-        <AddDiv>Add Aid Agency</AddDiv>
+        <AddDiv> + Add Aid Agency</AddDiv>
       </Link>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

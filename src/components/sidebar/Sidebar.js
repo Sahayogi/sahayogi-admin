@@ -10,14 +10,13 @@ import { useAuth } from "../../context/UserContext";
 
 const Sidebar = () => {
   const {
-    data: { role },
+    data: { user:{role}},
   } = useAuth();
-
   return (
     <div className="Sidebar">
       <div className="SidebarList">
         {role &&
-          role === "admin" &&
+          role === "Admin" &&
           AdminSidebar.map((val) => {
             return (
               <Link to={val.path}>
@@ -28,8 +27,9 @@ const Sidebar = () => {
               </Link>
             );
           })}
-        {role&&
-          role !== "admin" &&
+
+        {role &&
+          role !== "Admin" &&
           AgencySidebar.map((val) => {
             return (
               <Link to={val.path}>

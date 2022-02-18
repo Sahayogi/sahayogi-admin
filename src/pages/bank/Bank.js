@@ -42,12 +42,12 @@ const AddDiv = styled.div`
 `;
 
 const Bank = () => {
-  const { data} = useAuth();
+  const { data:{user:{role}}} = useAuth();
   return (
     <Container>
-      { data.role && data.role!=="admin" &&
+      { role && role!=="admin" &&
         <Link to="/addBank">
-          <AddDiv>Add Bank</AddDiv>
+          <AddDiv> + Add Bank</AddDiv>
         </Link>
       }
       <TableContainer component={Paper}>

@@ -129,20 +129,17 @@ const Login = () => {
     setShow(!show);
   };
 
-  const {
-    login: loginAction,
-    loginSuccess,
-    loginError,
-  } = useAuth();
+  const { loadUser, login: loginAction, loginSuccess, loginError } = useAuth();
 
   const login = async (e) => {
     try {
       loginAction();
       const res = await loginApi({
-        userName: email,
+        email: email,
         password,
-        userRole: "ADMIN",
+      
       });
+      loadUser(res.data);
       if (res.status === 200) {
         loginSuccess(res.data);
         console.log("login sucessful");
@@ -152,6 +149,7 @@ const Login = () => {
       loginError(err);
     }
   };
+
   return (
     <Container>
       <LoginLeft>

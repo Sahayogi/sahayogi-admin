@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Milstones = () => {
   return (
     <div className="featured">
-      <Link to="/donate">
+      <Link to="/projects">
         <div className="featuredItem">
           <span className="featuredItemName">Donation Projects</span>
           <div className="featuredContainer">

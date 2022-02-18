@@ -44,12 +44,12 @@ const AddDiv = styled.div`
   cursor: pointer;
 `;
 const BeneficiaryList = () => {
-  const { data } = useAuth();
+  const { data:{user:{role}}} = useAuth();
   return (
     <Container>
-      {data.role && data.role!=="admin" &&
+      {role && role!=="admin" &&
         <Link to="/addBeneficiary">
-          <AddDiv>Add Beneficiary</AddDiv>
+          <AddDiv> + Add Beneficiary</AddDiv>
         </Link>
       }
       <TableContainer component={Paper}>

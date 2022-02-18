@@ -39,12 +39,13 @@ const AddDiv = styled.div`
 `;
 
 const Projects = () => {
-  const { data } = useAuth();
+  const { data:{user:{role}}} = useAuth();
+  
   return (
     <Container>
-      {data.role && data.role !== "admin" && (
+      {role && role !== "admin" && (
         <Link to="/addProject">
-          <AddDiv>Add Projects</AddDiv>
+          <AddDiv> + Add Projects</AddDiv>
         </Link>
       )}
       <TableContainer component={Paper}>

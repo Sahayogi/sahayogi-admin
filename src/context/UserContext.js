@@ -5,7 +5,7 @@ const initialState = {
   email: "",
   user: null,
   type: "",
-  role: "admin",
+  role:"",
   initialLoading: true,
   loggingIn: false,
   loginInSucess: false,
@@ -44,17 +44,20 @@ const Provider = ({ children }) => {
 
   const loadUser = (data) => {
     dispatch({ type: "LOAD_USER", payload: data });
-    localStorage.setItem("access-token", data.token);
     localStorage.setItem("userLoggedIn", JSON.stringify(data));
+    localStorage.setItem("access-token", data.token);
   };
 
   const logoutUser = (data) => {
     localStorage.setItem("userLoggedIn", null);
+    localStorage.removeItem("access-token");
+
     dispatch({ type: "LOGOUT_USER", payload: data });
   };
   const login = (data) => {
     dispatch({ type: "LOGIN", payload: data });
   };
+  
   const loginSuccess = (data) => {
     dispatch({ type: "LOGIN_SUCCESS", payload: data });
   };
