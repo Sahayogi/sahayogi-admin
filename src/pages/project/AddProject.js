@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+// import Upload from "./Upload";
 
 const sharedStyles = css`
   background-color: grey;
@@ -34,6 +35,7 @@ const FormWrapper = styled.div`
   background-color: rgb(53, 51, 51);
   padding: 20px;
   height: 100%;
+  background-color: white;
 `;
 
 const Form = styled.form`
@@ -78,6 +80,29 @@ const AddProject = () => {
     targetedArea: Yup.string().required("required").max(100),
     description: Yup.string().required("required").max(100),
   });
+  const [projectImg, setProjectImg] = useState(
+    "https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/male/45.png"
+  );
+
+  const [projectImgA, setProjectImgA] = useState({
+    file: [],
+    filepreview: null,
+  });
+
+  const handleInputChange = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setProjectImg(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+    setProjectImgA({
+      ...projectImg,
+      file: e.target.files[0],
+    });
+    // filepreview:URL.createObjectURL(e.target.files[0]),
+  };
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -104,6 +129,26 @@ const AddProject = () => {
       } catch (err) {
         console.log(err, "err");
       }
+      //for image upload
+
+      const formdata = new FormData();
+      formdata.append("projectavatar", projectImgA.file);
+      try {
+        const res = await axios.post(
+          "http://localhost:5000/imageupload",
+          formdata,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+        console.log(res);
+        if (res.data.success === 1) {
+          // setSuccess("Image uploaded sucessfully");
+          console.log("image uploaded sucessfully");
+        }
+      } catch (err) {
+        console.log("err", err);
+      }
     },
   });
 
@@ -112,6 +157,18 @@ const AddProject = () => {
       <FormWrapper>
         <Form onSubmit={formik.handleSubmit}>
           <NewBeneficiaryTitle> + Add New Donation Project</NewBeneficiaryTitle>
+          <ImageForm>
+            <Image src={projectImg} alt="" id="img"></Image>
+            {/* { projectImg.filepreview !== null ? <Image src={projectImg.filepreview} alt="" id="img"></Image>: null} */}
+            <MidContainer>
+              <FileInput
+                type="file"
+                name="myfile"
+                onChange={handleInputChange}
+              />
+            </MidContainer>
+          </ImageForm>
+
           <label htmlFor="projectName">Donation Project</label>
           <FormInput
             type="text"
@@ -149,5 +206,30 @@ const AddProject = () => {
     </Container>
   );
 };
+const ImageForm = styled.div`
+  height: 50vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  /* border: 1px solid grey; */
+  gap: 1rem;
+`;
+const FileInput = styled.input`
+  color: lightgrey;
+`;
+const MidContainer = styled.div`
+  background-color: lightgrey;
+  display: flex;
+  gap: 2rem;
+  color: grey;
+  padding: 5px;
+`;
+const Image = styled.img`
+  height: 35vh;
+  width: 100%;
+  object-fit: cover;
+`;
 
 export default AddProject;
