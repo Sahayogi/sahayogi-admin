@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -151,21 +151,31 @@ const AddProject = () => {
       }
     },
   });
-
+  const fileRef = useRef(null);
   return (
     <Container>
       <FormWrapper>
         <Form onSubmit={formik.handleSubmit}>
-          <NewBeneficiaryTitle> + Add New Donation Project</NewBeneficiaryTitle>
+          <NewBeneficiaryTitle>Add New Donation Project</NewBeneficiaryTitle>
           <ImageForm>
             <Image src={projectImg} alt="" id="img"></Image>
             {/* { projectImg.filepreview !== null ? <Image src={projectImg.filepreview} alt="" id="img"></Image>: null} */}
             <MidContainer>
               <FileInput
+                ref={fileRef}
+                hidden
                 type="file"
                 name="myfile"
                 onChange={handleInputChange}
               />
+              <UploadButton
+                type="button"
+                onClick={() => {
+                  fileRef.current.click();
+                }}
+              >
+                Upload
+              </UploadButton>
             </MidContainer>
           </ImageForm>
 
@@ -220,7 +230,8 @@ const FileInput = styled.input`
   color: lightgrey;
 `;
 const MidContainer = styled.div`
-  background-color: lightgrey;
+  display: flex;
+  align-items: center;
   display: flex;
   gap: 2rem;
   color: grey;
@@ -230,6 +241,16 @@ const Image = styled.img`
   height: 35vh;
   width: 100%;
   object-fit: cover;
+`;
+const UploadButton = styled.button`
+  justify-content: center;
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 7px;
+  &:hover {
+    background-color: blueviolet;
+  }
 `;
 
 export default AddProject;
