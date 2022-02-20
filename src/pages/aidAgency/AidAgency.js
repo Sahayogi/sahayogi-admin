@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
   Table,
   TableBody,
@@ -9,16 +9,11 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from '@mui/material';
+} from "@mui/material";
 
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useAuth } from '../../context/UserContext';
-import { getAgency as getAgencyApi } from '../../apis';
-
-function createData(id, username, email, location, address, status) {
-  return { id, username, email, location, address, status };
-}
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../../context/UserContext";
 
 const Container = styled.div`
   flex: 4;
@@ -47,12 +42,12 @@ const AidAgency = () => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
       };
       const { data } = await axios.get(
-        'http://localhost:5000/api/user/aidagencies',
+        "http://localhost:5000/api/user/aidagencies",
         config
       );
       // console.log("hi", response)
@@ -60,15 +55,15 @@ const AidAgency = () => {
       console.log(data.success);
       console.log(data.agencyList);
       setAgencyData(data.agencyList);
-      console.log('this is state', agencyData);
+      console.log("this is state", agencyData);
       //console.log("agencyData", {  });
     } catch (err) {
-      console.log(err, 'error occured');
+      console.log(err, "error occured");
     }
   };
   useEffect(() => {
     getAgency();
-  }, []);
+  }, );
 
   const {
     data: {
@@ -78,40 +73,40 @@ const AidAgency = () => {
 
   return (
     <Container>
-      {role && role === 'Admin' && (
-        <Link to='/addAgency'>
+      {role && role === "Admin" && (
+        <Link to="/addAgency">
           <AddDiv> + Add Aid Agency</AddDiv>
         </Link>
       )}
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align='left'> Aid Agency</TableCell>
-              <TableCell align='center'>Email</TableCell>
-              <TableCell align='center'>Location</TableCell>
-              <TableCell align='center'>Wallet Adress</TableCell>
-              <TableCell align='center'>Status</TableCell>
+              <TableCell align="left"> Aid Agency</TableCell>
+              <TableCell align="center">Email</TableCell>
+              <TableCell align="center">Location</TableCell>
+              <TableCell align="center">Wallet Adress</TableCell>
+              <TableCell align="center">Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {agencyData.map((row, index) => (
               <TableRow
                 key={row._id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component='th' scope='row'>
+                <TableCell component="th" scope="row">
                   {index + 1}
                 </TableCell>
-                <TableCell align='left'>{row.username}</TableCell>
-                <TableCell align='center'>{row.email}</TableCell>
-                <TableCell align='center'>{row.address}</TableCell>
-                <TableCell align='center'>
-                  {row.walletAddress ? row.walletAddress : '-'}
+                <TableCell align="left">{row.username}</TableCell>
+                <TableCell align="center">{row.email}</TableCell>
+                <TableCell align="center">{row.address}</TableCell>
+                <TableCell align="center">
+                  {row.walletAddress ? row.walletAddress : "-"}
                   {row.walletAddress ? (
                     <CopyButton
-                      style={{ height: '10px' }}
+                      style={{ height: "10px" }}
                       onClick={() => {
                         navigator.clipboard.writeText(row.walletAddress);
                       }}
@@ -119,12 +114,12 @@ const AidAgency = () => {
                       <ContentCopyIcon />
                     </CopyButton>
                   ) : (
-                    ''
+                    ""
                   )}
                 </TableCell>
-                <TableCell align='center'>
-                  <button className='statusButton'>
-                    {row.status === true ? 'Active' : 'Inactive'}
+                <TableCell align="center">
+                  <button className="statusButton">
+                    {row.status === true ? "Active" : "Inactive"}
                   </button>
                 </TableCell>
               </TableRow>

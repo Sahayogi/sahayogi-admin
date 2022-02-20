@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import {
   Table,
@@ -12,18 +13,6 @@ import {
 
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/UserContext";
-function createData(id, name, address, status) {
-  return { id, name, address, status };
-}
-
-const rows = [
-  createData(
-    1,
-    "mina@gmail.com",
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "inactive"
-  ),
-];
 
 const Container = styled.div`
   flex: 4;
@@ -44,14 +33,44 @@ const AddDiv = styled.div`
   cursor: pointer;
 `;
 const BeneficiaryList = () => {
-  const { data:{user:{role}}} = useAuth();
+  const [posts, setPosts] = useState([]);
+  const fetchPosts = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
+      };
+      const { data } = await axios.get(
+        "http://localhost:5000/api/user/beneficiaries",
+        config
+      );
+
+      console.log(data);
+      console.log(data.success);
+      console.log(data.data);
+      setPosts(data.data);
+      console.log("this is state", posts);
+    } catch (err) {
+      console.log(err, "error occured");
+    }
+  };
+  useEffect(() => {
+    fetchPosts();
+  }, );
+  const {
+    data: {
+      user: { role },
+    },
+  } = useAuth();
   return (
     <Container>
-      {role && role!=="Admin" &&
+      {role && role !== "Admin" && (
         <Link to="/addBeneficiary">
           <AddDiv> + Add Beneficiary</AddDiv>
         </Link>
-      }
+      )}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -63,18 +82,22 @@ const BeneficiaryList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {posts.map((row, index) => (
               <TableRow
-                key={row.id}
+                key={row._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.id}
+                  {index + 1}
                 </TableCell>
-                <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="center">{row.address}</TableCell>
+                <TableCell align="left">{row.username}</TableCell>
                 <TableCell align="center">
-                  <button className="statusButton">{row.status}</button>
+                  {row.walletAddress ? row.walletAddress : " - "}
+                </TableCell>
+                <TableCell align="center">
+                  <button className="statusButton">
+                    {row.status === true ? "Active" : "Inactive"}
+                  </button>
                 </TableCell>
               </TableRow>
             ))}

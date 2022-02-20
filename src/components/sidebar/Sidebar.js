@@ -10,9 +10,8 @@ import { useAuth } from "../../context/UserContext";
 
 const Sidebar = () => {
   const {
-    data,
     data: {
-      user: { role }
+      user: { role },
     },
   } = useAuth();
 

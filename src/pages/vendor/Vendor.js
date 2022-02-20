@@ -14,10 +14,6 @@ import { Link } from 'react-router-dom';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useAuth } from '../../context/UserContext';
 
-function createData(id, name, email, location, address, status) {
-  return { id, name, email, location, address, status };
-}
-
 const Container = styled.div`
   flex: 4;
   height: calc(100vh - 80px);
@@ -66,7 +62,7 @@ const Vendor = () => {
   };
   useEffect(() => {
     getVendor();
-  }, []);
+  },);
   const {
     data: {
       user: { role },

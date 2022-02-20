@@ -73,7 +73,7 @@ const AddAgency = () => {
     phoneNumber: "",
     email: "",
     password: "",
-    // cpassword: "",
+  
   };
 
   const validationSchema = Yup.object({
@@ -82,7 +82,7 @@ const AddAgency = () => {
     phoneNumber: Yup.string().max(10).required("required"),
     email: Yup.string().email("INVALID EMAIL").required("required"),
     password: Yup.string().required("required").min(6),
-    // cpassword: Yup.string().required("").min(6),
+ 
   });
   const formik = useFormik({
     initialValues: initialValues,

@@ -15,20 +15,6 @@ import {
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/UserContext';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-function createData(id, username, email, address, walletAddress, status) {
-  return { id, username, email, address, walletAddress, status };
-}
-
-const rows = [
-  createData(
-    1,
-    'Nepal Rastra Bank',
-    'nrb@gmail.com',
-    'lalitpur',
-    '0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1',
-    'inactive'
-  ),
-];
 
 const Container = styled.div`
   flex: 4;
@@ -79,7 +65,7 @@ const Bank = () => {
   };
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, );
   const {
     data: {
       user: { role },

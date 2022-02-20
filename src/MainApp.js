@@ -18,7 +18,7 @@ const MainApp = () => {
     } catch (err) {
       console.log(err, "not found!");
     }
-  }, []);
+  },);
   return (
     <BrowserRouter>
       <Routes>
