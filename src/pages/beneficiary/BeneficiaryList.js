@@ -58,7 +58,7 @@ const BeneficiaryList = () => {
   };
   useEffect(() => {
     fetchPosts();
-  }, );
+  });
   const {
     data: {
       user: { role },
@@ -76,7 +76,8 @@ const BeneficiaryList = () => {
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align="left">Beneficiary Email</TableCell>
+              <TableCell align="left">Beneficiary </TableCell>
+              <TableCell align="center">Email </TableCell>
               <TableCell align="center">Wallet Adress</TableCell>
               <TableCell align="center">Status</TableCell>
             </TableRow>
@@ -91,6 +92,8 @@ const BeneficiaryList = () => {
                   {index + 1}
                 </TableCell>
                 <TableCell align="left">{row.username}</TableCell>
+                <TableCell align="center">{row.email}</TableCell>
+
                 <TableCell align="center">
                   {row.walletAddress ? row.walletAddress : " - "}
                 </TableCell>
