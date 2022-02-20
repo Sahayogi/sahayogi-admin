@@ -1,5 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+
 import {
   Table,
   TableBody,
@@ -8,10 +10,10 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from "@mui/material";
+} from '@mui/material';
 
-import { Link } from "react-router-dom";
-import { useAuth } from "../../context/UserContext";
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/UserContext';
 function createData(id, username, email, address, walletAddress, status) {
   return { id, username, email, address, walletAddress, status };
 }
@@ -19,11 +21,11 @@ function createData(id, username, email, address, walletAddress, status) {
 const rows = [
   createData(
     1,
-    "Nepal Rastra Bank",
-    "nrb@gmail.com",
-    "lalitpur",
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "inactive"
+    'Nepal Rastra Bank',
+    'nrb@gmail.com',
+    'lalitpur',
+    '0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1',
+    'inactive'
   ),
 ];
 
@@ -42,6 +44,33 @@ const AddDiv = styled.div`
 `;
 
 const Bank = () => {
+  const [posts, setPosts] = useState([]);
+  const fetchPosts = async () => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        },
+      };
+      const { data } = await axios.get(
+        'http://localhost:5000/api/user/banks',
+        config
+      );
+      // console.log("hi", response)
+      console.log(data);
+      console.log(data.success);
+      console.log(data.data);
+      setPosts(data.data);
+      console.log('this is state', posts);
+      //console.log("agencyData", {  });
+    } catch (err) {
+      console.log(err, 'error occured');
+    }
+  };
+  useEffect(() => {
+    fetchPosts();
+  }, []);
   const {
     data: {
       user: { role },
@@ -49,38 +78,42 @@ const Bank = () => {
   } = useAuth();
   return (
     <Container>
-      {role && role !== "Admin" && (
-        <Link to="/addBank">
+      {role && role !== 'Admin' && (
+        <Link to='/addBank'>
           <AddDiv> + Add Bank</AddDiv>
         </Link>
       )}
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align="left"> Bank</TableCell>
-              <TableCell align="center"> Email</TableCell>
-              <TableCell align="center">Location</TableCell>
-              <TableCell align="center">Wallet Address</TableCell>
-              <TableCell align="center">Status</TableCell>
+              <TableCell align='left'> Bank</TableCell>
+              <TableCell align='center'> Email</TableCell>
+              <TableCell align='center'>Location</TableCell>
+              <TableCell align='center'>Wallet Address</TableCell>
+              <TableCell align='center'>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {posts.map((row, index) => (
               <TableRow
-                key={row.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                key={row._id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.id}
+                <TableCell component='th' scope='row'>
+                  {index + 1}
                 </TableCell>
-                <TableCell align="left">{row.username}</TableCell>
-                <TableCell align="center">{row.email}</TableCell>
-                <TableCell align="center">{row.walletAddress}</TableCell>
-                <TableCell align="center">{row.address}</TableCell>
-                <TableCell align="center">
-                  <button className="statusButton">{row.status}</button>
+                <TableCell align='left'>{row.username}</TableCell>
+                <TableCell align='center'>{row.email}</TableCell>
+                <TableCell align='center'>{row.address}</TableCell>
+                <TableCell align='center'>
+                  {row.walletAddress ? row.walletAddress : 'Requires Update'}
+                </TableCell>
+                <TableCell align='center'>
+                  <button className='statusButton'>
+                    {row.status === true ? 'Active' : 'Inactive'}
+                  </button>
                 </TableCell>
               </TableRow>
             ))}
