@@ -14,6 +14,7 @@ import {
 
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/UserContext';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 function createData(id, username, email, address, walletAddress, status) {
   return { id, username, email, address, walletAddress, status };
 }
@@ -41,6 +42,14 @@ const AddDiv = styled.div`
   padding-bottom: 20px;
   font-size: 30px;
   cursor: pointer;
+`;
+
+const CopyButton = styled.button`
+  padding-bottom: 20px;
+  font-size: 10px;
+  cursor: pointer;
+  border: none;
+  background: none;
 `;
 
 const Bank = () => {
@@ -108,7 +117,19 @@ const Bank = () => {
                 <TableCell align='center'>{row.email}</TableCell>
                 <TableCell align='center'>{row.address}</TableCell>
                 <TableCell align='center'>
-                  {row.walletAddress ? row.walletAddress : 'Requires Update'}
+                  {row.walletAddress ? row.walletAddress : '-'}
+                  {row.walletAddress ? (
+                    <CopyButton
+                      style={{ height: '10px' }}
+                      onClick={() => {
+                        navigator.clipboard.writeText(row.walletAddress);
+                      }}
+                    >
+                      <ContentCopyIcon />
+                    </CopyButton>
+                  ) : (
+                    ''
+                  )}
                 </TableCell>
                 <TableCell align='center'>
                   <button className='statusButton'>

@@ -1,5 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
 import {
   Table,
   TableBody,
@@ -8,25 +9,14 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from "@mui/material";
-import { Link } from "react-router-dom";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { useAuth } from "../../context/UserContext";
+} from '@mui/material';
+import { Link } from 'react-router-dom';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { useAuth } from '../../context/UserContext';
 
 function createData(id, name, email, location, address, status) {
   return { id, name, email, location, address, status };
 }
-
-const rows = [
-  createData(
-    1,
-    "Hamro Pasal",
-    "mina@gmail.com",
-    "Nakhipot,Lalitpur",
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "inactive"
-  ),
-];
 
 const Container = styled.div`
   flex: 4;
@@ -50,52 +40,89 @@ const CopyButton = styled.button`
   background: none;
 `;
 const Vendor = () => {
-  const { data:{user:{role}}} = useAuth();
- 
+  const [vendorData, setVendorData] = useState([]);
+  const getVendor = async () => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        },
+      };
+      const { data } = await axios.get(
+        'http://localhost:5000/api/user/vendors',
+        config
+      );
+      // console.log("hi", response)
+      console.log(data);
+      console.log(data.success);
+      console.log(data.data);
+      setVendorData(data.data);
+      console.log('this is state', vendorData);
+      //console.log("agencyData", {  });
+    } catch (err) {
+      console.log(err, 'error occured');
+    }
+  };
+  useEffect(() => {
+    getVendor();
+  }, []);
+  const {
+    data: {
+      user: { role },
+    },
+  } = useAuth();
+
   return (
     <Container>
-      {role && role!=="Admin" &&
-        <Link to="/addVendor">
+      {role && role !== 'Admin' && (
+        <Link to='/addVendor'>
           <AddDiv> + Add Vendor</AddDiv>
         </Link>
-      }
+      )}
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align="left">Name</TableCell>
-              <TableCell align="center">Email</TableCell>
-              <TableCell align="center">Location</TableCell>
-              <TableCell align="center">Wallet </TableCell>
-              <TableCell align="center">Status</TableCell>
+              <TableCell align='left'>Name</TableCell>
+              <TableCell align='center'>Email</TableCell>
+              <TableCell align='center'>Location</TableCell>
+              <TableCell align='center'>Wallet </TableCell>
+              <TableCell align='center'>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {vendorData.map((row, index) => (
               <TableRow
-                key={row.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                key={row._id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.id}
+                <TableCell component='th' scope='row'>
+                  {index + 1}
                 </TableCell>
-                <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="center">{row.email}</TableCell>
-                <TableCell align="center">{row.location}</TableCell>
-                <TableCell align="center">
-                  {row.address}
-                  <CopyButton
-                    style={{ height: "10px" }}
-                    onClick={() => {
-                      navigator.clipboard.writeText(row.address);
-                    }}
-                  >
-                    <ContentCopyIcon />
-                  </CopyButton>
+                <TableCell align='left'>{row.username}</TableCell>
+                <TableCell align='center'>{row.email}</TableCell>
+                <TableCell align='center'>{row.address}</TableCell>
+                <TableCell align='center'>
+                  {row.walletAddress ? row.walletAddress : '-'}
+                  {row.walletAddress ? (
+                    <CopyButton
+                      style={{ height: '10px' }}
+                      onClick={() => {
+                        navigator.clipboard.writeText(row.walletAddress);
+                      }}
+                    >
+                      <ContentCopyIcon />
+                    </CopyButton>
+                  ) : (
+                    ''
+                  )}
                 </TableCell>
-                <TableCell align="center">
-                  <button className="statusButton">{row.status}</button>
+                <TableCell align='center'>
+                  <button className='statusButton'>
+                    {row.status === true ? 'Active' : 'Inactive'}
+                  </button>
                 </TableCell>
               </TableRow>
             ))}
