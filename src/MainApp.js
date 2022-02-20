@@ -8,17 +8,16 @@ const MainApp = () => {
     data: { user },
     loadUser,
   } = useAuth();
-
   useEffect(() => {
     try {
       const userLoggedIn = JSON.parse(localStorage.getItem("userLoggedIn"));
-      if (!!userLoggedIn) {
+      if (userLoggedIn) {
         loadUser(userLoggedIn);
       }
     } catch (err) {
       console.log(err, "not found!");
     }
-  },);
+  }, []);
   return (
     <BrowserRouter>
       <Routes>

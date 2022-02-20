@@ -63,7 +63,7 @@ const AidAgency = () => {
   };
   useEffect(() => {
     getAgency();
-  }, );
+  }, []);
 
   const {
     data: {

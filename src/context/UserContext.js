@@ -47,7 +47,7 @@ const Provider = ({ children }) => {
 
   const logoutUser = (data) => {
     localStorage.setItem("userLoggedIn", null);
-    localStorage.setItem("access-token", null);
+    localStorage.removeItem("access-token");
 
     dispatch({ type: "LOGOUT_USER", payload: data });
   };

@@ -26,6 +26,8 @@ import AddBank from "./pages/bank/AddBank";
 import NotFound from "./pages/NotFound";
 import Logout from "./pages/Logout";
 
+
+
 const App = () => {
   return (
     <div className="App">
@@ -33,7 +35,9 @@ const App = () => {
       <div className="container">
         <Sidebar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route exact path="/" element={<Home/>} />
+          {/* <Route exact path="/home" element={<Home />} /> */}
+
           {/* aid agency */}
           <Route exact path="/aidAgency" element={<AidAgency />} />
           <Route exact path="/addAgency" element={<AddAgency />} />

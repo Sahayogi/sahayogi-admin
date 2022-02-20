@@ -62,7 +62,7 @@ const Vendor = () => {
   };
   useEffect(() => {
     getVendor();
-  },);
+  },[]);
   const {
     data: {
       user: { role },

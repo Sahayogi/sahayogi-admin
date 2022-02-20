@@ -65,7 +65,7 @@ const Bank = () => {
   };
   useEffect(() => {
     fetchPosts();
-  }, );
+  }, []);
   const {
     data: {
       user: { role },

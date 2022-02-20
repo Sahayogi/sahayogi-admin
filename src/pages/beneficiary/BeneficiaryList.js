@@ -58,7 +58,7 @@ const BeneficiaryList = () => {
   };
   useEffect(() => {
     fetchPosts();
-  });
+  },[]);
   const {
     data: {
       user: { role },
