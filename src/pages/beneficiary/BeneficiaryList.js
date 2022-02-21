@@ -32,8 +32,39 @@ const AddDiv = styled.div`
   font-size: 30px;
   cursor: pointer;
 `;
+const MainLoader = styled.div`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid white; */
+`;
+
+const Loader = styled.div`
+  flex: 1;
+  margin: auto;
+  margin-top: 200px;
+  margin-bottom: 200px;
+  height: calc(100vh);
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid black;
+  border-radius: 50%;
+  width: 130px;
+  height: 130px;
+  animation: spin 0.5s linear infinite;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
 const BeneficiaryList = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const fetchPosts = async () => {
     try {
       const config = {
@@ -46,19 +77,15 @@ const BeneficiaryList = () => {
         "http://localhost:5000/api/user/beneficiaries",
         config
       );
-
-      console.log(data);
-      console.log(data.success);
-      console.log(data.data);
       setPosts(data.data);
-      console.log("this is state", posts);
+      setLoading(false);
     } catch (err) {
       console.log(err, "error occured");
     }
   };
   useEffect(() => {
     fetchPosts();
-  },[]);
+  }, []);
   const {
     data: {
       user: { role },
@@ -71,42 +98,52 @@ const BeneficiaryList = () => {
           <AddDiv> + Add Beneficiary</AddDiv>
         </Link>
       )}
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Id</TableCell>
-              <TableCell align="left">Beneficiary </TableCell>
-              <TableCell align="center">Email </TableCell>
-              <TableCell align="center">Wallet Adress</TableCell>
-              <TableCell align="center">Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {posts.map((row, index) => (
-              <TableRow
-                key={row._id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {index + 1}
-                </TableCell>
-                <TableCell align="left">{row.username}</TableCell>
-                <TableCell align="center">{row.email}</TableCell>
+      {loading && (
+        <div>
+          <MainLoader>
+            <Loader></Loader>
+          </MainLoader>
+        </div>
+      )}
 
-                <TableCell align="center">
-                  {row.walletAddress ? row.walletAddress : " - "}
-                </TableCell>
-                <TableCell align="center">
-                  <button className="statusButton">
-                    {row.status === true ? "Active" : "Inactive"}
-                  </button>
-                </TableCell>
+      {!loading && (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Id</TableCell>
+                <TableCell align="left">Beneficiary </TableCell>
+                <TableCell align="center">Email </TableCell>
+                <TableCell align="center">Wallet Adress</TableCell>
+                <TableCell align="center">Status</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {posts.map((row, index) => (
+                <TableRow
+                  key={row._id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell align="left">{row.username}</TableCell>
+                  <TableCell align="center">{row.email}</TableCell>
+
+                  <TableCell align="center">
+                    {row.walletAddress ? row.walletAddress : " - "}
+                  </TableCell>
+                  <TableCell align="center">
+                    <button className="statusButton">
+                      {row.status === true ? "Active" : "Inactive"}
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Container>
   );
 };

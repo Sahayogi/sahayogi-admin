@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -66,14 +66,15 @@ const Error = styled.h1`
   font-size: 15px;
 `;
 
+
 const AddAgency = () => {
+  const [loading, setLoading] = useState(true);
   const initialValues = {
     username: "",
     address: "",
     phoneNumber: "",
     email: "",
     password: "",
-  
   };
 
   const validationSchema = Yup.object({
@@ -82,7 +83,6 @@ const AddAgency = () => {
     phoneNumber: Yup.string().max(10).required("required"),
     email: Yup.string().email("INVALID EMAIL").required("required"),
     password: Yup.string().required("required").min(6),
- 
   });
   const formik = useFormik({
     initialValues: initialValues,
@@ -101,6 +101,7 @@ const AddAgency = () => {
           values,
           config
         );
+    
         console.log("data:", data);
 
         if (data.success === true) {
@@ -168,16 +169,6 @@ const AddAgency = () => {
           {formik.errors.password && formik.touched.password ? (
             <Error>{formik.errors.password}</Error>
           ) : null}
-          {/* <label htmlFor="password">Confirm Password</label>
-          <FormInput
-            type="password"
-            id="cpassword"
-            name="cpassword"
-            {...formik.getFieldProps("cpassword")}
-          />
-          {formik.errors.cpassword && formik.touched.cpassword ? (
-            <Error>{formik.errors.cpassword}</Error>
-          ) : null} */}
           <FormButton type="submit">Register</FormButton>
         </Form>
       </FormWrapper>

@@ -35,9 +35,40 @@ const CopyButton = styled.button`
   border: none;
   background: none;
 `;
+const MainLoader = styled.div`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid white; */
+`;
+
+const Loader = styled.div`
+  flex: 1;
+  margin: auto;
+  margin-top: 200px;
+  margin-bottom: 200px;
+  height: calc(100vh);
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid black;
+  border-radius: 50%;
+  width: 130px;
+  height: 130px;
+  animation: spin 0.5s linear infinite;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
 
 const AidAgency = () => {
   const [agencyData, setAgencyData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
   const getAgency = async () => {
     try {
       const config = {
@@ -46,19 +77,17 @@ const AidAgency = () => {
           Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
       };
+
       const { data } = await axios.get(
         "http://localhost:5000/api/user/aidagencies",
         config
       );
-      // console.log("hi", response)
-      console.log(data);
-      console.log(data.success);
-      console.log(data.agencyList);
+
       setAgencyData(data.agencyList);
-      console.log("this is state", agencyData);
-      //console.log("agencyData", {  });
+      setLoading(false);
     } catch (err) {
-      console.log(err, "error occured");
+      setError(err.response.data.error);
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -78,55 +107,65 @@ const AidAgency = () => {
           <AddDiv> + Add Aid Agency</AddDiv>
         </Link>
       )}
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Id</TableCell>
-              <TableCell align="left"> Aid Agency</TableCell>
-              <TableCell align="center">Email</TableCell>
-              <TableCell align="center">Location</TableCell>
-              <TableCell align="center">Wallet Adress</TableCell>
-              <TableCell align="center">Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {agencyData.map((row, index) => (
-              <TableRow
-                key={row._id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {index + 1}
-                </TableCell>
-                <TableCell align="left">{row.username}</TableCell>
-                <TableCell align="center">{row.email}</TableCell>
-                <TableCell align="center">{row.address}</TableCell>
-                <TableCell align="center">
-                  {row.walletAddress ? row.walletAddress : "-"}
-                  {row.walletAddress ? (
-                    <CopyButton
-                      style={{ height: "10px" }}
-                      onClick={() => {
-                        navigator.clipboard.writeText(row.walletAddress);
-                      }}
-                    >
-                      <ContentCopyIcon />
-                    </CopyButton>
-                  ) : (
-                    ""
-                  )}
-                </TableCell>
-                <TableCell align="center">
-                  <button className="statusButton">
-                    {row.status === true ? "Active" : "Inactive"}
-                  </button>
-                </TableCell>
+      {loading && (
+        <div>
+          <MainLoader>
+            <Loader></Loader>
+          </MainLoader>
+        </div>
+      )}
+
+      {!loading && (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Id</TableCell>
+                <TableCell align="left"> Aid Agency</TableCell>
+                <TableCell align="center">Email</TableCell>
+                <TableCell align="center">Location</TableCell>
+                <TableCell align="center">Wallet Adress</TableCell>
+                <TableCell align="center">Status</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {agencyData.map((row, index) => (
+                <TableRow
+                  key={row._id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell align="left">{row.username}</TableCell>
+                  <TableCell align="center">{row.email}</TableCell>
+                  <TableCell align="center">{row.address}</TableCell>
+                  <TableCell align="center">
+                    {row.walletAddress ? row.walletAddress : "-"}
+                    {row.walletAddress ? (
+                      <CopyButton
+                        style={{ height: "10px" }}
+                        onClick={() => {
+                          navigator.clipboard.writeText(row.walletAddress);
+                        }}
+                      >
+                        <ContentCopyIcon />
+                      </CopyButton>
+                    ) : (
+                      ""
+                    )}
+                  </TableCell>
+                  <TableCell align="center">
+                    <button className="statusButton">
+                      {row.status === true ? "Active" : "Inactive"}
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Container>
   );
 };

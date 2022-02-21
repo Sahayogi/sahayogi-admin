@@ -67,6 +67,7 @@ const Error = styled.h1`
   font-size: 15px;
 `;
 
+
 const AddBank = () => {
   const initialValues = {
     username: "",

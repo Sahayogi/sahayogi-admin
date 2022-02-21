@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 const Milstones = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const fetchPosts = async () => {
     try {
       const config = {
@@ -16,13 +17,9 @@ const Milstones = () => {
         "http://localhost:5000/api/user/home",
         config
       );
-      // console.log("hi", response)
-      console.log(data);
-      console.log(data.success);
-      console.log(data.data);
+
       setPosts(data.data);
-      console.log("this is state", posts);
-      //console.log("agencyData", {  });
+      setLoading(false);
     } catch (err) {
       console.log(err, "error occured");
     }
@@ -36,9 +33,7 @@ const Milstones = () => {
         <div className="featuredItem">
           <span className="featuredItemName">Donation Projects</span>
           <div className="featuredContainer">
-            <span className="featuredItemCount">
-              {posts.numberOfProject}
-            </span>
+            <span className="featuredItemCount">{posts.numberOfProject}</span>
           </div>
         </div>
       </Link>

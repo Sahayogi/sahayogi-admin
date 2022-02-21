@@ -37,9 +37,39 @@ const AddDiv = styled.div`
   font-size: 30px;
   cursor: pointer;
 `;
+// const MainLoader = styled.div`
+//   width: 100%;
+//   justify-content: center;
+//   align-items: center;
+//   /* border: 2px solid white; */
+// `;
+
+// const Loader = styled.div`
+//   flex: 1;
+//   margin: auto;
+//   margin-top: 200px;
+//   margin-bottom: 200px;
+//   height: calc(100vh);
+//   border: 16px solid #f3f3f3;
+//   border-top: 16px solid black;
+//   border-radius: 50%;
+//   width: 130px;
+//   height: 130px;
+//   animation: spin 0.5s linear infinite;
+//   @keyframes spin {
+//     0% {
+//       transform: rotate(0deg);
+//     }
+//     100% {
+//       transform: rotate(360deg);
+//     }
+//   }
+// `;
+
 
 const Projects = () => {
   const { data:{user:{role}}} = useAuth();
+  // const [loading, setLoading] = useState(true);
   
   return (
     <Container>
