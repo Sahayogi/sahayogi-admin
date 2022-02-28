@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled, { css } from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { WalletContext } from '../../context/walletContext';
 
 const sharedStyles = css`
   background-color: grey;
@@ -75,6 +76,7 @@ const RaiseFund = () => {
     start: '',
     end: '',
   });
+  const { connectWallet } = useContext(WalletContext);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -133,6 +135,7 @@ const RaiseFund = () => {
 
   return (
     <Container>
+      <button onClick={connectWallet}>Connct To Metamask</button>
       <FormWrapper>
         <div>
           <label htmlFor='project'>Project Id</label>

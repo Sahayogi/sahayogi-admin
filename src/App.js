@@ -26,6 +26,7 @@ import AddBank from './pages/bank/AddBank';
 import NotFound from './pages/NotFound';
 import Logout from './pages/Logout';
 import RaiseFund from './pages/admin/RaiseFund';
+import { WalletProvider } from './context/walletContext';
 
 const App = () => {
   return (
