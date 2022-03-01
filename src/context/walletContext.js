@@ -4,15 +4,6 @@ const { ethereum } = window;
 console.log(ethereum);
 export const WalletProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState('');
-  // const [formData, setFormData] = useState({
-  //   addressTo: '',
-  //   amount: '',
-  //   keyword: '',
-  //   message: '',
-  // });
-  // const handleChange = (e, name) => {
-  //   setFormData((prevState) => ({ ...prevState, [name]: e.target.value }));
-  // };
   const checkIfWalletIsConnected = async () => {
     try {
       if (!ethereum) return 'Please Install Metamask';
@@ -47,15 +38,6 @@ export const WalletProvider = ({ children }) => {
   const hello = () => {
     console.log('hello');
   };
-  // const sendTransaction = async () => {
-  //   try {
-  //     if (!ethereum) return alert('Please install metamsk');
-  //     // Get the data from form
-  //   } catch (error) {
-  //     console.log(error);
-  //     throw new Error('No ethereum Object');
-  //   }
-  // };
 
   useEffect(() => {
     checkIfWalletIsConnected();
@@ -66,6 +48,7 @@ export const WalletProvider = ({ children }) => {
       value={{
         connectWallet,
         hello,
+        currentAccount,
       }}
     >
       {children}

@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import MainApp from './MainApp';
 import { Provider as AuthProvider } from './context/UserContext';
-import { WalletProvider } from './context/walletContext';
+// import { WalletProvider } from './context/walletContext';
 
 ReactDOM.render(
   <AuthProvider>
-    <WalletProvider>
+    {/* <WalletProvider> */}
       <MainApp />
-    </WalletProvider>
+    {/* </WalletProvider> */}
   </AuthProvider>,
   document.getElementById('root')
 );
