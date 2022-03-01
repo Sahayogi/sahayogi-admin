@@ -69,3 +69,13 @@ export const raiseFund = async (projectId, aidAgency, goal, startAt, endAt) => {
       from: selectedAccount,
     });
 };
+export const approve = async ()=>{
+    if (!isInitialized) {
+        await getBlockchain();
+      }
+      return sytContract.methods
+      .approve("0xE9540d02B5f711913Ab11E2614E5A87e7E56189A",10000000)
+      .send({
+        from: selectedAccount,
+      });
+}

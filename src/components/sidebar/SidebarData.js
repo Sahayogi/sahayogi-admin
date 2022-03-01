@@ -1,96 +1,103 @@
-import React from 'react';
-import HomeIcon from '@mui/icons-material/Home';
-import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LogoutIcon from '@mui/icons-material/Logout';
-import PeopleIcon from '@mui/icons-material/People';
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import CorporateFareIcon from '@mui/icons-material/CorporateFare';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import SettingsIcon from '@mui/icons-material/Settings';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import React from "react";
+import HomeIcon from "@mui/icons-material/Home";
+import MonetizationOnRoundedIcon from "@mui/icons-material/MonetizationOnRounded";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import LogoutIcon from "@mui/icons-material/Logout";
+import PeopleIcon from "@mui/icons-material/People";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import CorporateFareIcon from "@mui/icons-material/CorporateFare";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { BiCategory } from "react-icons/bi";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 export const SidebarData = [
   {
-    title: 'Home',
+    title: "Home",
     icon: <HomeIcon />,
-    path: '/',
+    path: "/",
   },
   {
-    title: 'Aid Agency',
-    icon: <CorporateFareIcon />,
-    path: '/aidAgency',
-  },
-  {
-    title: 'Raise Fund',
+    title: "Raise Fund",
     icon: <AttachMoneyIcon />,
-    path: '/raisefund',
+    path: "/raisefund",
   },
   {
-    title: 'Donation Projects',
+    title: "Operations",
+    icon: <BiCategory />,
+    path: "/operations",
+  },
+  {
+    title: "Aid Agency",
+    icon: <CorporateFareIcon />,
+    path: "/aidAgency",
+  },
+
+  {
+    title: "Donation Projects",
     icon: <MonetizationOnRoundedIcon />,
-    path: '/projects',
+    path: "/projects",
   },
   {
-    title: 'Bank',
+    title: "Bank",
     icon: <AccountBalanceIcon />,
-    path: '/bank',
+    path: "/bank",
   },
   {
-    title: 'Beneficiaries',
+    title: "Beneficiaries",
     icon: <PeopleIcon />,
-    path: '/beneficiary',
+    path: "/beneficiary",
   },
   {
-    title: 'Vendors',
+    title: "Vendors",
     icon: <ShoppingCartIcon />,
-    path: '/vendor',
+    path: "/vendor",
   },
   {
-    title: 'Transactions',
+    title: "Transactions",
     icon: <CompareArrowsIcon />,
-    path: '/transaction',
+    path: "/transaction",
   },
   {
-    title: 'Logout',
+    title: "Logout",
     icon: <LogoutIcon />,
-    path: '/logout',
+    path: "/logout",
   },
 ];
 
 export const SidebarDataForA = [
   {
-    title: 'Home',
+    title: "Home",
     icon: <HomeIcon />,
-    path: '/',
+    path: "/",
   },
   {
-    title: 'Donation Projects',
+    title: "Donation Projects",
     icon: <MonetizationOnRoundedIcon />,
-    path: '/projects',
+    path: "/projects",
   },
   {
-    title: 'Bank',
+    title: "Bank",
     icon: <AccountBalanceIcon />,
-    path: '/bank',
+    path: "/bank",
   },
   {
-    title: 'Beneficiaries',
+    title: "Beneficiaries",
     icon: <PeopleIcon />,
-    path: '/beneficiary',
+    path: "/beneficiary",
   },
   {
-    title: 'Vendors',
+    title: "Vendors",
     icon: <ShoppingCartIcon />,
-    path: '/vendor',
+    path: "/vendor",
   },
   {
-    title: 'Transactions',
+    title: "Transactions",
     icon: <CompareArrowsIcon />,
-    path: '/transaction',
+    path: "/transaction",
   },
   {
-    title: 'Settings',
+    title: "Settings",
     icon: <SettingsIcon />,
-    path: '/settings',
+    path: "/settings",
   },
 ];

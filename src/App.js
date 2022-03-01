@@ -26,7 +26,7 @@ import AddBank from './pages/bank/AddBank';
 import NotFound from './pages/NotFound';
 import Logout from './pages/Logout';
 import RaiseFund from './pages/admin/RaiseFund';
-
+import Operations from './pages/admin/Operations';
 
 const App = () => {
   return (
@@ -56,6 +56,7 @@ const App = () => {
           <Route exact path='/settings' element={<Settings />} />
           <Route exact path='/logout' element={<Logout />} />
           <Route exact path='/raisefund' element={<RaiseFund />} />
+          <Route exact path='/operations' element={<Operations />} />
 
           <Route exact path='*' element={<NotFound />} />
         </Routes>

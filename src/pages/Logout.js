@@ -3,7 +3,7 @@ import styled from "styled-components";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router";
 import { useAuth } from "../context/UserContext";
-import { getBlockchain, mintToken, getOwnBalance } from "./Web3Client";
+
 
 const Container = styled.div`
   flex: 4;
@@ -65,71 +65,20 @@ const MintB = styled.button`
 `;
 const Logout = () => {
   const { logoutUser } = useAuth();
-  const [mintAddress, setMintAddress] = useState("");
-  const [mintAmount, setMintAmount] = useState("");
-  const [minted, setMinted] = useState(false);
-  const [balance, setBalance] = useState(0);
-
+  
   const navigate = useNavigate();
   const handleLogout = (e) => {
     logoutUser();
     navigate("/");
   };
 
-  const handleMint = async (e) => {
-    e.preventDefault();
-
-    console.log("minttoken", mintToken);
-    console.log("mintAddress", mintAddress);
-    console.log("mintAmt", mintAmount);
-
-    mintToken(mintAddress, mintAmount)
-      .then((tx) => {
-        console.log(tx);
-        setMinted(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const fetchBalance = () => {
-    getOwnBalance()
-      .then((balance) => {
-        setBalance(balance);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  
   return (
     <Container>
       <Wrapper>
         <LogoutC onClick={handleLogout}>
           Logout <LogoutIcon />
         </LogoutC>
-        <Mint>
-          <MintB onClick={getBlockchain}>Connect To MetaMask</MintB>
-
-          <form>
-            <LoginInput
-              type="string"
-              value={mintAmount}
-              placeholder="amount"
-              onChange={(e) => setMintAmount(e.target.value)}
-            />
-            <LoginInput
-              type="string"
-              value={mintAddress}
-              placeholder="address"
-              onChange={(e) => setMintAddress(e.target.value)}
-            />
-            <MintB onClick={handleMint}>Mint</MintB>
-          </form>
-
-          <label>your current balance is {balance / 100}</label>
-
-          <MintB onClick={fetchBalance}>Balance</MintB>
-        </Mint>
       </Wrapper>
     </Container>
   );

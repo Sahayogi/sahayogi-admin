@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 // import { useFormik } from 'formik';
 // import * as Yup from 'yup';
 // import axios from 'axios';
-import { raiseFund, getBlockchain } from "../Web3Client";
+import { raiseFund, getBlockchain, mintToken, getOwnBalance } from "../Web3Client";
 
 const Container = styled.div`
   flex: 4;
@@ -13,29 +13,73 @@ const Container = styled.div`
 `;
 const FormWrapper = styled.div`
   display: flex;
+  display: block;
+  flex: 1;
+  margin: auto;
   align-items: center;
   justify-content: center;
   background-color: rgb(53, 51, 51);
   padding: 20px;
   height: 100%;
-`;
+  width: 500px;
+  `;
 const Connect = styled.button`
   height: 40px;
-  width: 150px;
+  width: auto;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  text-align:center;
+  cursor: pointer;
+  display: flex;
+  flex: 1;
+  margin: auto;
+  border: none;
+  border-radius: 20px;
+  background-color: #2952e3;
+  color: white;
+  font-size: 16px;
+  font-weight: bolder;
+
+  &:hover {
+    background-color: #2546bd;
+  }
+`;
+const Button = styled.button`
+  height: 40px;
+  width: auto;
   padding: 20px;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   display: flex;
   border: none;
-  border-radius: 4rem;
-  /* background-color: rgb(61, 60, 60); */
-  background-color: blue;
+  align-self : center;
+  border-radius: 20px;
+  background-color: #2952e3;
   color: white;
+  font-size: 16px;
+  font-weight: bolder;
   &:hover {
-    background-color: pink;
+    background-color: #2546bd;
+    
   }
 `;
+const FormInput = styled.input`
+display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid white;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  font-size: 14px;
+`;
+const FormLabel = styled.label`
+margin-bottom: 10px;
+display: block;
+color: white`;
+
 const RaiseFund = () => {
   const [raised, setRaised] = useState(false);
   const [formData, setFormData] = useState({
@@ -66,11 +110,11 @@ const RaiseFund = () => {
 
   return (
     <Container>
-      <Connect onClick={getBlockchain}>Connct To Metamask</Connect>
+      <Connect onClick={getBlockchain}>Connect To Metamask</Connect>
       <FormWrapper>
         <div>
-          <label htmlFor="project">Project Id</label>
-          <input
+          <FormLabel htmlFor="project">Project Id</FormLabel>
+          <FormInput
             placeholder="project"
             id="project"
             name="project"
@@ -79,8 +123,8 @@ const RaiseFund = () => {
           />
         </div>
         <div>
-          <label htmlFor="agency">Aid Agency</label>
-          <input
+          <FormLabel htmlFor="agency">Aid Agency</FormLabel>
+          <FormInput
             placeholder="Aid Agency"
             name="agency"
             type="text"
@@ -88,8 +132,8 @@ const RaiseFund = () => {
           />
         </div>
         <div>
-          <label htmlFor="goal">Goal</label>
-          <input
+          <FormLabel htmlFor="goal">Goal</FormLabel>
+          <FormInput
             placeholder="goal"
             name="goal"
             type="text"
@@ -97,8 +141,8 @@ const RaiseFund = () => {
           />
         </div>
         <div>
-          <label htmlFor="start">Start</label>
-          <input
+          <FormLabel htmlFor="start">Start</FormLabel>
+          <FormInput
             placeholder="start date"
             name="start"
             type="text"
@@ -106,18 +150,19 @@ const RaiseFund = () => {
           />
         </div>
         <div>
-          <label htmlFor="end">End</label>
-          <input
+          <FormLabel htmlFor="end">End</FormLabel>
+          <FormInput
             placeholder="End time"
             name="end"
             type="text"
             onChange={handleChange}
           />
         </div>
-        <button type="submit" onClick={handleFundRaising}>
+        <Button type="submit" onClick={handleFundRaising}>
           Raise Fund
-        </button>
+        </Button>
       </FormWrapper>
+
     </Container>
   );
 };
