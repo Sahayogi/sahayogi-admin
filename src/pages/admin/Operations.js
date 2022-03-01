@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { getBlockchain, mintToken, getOwnBalance,approve } from "../Web3Client";
+import {
+  getBlockchain,
+  mintToken,
+  getOwnBalance,
+  approve,
+} from "../Web3Client";
+
 
 const Container = styled.div`
   flex: 4;
@@ -14,76 +20,99 @@ const Wrapper = styled.div`
   height: 100%;
   background-color: rgb(53, 51, 51);
 `;
+
 const Mint = styled.div`
   height: 100%;
   width: 100%;
+  background-color: white;
   padding: 50px;
   display: flex;
   flex-direction: column;
   gap: 4rem;
 `;
 const LoginInput = styled.input`
-  height: 2.8rem;
-  border-radius: 10px;
-  border: none;
-  color: white;
-  padding: 10px;
-  font-size: 16px;
-  background-color: black;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid white;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  font-size: 14px;
   &:focus {
     background-color: rgb(63, 65, 65);
     border: none;
   }
 `;
-
 const Button = styled.button`
   height: 40px;
   width: auto;
   padding: 20px;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   display: flex;
+  align-items: center;
+  /* display: block; */
   border: none;
-  align-self : center;
-  border-radius: 20px;
-  background-color: #2952e3;
+  border-radius: 4px;
+  /* background-color: rgb(61, 60, 60); */
+  background-color: blue;
   color: white;
   font-size: 16px;
-  font-weight: bolder;
+  font-weight: 100;
   &:hover {
-    background-color: #2546bd;
-    
+    background-color: pink;
   }
 `;
-const Connect = styled.button`
-  height: 40px;
-  width: auto;
-  padding: 20px;
-  align-items: center;
-  justify-content: center;
-  text-align:center;
-  cursor: pointer;
+const FormWrapper = styled.div`
   display: flex;
+  display: block;
   flex: 1;
   margin: auto;
-  border: none;
-  border-radius: 20px;
-  background-color: #2952e3;
-  color: white;
-  font-size: 16px;
-  font-weight: bolder;
-
-  &:hover {
-    background-color: #2546bd;
-  }
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(53, 51, 51);
+  padding: 20px;
+  height: 100%;
+  width: 500px;
 `;
+const Loginlabel = styled.label`
+  margin-bottom: 10px;
+  display: block;
+  color: white;
+`;
+
+const Label = styled.label`
+  display: block;
+  color: black;
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
+
+const ButtonBal = styled.button`
+  background: green;
+  color: white;
+  text-transform: uppercase;
+  border: none;
+  padding: 20px;
+  font-size: 12px;
+  font-weight: 100;
+  letter-spacing: 10px;
+  appearance: none;
+  border-radius: 4px;
+  width: auto;
+`;
+
+const Balance = styled.div`
+  flex: 1;
+  margin: auto;
+`;
+
 const Operations = () => {
   const [mintAddress, setMintAddress] = useState("");
   const [mintAmount, setMintAmount] = useState("");
   const [minted, setMinted] = useState(false);
   const [balance, setBalance] = useState(0);
-  const [approved,setApproved] = useState(false);
+  const [approved, setApproved] = useState(false);
 
   const handleMint = async (e) => {
     e.preventDefault();
@@ -110,27 +139,28 @@ const Operations = () => {
         console.log(err);
       });
   };
-  const handleApprove=()=>{
-      approve()
-      .then((tx)=>{
-          setApproved(true);
+  const handleApprove = () => {
+    approve()
+      .then((tx) => {
+        setApproved(true);
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
   return (
     <Container>
       <Wrapper>
         <Mint>
-          <Connect onClick={getBlockchain}>Connect To MetaMask</Connect>
-          <form>
+          <FormWrapper>
+            <Loginlabel>Amount</Loginlabel>
             <LoginInput
               type="string"
               value={mintAmount}
               placeholder="amount"
               onChange={(e) => setMintAmount(e.target.value)}
             />
+            <Loginlabel>Address</Loginlabel>
             <LoginInput
               type="string"
               value={mintAddress}
@@ -138,12 +168,13 @@ const Operations = () => {
               onChange={(e) => setMintAddress(e.target.value)}
             />
             <Button onClick={handleMint}>Mint</Button>
-          </form>
-          <Button onClick={handleApprove}>Approve</Button>
+          </FormWrapper>
+          <Balance>
+            <ButtonBal onClick={fetchBalance}>Approve</ButtonBal>
 
-
-          <label>your current balance is {balance / 100}</label>
-          <Button onClick={fetchBalance}>Balance</Button>
+            <Label>your current balance is {balance / 100}</Label>
+            <ButtonBal onClick={fetchBalance}>Balance</ButtonBal>
+          </Balance>
         </Mint>
       </Wrapper>
     </Container>

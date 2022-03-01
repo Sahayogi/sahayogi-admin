@@ -6,9 +6,8 @@ let frContract;
 let sytContract;
 let selectedAccount;
 let isInitialized = false;
-// let mintingAccount = "0xa3bd6a90A2Ad1afd5871AAdD0b871cc764AFEaF6";
-// let amount = 10;
-export const getBlockchain = async () => {
+
+export const getBlockchain = async (setAccountAddress) => {
   let provider = window.ethereum;
   if (typeof provider !== "undefined") {
     provider
@@ -17,6 +16,7 @@ export const getBlockchain = async () => {
       })
       .then((accounts) => {
         selectedAccount = accounts[0];
+        setAccountAddress(selectedAccount);
         console.log(`selected account is ${selectedAccount}`);
       })
       .catch((err) => {
