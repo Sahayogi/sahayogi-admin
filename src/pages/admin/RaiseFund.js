@@ -3,11 +3,11 @@ import styled, { css } from "styled-components";
 // import { useFormik } from 'formik';
 // import * as Yup from 'yup';
 // import axios from 'axios';
-import { raiseFund, getBlockchain, mintToken, getOwnBalance } from "../Web3Client";
+import { raiseFund, getBlockchain } from "../Web3Client";
 
 const Container = styled.div`
   flex: 4;
-  height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
   background-color: rgb(53, 51, 51);
   padding: 40px;
 `;

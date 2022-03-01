@@ -7,7 +7,7 @@ import { useAuth } from "../context/UserContext";
 
 const Container = styled.div`
   flex: 4;
-  height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
   font-size: 1rem;
   background-color: rgb(53, 51, 51);
   padding: 40px;

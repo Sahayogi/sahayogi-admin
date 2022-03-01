@@ -3,7 +3,6 @@
   background-color: rgb(41, 40, 40);
   flex: 1;
   height: calc(100vh - 80px);
-  
 }
 
 .SidebarList {
@@ -34,7 +33,7 @@
   display: grid;
   place-items: center;
 }
- #title {
+#title {
   flex: 70%;
 }
 
@@ -44,17 +43,16 @@
     height: 80px;
     background-color: rgb(41, 40, 40);
     top: 80px;
-    position: sticky; 
-  }
+    position: sticky;
+      }
   .SidebarList {
-  background-color: rgb(41, 40, 40);
+    background-color: rgb(41, 40, 40);
 
     display: flex;
     justify-content: space-evenly;
     margin: auto;
     border-bottom: 1px white solid;
   }
-
 
   .SidebarList .row:hover {
     cursor: pointer;
