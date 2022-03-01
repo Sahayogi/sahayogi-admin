@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router";
@@ -76,10 +76,14 @@ const Logout = () => {
     navigate("/");
   };
 
+  const handleMint = async (e) => {
+    e.preventDefault();
 
+    console.log("minttoken", mintToken);
+    console.log("mintAddress", mintAddress);
+    console.log("mintAmt", mintAmount);
 
-  const handleMint = async () => {
-    mintToken()
+    mintToken(mintAddress, mintAmount)
       .then((tx) => {
         console.log(tx);
         setMinted(true);
@@ -107,7 +111,6 @@ const Logout = () => {
           <MintB onClick={getBlockchain}>Connect To MetaMask</MintB>
 
           <form>
-            {/* <label>Address:</label> */}
             <LoginInput
               type="string"
               value={mintAmount}
@@ -122,9 +125,8 @@ const Logout = () => {
             />
             <MintB onClick={handleMint}>Mint</MintB>
           </form>
-          <MintB onClick={handleMint}>Mint</MintB>
 
-          <label>your current balance is {balance/100}</label>
+          <label>your current balance is {balance / 100}</label>
 
           <MintB onClick={fetchBalance}>Balance</MintB>
         </Mint>

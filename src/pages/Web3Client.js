@@ -39,10 +39,10 @@ export const getBlockchain = async () => {
     );
 
     frContract = new web3.eth.Contract(
-        FundRaisingBuild.abi,
-        // FundRaisingBuild.networks[networkId].address
-        "0xE29F9433e564c865CAC3Ff9ceAE120A63Dcc3bA0"
-      );
+      FundRaisingBuild.abi,
+      // FundRaisingBuild.networks[networkId].address
+      "0xE29F9433e564c865CAC3Ff9ceAE120A63Dcc3bA0"
+    );
     isInitialized = true;
   }
 };
@@ -50,21 +50,22 @@ export const getOwnBalance = () => {
   return sytContract.methods.balanceOf(selectedAccount).call();
 };
 
-export const mintToken = async () => {
+export const mintToken = async (mintAddress, mintAmount) => {
   if (!isInitialized) {
     await getBlockchain();
   }
-  return sytContract.methods.mint("0xa3bd6a90A2Ad1afd5871AAdD0b871cc764AFEaF6", 100).send({
+  return sytContract.methods.mint(mintAddress, mintAmount).send({
     from: selectedAccount,
   });
 };
 
-export const raiseFund = async () => {
-    if (!isInitialized) {
-      await getBlockchain();
-    }
-    return frContract.methods.createFundRaise().send({
+export const raiseFund = async (projectId, aidAgency, goal, startAt, endAt) => {
+  if (!isInitialized) {
+    await getBlockchain();
+  }
+  return frContract.methods
+    .createFundRaise(projectId, aidAgency, goal, startAt, endAt)
+    .send({
       from: selectedAccount,
     });
-  };
-  
+};

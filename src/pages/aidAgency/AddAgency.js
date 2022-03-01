@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -68,7 +68,6 @@ const Error = styled.h1`
 
 
 const AddAgency = () => {
-  const [loading, setLoading] = useState(true);
   const initialValues = {
     username: "",
     address: "",

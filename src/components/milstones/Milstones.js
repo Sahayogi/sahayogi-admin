@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 const Milstones = () => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const fetchPosts = async () => {
     try {
       const config = {
@@ -19,7 +18,7 @@ const Milstones = () => {
       );
 
       setPosts(data.data);
-      setLoading(false);
+
     } catch (err) {
       console.log(err, "error occured");
     }

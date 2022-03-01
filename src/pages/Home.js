@@ -3,8 +3,7 @@ import Charts from "../components/charts/Charts";
 import Milstones from "../components/milstones/Milstones";
 import { donationData } from "../components/constants/Constant";
 import styled from "styled-components";
-import Navbar from "../components/navbar/Navbar";
-import Sidebar from "../components/sidebar/Sidebar";
+
 
 const Container = styled.div`
   flex: 4;
