@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {
   Table,
   TableBody,
@@ -9,11 +10,18 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from "@mui/material";
+} from '@mui/material';
 
-import { Link } from "react-router-dom";
-import { useAuth } from "../../context/UserContext";
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/UserContext';
 
+const CopyButton = styled.button`
+  padding-bottom: 20px;
+  font-size: 10px;
+  cursor: pointer;
+  border: none;
+  background: none;
+`;
 const Container = styled.div`
   flex: 4;
   min-height: calc(100vh - 80px);
@@ -69,18 +77,18 @@ const BeneficiaryList = () => {
     try {
       const config = {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
         },
       };
       const { data } = await axios.get(
-        "http://localhost:5000/api/user/beneficiaries",
+        'http://localhost:5000/api/user/beneficiaries',
         config
       );
       setPosts(data.data);
       setLoading(false);
     } catch (err) {
-      console.log(err, "error occured");
+      console.log(err, 'error occured');
     }
   };
   useEffect(() => {
@@ -93,8 +101,8 @@ const BeneficiaryList = () => {
   } = useAuth();
   return (
     <Container>
-      {role && role !== "Admin" && (
-        <Link to="/addBeneficiary">
+      {role && role !== 'Admin' && (
+        <Link to='/addBeneficiary'>
           <AddDiv> + Add Beneficiary</AddDiv>
         </Link>
       )}
@@ -108,34 +116,46 @@ const BeneficiaryList = () => {
 
       {!loading && (
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
                 <TableCell>Id</TableCell>
-                <TableCell align="left">Beneficiary </TableCell>
-                <TableCell align="center">Email </TableCell>
-                <TableCell align="center">Wallet Adress</TableCell>
-                <TableCell align="center">Status</TableCell>
+                <TableCell align='left'>Beneficiary </TableCell>
+                <TableCell align='center'>Email </TableCell>
+                <TableCell align='center'>Wallet Adress</TableCell>
+                <TableCell align='center'>Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {posts.map((row, index) => (
                 <TableRow
                   key={row._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell component='th' scope='row'>
                     {index + 1}
                   </TableCell>
-                  <TableCell align="left">{row.username}</TableCell>
-                  <TableCell align="center">{row.email}</TableCell>
+                  <TableCell align='left'>{row.username}</TableCell>
+                  <TableCell align='center'>{row.email}</TableCell>
 
-                  <TableCell align="center">
-                    {row.walletAddress ? row.walletAddress : " - "}
+                  <TableCell align='center'>
+                    {row.walletAddress ? row.walletAddress : ' - '}
+                    {row.walletAddress ? (
+                      <CopyButton
+                        style={{ height: '10px' }}
+                        onClick={() => {
+                          navigator.clipboard.writeText(row.walletAddress);
+                        }}
+                      >
+                        <ContentCopyIcon />
+                      </CopyButton>
+                    ) : (
+                      ''
+                    )}
                   </TableCell>
-                  <TableCell align="center">
-                    <button className="statusButton">
-                      {row.status === true ? "Active" : "Inactive"}
+                  <TableCell align='center'>
+                    <button className='statusButton'>
+                      {row.status === true ? 'Active' : 'Inactive'}
                     </button>
                   </TableCell>
                 </TableRow>

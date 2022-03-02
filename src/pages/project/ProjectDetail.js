@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled, { css } from 'styled-components';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 import {
   Table,
   TableBody,
@@ -21,7 +23,13 @@ const rows = [
   createData(1, 'abc@gmail.com', 23000),
   createData(2, 'cde@email.com', 3000),
 ];
-
+const CopyButton = styled.button`
+  padding-bottom: 20px;
+  font-size: 10px;
+  cursor: pointer;
+  border: none;
+  background: none;
+`;
 const Container = styled.div`
   flex: 4;
   height: calc(100vh - 80px);
@@ -64,6 +72,7 @@ const ProjectDetail = () => {
   const [posts, setPosts] = useState({
     projectName: '',
     beneficiaries: [],
+    users: [],
     createdBy: '',
     collectedToken: 0,
     description: 'Description',
@@ -80,7 +89,7 @@ const ProjectDetail = () => {
         },
       };
       const { data } = await axios.get(
-        `http://localhost:5000/api/project/${id}`,
+        `http://localhost:5000/api/project/detail/${id}`,
         config
       );
       console.log(data);
@@ -112,25 +121,35 @@ const ProjectDetail = () => {
         </div>
         <div>
           <H3>Beneficiary</H3>
-          {posts.beneficiaries.map((row, index) => (
-            <li key={index}>{row}</li>
-          ))}
-
-          {/* <TableHead>
+          <TableHead>
             <TableRow>
               <TableCell> Email </TableCell>
               <TableCell>Wallet Address</TableCell>
             </TableRow>
           </TableHead>
-          {posts.beneficiaries.map((row, index) => (
+          {posts.users.map((row, index) => (
             <TableRow
               key={index}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align='center'>{row}</TableCell>
-              <TableCell align='center'>-</TableCell>
+              <TableCell align='center'>{row.email}</TableCell>
+              <TableCell align='center'>
+                {row.walletAddress}
+                {row.walletAddress ? (
+                  <CopyButton
+                    style={{ height: '10px' }}
+                    onClick={() => {
+                      navigator.clipboard.writeText(row.walletAddress);
+                    }}
+                  >
+                    <ContentCopyIcon />
+                  </CopyButton>
+                ) : (
+                  ''
+                )}
+              </TableCell>
             </TableRow>
-          ))} */}
+          ))}
         </div>
       </FormWrapper>
     </Container>

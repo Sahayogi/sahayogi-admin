@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
 import {
   Table,
   TableBody,
@@ -9,10 +9,10 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from "@mui/material";
-import { Link } from "react-router-dom";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { useAuth } from "../../context/UserContext";
+} from '@mui/material';
+import { Link } from 'react-router-dom';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { useAuth } from '../../context/UserContext';
 
 const Container = styled.div`
   flex: 4;
@@ -63,6 +63,36 @@ const Loader = styled.div`
     }
   }
 `;
+
+const StatusButton = ({ status, id }) => {
+  const [changeableStatus, setChangeableStatus] = useState(status);
+  const handleStatus = async (id) => {
+    // alert('button CLicked');
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        },
+      };
+      const { data } = await axios.put(
+        `http://localhost:5000/api/aidagency/status/${id}`,
+        {},
+        config
+      );
+      console.log(data.data);
+      setChangeableStatus(data.data.status);
+    } catch (err) {
+      console.log(err, 'error occured');
+    }
+  };
+  return (
+    <button className='statusButton' onClick={() => handleStatus(id)}>
+      {changeableStatus === true ? 'Active' : 'Inactive'}
+    </button>
+  );
+};
+
 const Vendor = () => {
   const [vendorData, setVendorData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -71,18 +101,18 @@ const Vendor = () => {
     try {
       const config = {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
         },
       };
       const { data } = await axios.get(
-        "http://localhost:5000/api/user/vendors",
+        'http://localhost:5000/api/user/vendors',
         config
       );
       setVendorData(data.data);
       setLoading(false);
     } catch (err) {
-      console.log(err, "error occured");
+      console.log(err, 'error occured');
     }
   };
   useEffect(() => {
@@ -96,8 +126,8 @@ const Vendor = () => {
 
   return (
     <Container>
-      {role && role !== "Admin" && (
-        <Link to="/addVendor">
+      {role && role !== 'Admin' && (
+        <Link to='/addVendor'>
           <AddDiv> + Add Vendor</AddDiv>
         </Link>
       )}
@@ -110,34 +140,34 @@ const Vendor = () => {
       )}
       {!loading && (
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
                 <TableCell>Id</TableCell>
-                <TableCell align="left">Name</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Location</TableCell>
-                <TableCell align="center">Wallet </TableCell>
-                <TableCell align="center">Status</TableCell>
+                <TableCell align='left'>Name</TableCell>
+                <TableCell align='center'>Email</TableCell>
+                <TableCell align='center'>Location</TableCell>
+                <TableCell align='center'>Wallet </TableCell>
+                <TableCell align='center'>Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {vendorData.map((row, index) => (
                 <TableRow
                   key={row._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell component='th' scope='row'>
                     {index + 1}
                   </TableCell>
-                  <TableCell align="left">{row.username}</TableCell>
-                  <TableCell align="center">{row.email}</TableCell>
-                  <TableCell align="center">{row.address}</TableCell>
-                  <TableCell align="center">
-                    {row.walletAddress ? row.walletAddress : "-"}
+                  <TableCell align='left'>{row.username}</TableCell>
+                  <TableCell align='center'>{row.email}</TableCell>
+                  <TableCell align='center'>{row.address}</TableCell>
+                  <TableCell align='center'>
+                    {row.walletAddress ? row.walletAddress : '-'}
                     {row.walletAddress ? (
                       <CopyButton
-                        style={{ height: "10px" }}
+                        style={{ height: '10px' }}
                         onClick={() => {
                           navigator.clipboard.writeText(row.walletAddress);
                         }}
@@ -145,13 +175,11 @@ const Vendor = () => {
                         <ContentCopyIcon />
                       </CopyButton>
                     ) : (
-                      ""
+                      ''
                     )}
                   </TableCell>
-                  <TableCell align="center">
-                    <button className="statusButton">
-                      {row.status === true ? "Active" : "Inactive"}
-                    </button>
+                  <TableCell align='center'>
+                    <StatusButton status={row.status} id={row._id} />
                   </TableCell>
                 </TableRow>
               ))}
