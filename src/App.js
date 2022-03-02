@@ -15,6 +15,8 @@ import Bank from './pages/bank/Bank';
 import BeneficiaryList from './pages/beneficiary/BeneficiaryList';
 import Vendor from './pages/vendor/Vendor';
 
+import ProjectDetail from './pages/project/ProjectDetail';
+
 import Transaction from './pages/transaction/Transaction';
 
 import AddBeneficiary from './pages/beneficiary/AddBeneficiary';
@@ -42,6 +44,7 @@ const App = () => {
           {/* project */}
           <Route exact path='/projects' element={<Projects />} />
           <Route exact path='/addProject' element={<AddProject />} />
+          <Route exact path='/projects/:id' element={<ProjectDetail />} />
           {/* bank */}
           <Route exact path='/bank' element={<Bank />} />
           <Route exact path='/addBank' element={<AddBank />} />

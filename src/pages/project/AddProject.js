@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
-import styled, { css } from "styled-components";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
+import React, { useState, useRef } from 'react';
+import styled, { css } from 'styled-components';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
 // import Upload from "./Upload";
 
 const sharedStyles = css`
@@ -51,6 +51,9 @@ const Form = styled.form`
 const FormInput = styled.input`
   width: 100%;
   ${sharedStyles}
+  ::placeholder {
+    color: #FFFAFA;
+    font-size: 12px;
 `;
 const FormButton = styled.button`
   border: none;
@@ -71,104 +74,107 @@ const Error = styled.h1`
 
 const AddProject = () => {
   const initialValues = {
-    projectName: "",
-    targetedArea: "",
-    description: "",
+    projectName: '',
+    targetedArea: '',
+    description: '',
+    beneficiaries: '',
   };
   const validationSchema = Yup.object({
-    projectName: Yup.string().required("required").max(20),
-    targetedArea: Yup.string().required("required").max(100),
-    description: Yup.string().required("required").max(100),
+    projectName: Yup.string().required('required').max(20),
+    targetedArea: Yup.string().required('required').max(100),
+    description: Yup.string().required('required').max(1000),
+    beneficiaries: Yup.string().required('required').max(200),
   });
-  const [projectImg, setProjectImg] = useState(
-    "https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/male/45.png"
-  );
+  // const [projectImg, setProjectImg] = useState(
+  //   'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/male/45.png'
+  // );
 
-  const [projectImgA, setProjectImgA] = useState({
-    file: [],
-    filepreview: null,
-  });
+  // const [projectImgA, setProjectImgA] = useState({
+  //   file: [],
+  //   filepreview: null,
+  // });
 
-  const handleInputChange = (e) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setProjectImg(reader.result);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-    setProjectImgA({
-      ...projectImg,
-      file: e.target.files[0],
-    });
-    // filepreview:URL.createObjectURL(e.target.files[0]),
-  };
+  // const handleInputChange = (e) => {
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     if (reader.readyState === 2) {
+  //       setProjectImg(reader.result);
+  //     }
+  //   };
+  //   reader.readAsDataURL(e.target.files[0]);
+  //   // setProjectImgA({
+  //   //   ...projectImg,
+  //   //   file: e.target.files[0],
+  //   // });
+  //   // filepreview:URL.createObjectURL(e.target.files[0]),
+  // };
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      console.log('submited');
       try {
         const config = {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('access-token')}`,
           },
         };
         const { data } = await axios.post(
-          "http://localhost:5000/api/project/add",
+          'http://localhost:5000/api/project/add',
           values,
           config
         );
-        console.log("data:", data);
+        console.log('data:', data);
 
         if (data.success === true) {
           alert(JSON.stringify(values, null, 2));
-          console.log("added sucessful");
+          console.log('added sucessful');
         }
       } catch (err) {
-        console.log(err, "err");
+        console.log(err, 'err');
       }
       //for image upload
 
-      const formdata = new FormData();
-      formdata.append("projectavatar", projectImgA.file);
-      try {
-        const res = await axios.post(
-          "http://localhost:5000/imageupload",
-          formdata,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
-        );
-        console.log(res);
-        if (res.data.success === 1) {
-          // setSuccess("Image uploaded sucessfully");
-          console.log("image uploaded sucessfully");
-        }
-      } catch (err) {
-        console.log("err", err);
-      }
+      // const formdata = new FormData();
+      // formdata.append('projectavatar', projectImgA.file);
+      // try {
+      //   const res = await axios.post(
+      //     'http://localhost:5000/imageupload',
+      //     formdata,
+      //     {
+      //       headers: { 'Content-Type': 'multipart/form-data' },
+      //     }
+      //   );
+      //   console.log(res);
+      //   if (res.data.success === 1) {
+      //     // setSuccess("Image uploaded sucessfully");
+      //     console.log('image uploaded sucessfully');
+      //   }
+      // } catch (err) {
+      //   console.log('err', err);
+      // }
     },
   });
-  const fileRef = useRef(null);
+  // const fileRef = useRef(null);
   return (
     <Container>
       <FormWrapper>
         <Form onSubmit={formik.handleSubmit}>
           <NewBeneficiaryTitle>Add New Donation Project</NewBeneficiaryTitle>
-          <ImageForm>
+          {/* <ImageForm>
             <Image src={projectImg} alt="" id="img"></Image>
             {/* { projectImg.filepreview !== null ? <Image src={projectImg.filepreview} alt="" id="img"></Image>: null} */}
-            <MidContainer>
+          {/* <MidContainer>
               <FileInput
                 ref={fileRef}
                 hidden
                 type="file"
                 name="myfile"
                 onChange={handleInputChange}
-              />
-              <UploadButton
+              /> */}
+          {/* <UploadButton
                 type="button"
                 onClick={() => {
                   fileRef.current.click();
@@ -177,40 +183,51 @@ const AddProject = () => {
                 Upload
               </UploadButton>
             </MidContainer>
-          </ImageForm>
+          </ImageForm> */}
 
-          <label htmlFor="projectName">Donation Project</label>
+          <label htmlFor='projectName'>Donation Project</label>
           <FormInput
-            type="text"
-            id="projectName"
-            name="projectName"
-            {...formik.getFieldProps("projectName")}
+            type='text'
+            id='projectName'
+            name='projectName'
+            {...formik.getFieldProps('projectName')}
           />
           {formik.errors.projectName && formik.touched.projectName ? (
             <Error>{formik.errors.projectName}</Error>
           ) : null}
-          <label htmlFor="targetedArea">Targeted Area</label>
+          <label htmlFor='targetedArea'>Targeted Area</label>
           <FormInput
-            type="text"
-            id="targetedArea"
-            name="targetedArea"
-            {...formik.getFieldProps("targetedArea")}
+            type='text'
+            id='targetedArea'
+            name='targetedArea'
+            {...formik.getFieldProps('targetedArea')}
           />
           {formik.errors.targetedArea && formik.touched.targetedArea ? (
             <Error>{formik.errors.targetedArea}</Error>
           ) : null}
-          <label htmlFor="description">Description</label>
+          <label htmlFor='description'>Description</label>
           <FormInput
-            type="message"
-            id="description"
-            name="description"
-            {...formik.getFieldProps("description")}
+            type='message'
+            id='description'
+            name='description'
+            {...formik.getFieldProps('description')}
           />
           {formik.errors.description && formik.touched.description ? (
             <Error>{formik.errors.description}</Error>
           ) : null}
+          <label htmlFor='beneficiaries'>Beneficiaries</label>
+          <FormInput
+            type='message'
+            id='beneficiaries'
+            name='beneficiaries'
+            placeholder='Email of beneficiary Separated by comma'
+            {...formik.getFieldProps('beneficiaries')}
+          />
+          {formik.errors.beneficiaries && formik.touched.beneficiaries ? (
+            <Error>{formik.errors.beneficiaries}</Error>
+          ) : null}
 
-          <FormButton type="submit">Add</FormButton>
+          <FormButton type='submit'>Add</FormButton>
         </Form>
       </FormWrapper>
     </Container>
