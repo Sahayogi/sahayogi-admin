@@ -41,7 +41,7 @@ export const getBlockchain = async (setAccountAddress) => {
     frContract = new web3.eth.Contract(
       FundRaisingBuild.abi,
       // FundRaisingBuild.networks[networkId].address
-      "0xE29F9433e564c865CAC3Ff9ceAE120A63Dcc3bA0"
+      "0xE9540d02B5f711913Ab11E2614E5A87e7E56189A"
     );
     isInitialized = true;
   }
@@ -49,6 +49,12 @@ export const getBlockchain = async (setAccountAddress) => {
 export const getOwnBalance = () => {
   return sytContract.methods.balanceOf(selectedAccount).call();
 };
+export const getTotalSupply=async()=>{
+  if (!isInitialized) {
+    await getBlockchain();
+  }
+  return sytContract.methods.totalSupply().call();
+}
 
 export const mintToken = async (mintAddress, mintAmount) => {
   if (!isInitialized) {
