@@ -7,7 +7,6 @@ import {
   approve,
 } from "../Web3Client";
 
-
 const Container = styled.div`
   flex: 4;
   min-height: calc(100vh - 80px);
@@ -170,9 +169,9 @@ const Operations = () => {
             <Button onClick={handleMint}>Mint</Button>
           </FormWrapper>
           <Balance>
-            <ButtonBal onClick={fetchBalance}>Approve</ButtonBal>
+            <ButtonBal onClick={handleApprove}>Approve</ButtonBal>
 
-            <Label>your current balance is {balance / 100}</Label>
+            <Label>your current balance is {balance / 10 ** 18}</Label>
             <ButtonBal onClick={fetchBalance}>Balance</ButtonBal>
           </Balance>
         </Mint>
