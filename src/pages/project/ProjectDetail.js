@@ -15,14 +15,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { IndeterminateCheckBox } from '@mui/icons-material';
 
-function createData(id, beneEmail, walletAddress) {
-  return { id, beneEmail, walletAddress };
-}
-
-const rows = [
-  createData(1, 'abc@gmail.com', 23000),
-  createData(2, 'cde@email.com', 3000),
-];
 const CopyButton = styled.button`
   padding-bottom: 20px;
   font-size: 10px;
@@ -33,15 +25,9 @@ const CopyButton = styled.button`
 const Container = styled.div`
   flex: 4;
   height: calc(100vh - 80px);
-  color: black;
   font-size: 1rem;
   background-color: rgb(53, 51, 51);
   padding: 40px;
-`;
-const AddDiv = styled.div`
-  padding-bottom: 20px;
-  font-size: 30px;
-  cursor: pointer;
 `;
 const FormWrapper = styled.div`
   display: flex;
@@ -55,7 +41,9 @@ const FormWrapper = styled.div`
 `;
 const H3 = styled.h3`
 display: block;
-padding 20px;`;
+padding:20px;
+color: white;
+`;
 
 const P = styled.p`
   padding: 30px;

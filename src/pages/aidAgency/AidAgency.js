@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
+  getCurrentWalletAddress,
+  sliceWalletAddress,
+} from "../../components/constants/Constant";
+import {
   Table,
   TableBody,
   TableCell,
@@ -14,6 +18,7 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../context/UserContext";
+import { createAgency } from "../Web3Client";
 
 const Container = styled.div`
   flex: 4;
@@ -63,11 +68,33 @@ const Loader = styled.div`
     }
   }
 `;
+const ToBlockchain = styled.button`
+  height: 40px;
+  width: auto;
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  /* display: block; */
+  border: none;
+  border-radius: 4px;
+  /* background-color: rgb(61, 60, 60); */
+  background-color: blue;
+  color: white;
+  font-size: 16px;
+  font-weight: bolder;
+  &:hover {
+    background-color: pink;
+  }
+`;
 
 const AidAgency = () => {
   const [agencyData, setAgencyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [added, setAdded] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const getAgency = async () => {
     try {
@@ -93,6 +120,29 @@ const AidAgency = () => {
   useEffect(() => {
     getAgency();
   }, []);
+  const handleAdd = (currentAddress, setSuccess, setFailed) => {
+    createAgency(currentAddress)
+      .then((tx) => {
+        console.log(tx);
+        if (setAdded(true)) {
+          setSuccess(true);
+          setTimeout(()=>{
+            setSuccess('')
+          }
+          ,5000)
+        } else {
+          setFailed(true);
+          setTimeout(()=>{
+            setFailed('')
+          }
+          ,5000)
+        }
+      })
+      .catch((err) => {
+        alert("already added ");
+        console.log(err);
+      });
+  };
 
   const {
     data: {
@@ -104,9 +154,11 @@ const AidAgency = () => {
     <Container>
       {role && role === "Admin" && (
         <Link to="/addAgency">
-          <AddDiv> + Add Aid Agency</AddDiv>
+          <AddDiv>Register Aid Agency</AddDiv>
         </Link>
       )}
+      {success && <h1>Agency Added to Blockchain</h1>}
+      {failed && <h1>Faied to add Agency to Blockchain</h1>}
       {loading && (
         <div>
           <MainLoader>
@@ -141,17 +193,25 @@ const AidAgency = () => {
                   <TableCell align="center">{row.email}</TableCell>
                   <TableCell align="center">{row.address}</TableCell>
                   <TableCell align="center">
-                    {row.walletAddress ? row.walletAddress : "-"}
+                    {row.walletAddress
+                      ? sliceWalletAddress(row.walletAddress)
+                      : "-"}
                     {row.walletAddress ? (
-                      <CopyButton
-                        style={{ height: "10px" }}
-                        onClick={() => {
-                          navigator.clipboard.writeText(row.walletAddress);
-                        }}
+                      // <CopyButton
+                      //   style={{ height: "10px" }}
+                      //   onClick={() => {
+                      //     navigator.clipboard.writeText(sliceWalletAddress(row.walletAddress));
+                      //   }}
+                      // >
+                      <ToBlockchain
+                        onClick={() =>
+                          handleAdd(row.walletAddress, setSuccess, setFailed)
+                        }
                       >
-                        <ContentCopyIcon />
-                      </CopyButton>
+                        Add
+                      </ToBlockchain>
                     ) : (
+                      // </CopyButton>
                       ""
                     )}
                   </TableCell>

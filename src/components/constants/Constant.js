@@ -27,3 +27,9 @@ export const getToken = () => {
 export const getUserEmail = () => {
   return localStorage.getItem('email');
 };
+export const getCurrentWalletAddress=()=>{
+  return localStorage.getItem('wallet-address')
+}
+export const sliceWalletAddress=(walletAddress)=>{
+  return `${walletAddress.slice(0,6)}...${walletAddress.slice(walletAddress.length-6)}`
+}

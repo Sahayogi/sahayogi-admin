@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import {
-  getBlockchain,
   mintToken,
   getOwnBalance,
   approve,
@@ -171,7 +170,7 @@ const Operations = () => {
           <Balance>
             <ButtonBal onClick={handleApprove}>Approve</ButtonBal>
 
-            <Label>your current balance is {balance / 10 ** 18}</Label>
+            <Label>your current balance is {balance}</Label>
             <ButtonBal onClick={fetchBalance}>Balance</ButtonBal>
           </Balance>
         </Mint>
