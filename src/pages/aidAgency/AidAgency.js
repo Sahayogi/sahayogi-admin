@@ -97,7 +97,7 @@ const AidAgency = () => {
   const [failed, setFailed] = useState(false);
 
   const getAgency = async () => {
-    try {
+   try {
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +139,6 @@ const AidAgency = () => {
         }
       })
       .catch((err) => {
-        alert("already added ");
         console.log(err);
       });
   };

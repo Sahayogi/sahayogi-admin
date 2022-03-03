@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from "react";
-import "./Milestones.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import styled from "styled-components";
+import { getTotalSupply } from "../../pages/Web3Client";
+
 const Milstones = () => {
   const [posts, setPosts] = useState([]);
+  const [supply, setSupply] = useState(0);
+
+  const handleBlockchain = () => {
+    getTotalSupply()
+      .then((supply) => {
+        setSupply(supply);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const fetchPosts = async () => {
     try {
       const config = {
@@ -18,45 +31,81 @@ const Milstones = () => {
       );
 
       setPosts(data.data);
-
     } catch (err) {
       console.log(err, "error occured");
     }
   };
   useEffect(() => {
     fetchPosts();
+    handleBlockchain();
   }, []);
   return (
-    <div className="featured">
+    <Featured>
       <Link to="/projects">
-        <div className="featuredItem">
-          <span className="featuredItemName">Donation Projects</span>
-          <div className="featuredContainer">
-            <span className="featuredItemCount">{posts.numberOfProject}</span>
-          </div>
-        </div>
+        <FeaturedItem>
+          <FeaturedName>Donation Projects</FeaturedName>
+          <FeaturedCount>{posts.numberOfProject}</FeaturedCount>
+        </FeaturedItem>
       </Link>
 
       <Link to="/beneficiary">
-        <div className="featuredItem">
-          <span className="featuredItemName">Benefeceries</span>
-          <div className="featuredContainer">
-            <span className="featuredItemCount">
-              {posts.numberOfBeneficiary}
-            </span>
-          </div>
-        </div>
+        <FeaturedItem>
+          <FeaturedName>Benefeceries</FeaturedName>
+          <FeaturedCount>{posts.numberOfBeneficiary}</FeaturedCount>
+        </FeaturedItem>
       </Link>
       <Link to="/vendor">
-        <div className="featuredItem">
-          <span className="featuredItemName">Vendors</span>
-          <div className="featuredContainer">
-            <span className="featuredItemCount">{posts.numberOfVendor}</span>
-          </div>
-        </div>
+        <FeaturedItem>
+          <FeaturedName>Vendors</FeaturedName>
+          <FeaturedCount>{posts.numberOfVendor}</FeaturedCount>
+        </FeaturedItem>
       </Link>
-    </div>
+
+      <FeaturedItem>
+        <FeaturedName>Total Tokens</FeaturedName>
+        <FeaturedCount>{supply}</FeaturedCount>
+      </FeaturedItem>
+    </Featured>
   );
 };
 
 export default Milstones;
+
+const Featured = styled.div`
+  width: 100%;
+  padding-top: 10px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  row-gap: 25px;
+  margin-bottom: 60px;
+  column-gap: 20px;
+  @media only screen and (min-width: 280px) and (max-width: 1080px) {
+    display: flex;
+    gap: 4rem;
+    flex-direction: column;
+    padding: 60px 60px 0px 60px;
+  }
+`;
+const FeaturedItem = styled.div`
+  background-color: rgb(102, 101, 101);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  margin: 0px 10px;
+  padding: 60px;
+  border-radius: 1rem;
+  cursor: pointer;
+  box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
+  -webkit-box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
+  -moz-box-shadow: 15px 19px 11px -6px rgba(237, 230, 230, 0.75);
+`;
+const FeaturedName = styled.h1`
+  text-align: center;
+  font-size: 20px;
+`;
+const FeaturedCount = styled.label`
+  font-weight: bolder;
+  padding-top: 15px;
+  text-align: center;
+`;
