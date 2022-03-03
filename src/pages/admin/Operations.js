@@ -98,6 +98,7 @@ const ButtonBal = styled.button`
   appearance: none;
   border-radius: 4px;
   width: auto;
+  cursor: pointer;
 `;
 
 const Balance = styled.div`

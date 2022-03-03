@@ -132,7 +132,7 @@ export const approve = async () => {
     await getBlockchain();
   }
   return sytContract.methods
-    .approve("0xb780522e0941142AA1AA97c6b58440fC618d1C56", 10000000)
+    .approve("0xb780522e0941142AA1AA97c6b58440fC618d1C56", 5000)
     .send({
       from: selectedAccount,
     });
