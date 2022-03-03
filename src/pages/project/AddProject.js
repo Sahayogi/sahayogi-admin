@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { countOfProject } from '../../utils/fetchBlockchainData'
+import { countOfProject } from '../../utils/fetchBlockchainData';
 // import Upload from "./Upload";
 import { createProject } from '../Web3Client';
 
@@ -108,6 +108,10 @@ const AddProject = () => {
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState('');
+  countOfProject().then((mycount) => {
+    console.log(mycount);
+  });
   const initialValues = {
     projectName: '',
     targetedArea: '',
@@ -143,14 +147,13 @@ const AddProject = () => {
   //   // });
   //   // filepreview:URL.createObjectURL(e.target.files[0]),
   // };
-  const relateProjId = countOfProject();
-  console.log(relateProjId);
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       console.log('submited');
-      const fetchApi = async () => {
+      const fetchApi = async (relateProjId) => {
         try {
           const config = {
             headers: {
@@ -160,7 +163,7 @@ const AddProject = () => {
           };
           const { data } = await axios.post(
             'http://localhost:5000/api/project/add',
-            values,
+            { ...values, relateProjId },
             config
           );
           console.log('data:', data);
@@ -174,17 +177,29 @@ const AddProject = () => {
           console.log(err, 'err');
         }
       };
-           
 
       const handleBlockchain = () => {
         setLoading(true);
         createProject(values.projectName)
           .then((tx) => {
+            console.log('Success');
+            // Get count => latest count value => APiPathaune =>relateProjId
+            countOfProject()
+              .then((projectCount) => {
+                setCount(projectCount);
+                console.log(projectCount);
+                console.log(count);
+                console.log('Proj count is up');
+                // fetchApi(relateProjId);
+                fetchApi(count);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+
             console.log(tx);
             // const relateProjId = countOfProject();
 
-            // fetchApi(relateProjId);
-            fetchApi();
             setAdded(true);
             setSuccess(true);
             setLoading(false);
@@ -195,6 +210,10 @@ const AddProject = () => {
           .catch((err) => {
             setFailed(true);
             console.log(err);
+            setLoading(false);
+            setTimeout(() => {
+              setFailed(false);
+            }, 5000);
           });
       };
       handleBlockchain();
