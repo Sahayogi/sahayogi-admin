@@ -18,13 +18,6 @@ const LogoutC = styled.button`
   padding: 5px;
   gap: 1rem;
 `;
-const ChangePw = styled.button`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  gap: 1rem;
-`;
-
 const Wrapper = styled.div`
   padding: 10px;
   align-items: center;
@@ -40,7 +33,6 @@ const Settings = () => {
   return (
     <Container>
       <Wrapper>
-        <ChangePw>Change Password</ChangePw>
         <LogoutC onClick={handleLogout}>
           Logout <LogoutIcon />
         </LogoutC>

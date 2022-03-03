@@ -155,3 +155,9 @@ export const createProject = async (projectName) => {
     from: selectedAccount,
   });
 };
+export const getRaiseFunds = async (id) => {
+  if (!isInitialized) {
+    await getBlockchain();
+  }
+  return frContract.methods.raiseFunds(id).call();
+};

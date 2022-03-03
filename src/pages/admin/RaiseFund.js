@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { raiseFund, cancelRaiseFund } from "../Web3Client";
+import { raiseFund, cancelRaiseFund, getRaiseFunds } from "../Web3Client";
 
 const Container = styled.div`
   flex: 4;
@@ -57,8 +57,11 @@ const FormLabel = styled.label`
 
 const RaiseFund = () => {
   const [raised, setRaised] = useState(false);
-  const [canceled,setCanceled]= useState(false);
-  const [frId,setFrId] = useState('')
+  const [canceled, setCanceled] = useState(false);
+  const [frId, setFrId] = useState("");
+  //fund raised data
+  const [fundData, setFundData] = useState(" ");
+
   const [formData, setFormData] = useState({
     project: "",
     agency: "",
@@ -84,7 +87,7 @@ const RaiseFund = () => {
         console.log(err);
       });
   };
-  const handleFundRaisingCancel =(e)=>{
+  const handleFundRaisingCancel = (e) => {
     e.preventDefault();
     cancelRaiseFund(frId)
       .then((tx) => {
@@ -94,7 +97,19 @@ const RaiseFund = () => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
+  const handleFund = (e) => {
+    e.preventDefault();
+
+    getRaiseFunds(frId)
+      .then((fundData) => {
+        setFundData(fundData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  console.log("fundraised", fundData);
 
   return (
     <Container>
@@ -148,20 +163,28 @@ const RaiseFund = () => {
         <Button type="submit" onClick={handleFundRaising}>
           Raise Fund
         </Button>
-         <div></div>
+        <div></div>
         <div>
-        <FormInput
-          placeholder="id"
-          name="frId"
-          type="text"
-          value={frId}
-          onChange={(e)=>setFrId(e.target.value)}
-        />
-        </div>   
+          <FormInput
+            placeholder="id"
+            name="frId"
+            type="text"
+            value={frId}
+            onChange={(e) => setFrId(e.target.value)}
+          />
+        </div>
         <Button onClick={handleFundRaisingCancel}>Cancel</Button>
+        <div>
+          <FormInput
+            placeholder="id"
+            name="frId"
+            type="text"
+            value={frId}
+            onChange={(e) => setFrId(e.target.value)}
+          />
+        </div>
+        <Button onClick={handleFund}>GetFundRaiseData</Button>
       </FormWrapper>
-     
-      
     </Container>
   );
 };
