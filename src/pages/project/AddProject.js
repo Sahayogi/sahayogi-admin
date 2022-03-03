@@ -1,10 +1,10 @@
-import React, { useState, useRef } from "react";
-import styled, { css } from "styled-components";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
+import React, { useState, useRef } from 'react';
+import styled, { css } from 'styled-components';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
 // import Upload from "./Upload";
-import { createProject } from "../Web3Client";
+import { createProject } from '../Web3Client';
 
 const sharedStyles = css`
   background-color: grey;
@@ -73,22 +73,51 @@ const Error = styled.h1`
   padding: 10px;
   font-size: 15px;
 `;
+const MainLoader = styled.div`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid white; */
+`;
+
+const Loader = styled.div`
+  flex: 1;
+  margin: auto;
+  margin-top: 200px;
+  margin-bottom: 200px;
+  height: calc(100vh);
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid black;
+  border-radius: 50%;
+  width: 130px;
+  height: 130px;
+  animation: spin 0.5s linear infinite;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
 
 const AddProject = () => {
   const [added, setAdded] = useState(false);
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [loading, setLoading] = useState(false);
   const initialValues = {
-    projectName: "",
-    targetedArea: "",
-    description: "",
-    beneficiaries: "",
+    projectName: '',
+    targetedArea: '',
+    description: '',
+    beneficiaries: '',
   };
   const validationSchema = Yup.object({
-    projectName: Yup.string().required("required").max(20),
-    targetedArea: Yup.string().required("required").max(100),
-    description: Yup.string().required("required").max(1000),
-    beneficiaries: Yup.string().required("required").max(200),
+    projectName: Yup.string().required('required').max(20),
+    targetedArea: Yup.string().required('required').max(100),
+    description: Yup.string().required('required').max(1000),
+    beneficiaries: Yup.string().required('required').max(200),
   });
   // const [projectImg, setProjectImg] = useState(
   //   'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/male/45.png'
@@ -118,48 +147,46 @@ const AddProject = () => {
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log("submited");
-      const api = async () => {
+      console.log('submited');
+      const fetchApi = async () => {
         try {
           const config = {
             headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('access-token')}`,
             },
           };
           const { data } = await axios.post(
-            "http://localhost:5000/api/project/add",
+            'http://localhost:5000/api/project/add',
             values,
             config
           );
-          console.log("data:", data);
+          console.log('data:', data);
 
           if (data.success === true) {
             alert(JSON.stringify(values, null, 2));
-            console.log("added sucessful");
+            console.log('added sucessful');
+            values = initialValues;
           }
         } catch (err) {
-          console.log(err, "err");
+          console.log(err, 'err');
         }
       };
-      const handleBlockchain = (setSuccess, setFailed) => {
+      const handleBlockchain = () => {
+        setLoading(true);
         createProject(values.projectName)
           .then((tx) => {
             console.log(tx);
-            if (setAdded(true)) {
-              api();
-              setSuccess(true);
-              setTimeout(() => {
-                setSuccess("");
-              }, 5000);
-            } else {
-              setFailed(true);
-              setTimeout(() => {
-                setFailed("");
-              }, 5000);
-            }
+            fetchApi();
+            setAdded(true);
+            setSuccess(true);
+            setLoading(false);
+            setTimeout(() => {
+              setSuccess('');
+            }, 5000);
           })
           .catch((err) => {
+            setFailed(true);
             console.log(err);
           });
       };
@@ -190,78 +217,67 @@ const AddProject = () => {
   // const fileRef = useRef(null);
   return (
     <Container>
-      <FormWrapper>
-        {success && <h1>Created Successfully</h1>}
-        {failed && <h1>Failed to create</h1>}
-        <Form onSubmit={formik.handleSubmit}>
-          <NewBeneficiaryTitle>Create New Donation Project</NewBeneficiaryTitle>
-          {/* <ImageForm>
-            <Image src={projectImg} alt="" id="img"></Image>
-            {/* { projectImg.filepreview !== null ? <Image src={projectImg.filepreview} alt="" id="img"></Image>: null} */}
-          {/* <MidContainer>
-              <FileInput
-                ref={fileRef}
-                hidden
-                type="file"
-                name="myfile"
-                onChange={handleInputChange}
-              /> */}
-          {/* <UploadButton
-                type="button"
-                onClick={() => {
-                  fileRef.current.click();
-                }}
-              >
-                Upload
-              </UploadButton>
-            </MidContainer>
-          </ImageForm> */}
+      {loading && (
+        <div>
+          <MainLoader>
+            <Loader></Loader>
+          </MainLoader>
+        </div>
+      )}
+      {!loading && (
+        <FormWrapper>
+          {success && <h1>Created Successfully</h1>}
+          {failed && <h1>Failed to create</h1>}
+          <Form onSubmit={formik.handleSubmit}>
+            <NewBeneficiaryTitle>
+              Create New Donation Project
+            </NewBeneficiaryTitle>
+            <label htmlFor='projectName'>Donation Project</label>
+            <FormInput
+              type='text'
+              id='projectName'
+              name='projectName'
+              {...formik.getFieldProps('projectName')}
+            />
+            {formik.errors.projectName && formik.touched.projectName ? (
+              <Error>{formik.errors.projectName}</Error>
+            ) : null}
+            <label htmlFor='targetedArea'>Targeted Area</label>
+            <FormInput
+              type='text'
+              id='targetedArea'
+              name='targetedArea'
+              {...formik.getFieldProps('targetedArea')}
+            />
+            {formik.errors.targetedArea && formik.touched.targetedArea ? (
+              <Error>{formik.errors.targetedArea}</Error>
+            ) : null}
+            <label htmlFor='description'>Description</label>
+            <FormInput
+              type='message'
+              id='description'
+              name='description'
+              {...formik.getFieldProps('description')}
+            />
+            {formik.errors.description && formik.touched.description ? (
+              <Error>{formik.errors.description}</Error>
+            ) : null}
+            <label htmlFor='beneficiaries'>Beneficiaries</label>
+            <FormInput
+              type='message'
+              id='beneficiaries'
+              name='beneficiaries'
+              placeholder='Email of beneficiary Separated by comma'
+              {...formik.getFieldProps('beneficiaries')}
+            />
+            {formik.errors.beneficiaries && formik.touched.beneficiaries ? (
+              <Error>{formik.errors.beneficiaries}</Error>
+            ) : null}
 
-          <label htmlFor="projectName">Donation Project</label>
-          <FormInput
-            type="text"
-            id="projectName"
-            name="projectName"
-            {...formik.getFieldProps("projectName")}
-          />
-          {formik.errors.projectName && formik.touched.projectName ? (
-            <Error>{formik.errors.projectName}</Error>
-          ) : null}
-          <label htmlFor="targetedArea">Targeted Area</label>
-          <FormInput
-            type="text"
-            id="targetedArea"
-            name="targetedArea"
-            {...formik.getFieldProps("targetedArea")}
-          />
-          {formik.errors.targetedArea && formik.touched.targetedArea ? (
-            <Error>{formik.errors.targetedArea}</Error>
-          ) : null}
-          <label htmlFor="description">Description</label>
-          <FormInput
-            type="message"
-            id="description"
-            name="description"
-            {...formik.getFieldProps("description")}
-          />
-          {formik.errors.description && formik.touched.description ? (
-            <Error>{formik.errors.description}</Error>
-          ) : null}
-          <label htmlFor="beneficiaries">Beneficiaries</label>
-          <FormInput
-            type="message"
-            id="beneficiaries"
-            name="beneficiaries"
-            placeholder="Email of beneficiary Separated by comma"
-            {...formik.getFieldProps("beneficiaries")}
-          />
-          {formik.errors.beneficiaries && formik.touched.beneficiaries ? (
-            <Error>{formik.errors.beneficiaries}</Error>
-          ) : null}
-
-          <FormButton type="submit">Add</FormButton>
-        </Form>
-      </FormWrapper>
+            <FormButton type='submit'>Add</FormButton>
+          </Form>
+        </FormWrapper>
+      )}
     </Container>
   );
 };
