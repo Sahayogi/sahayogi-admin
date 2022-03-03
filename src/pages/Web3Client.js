@@ -165,5 +165,5 @@ export const getProjectCount = async () => {
   if (!isInitialized) {
     await getBlockchain();
   }
-  return frContract.methods.count().call();
+  return saContract.methods.count().call();
 };

@@ -59,6 +59,8 @@ const RaiseFund = () => {
   const [raised, setRaised] = useState(false);
   const [canceled, setCanceled] = useState(false);
   const [frId, setFrId] = useState("");
+  const [getId, setGetId] = useState("");
+
   //fund raised data
   const [fundData, setFundData] = useState(" ");
 
@@ -101,7 +103,7 @@ const RaiseFund = () => {
   const handleFund = (e) => {
     e.preventDefault();
 
-    getRaiseFunds(frId)
+    getRaiseFunds(getId)
       .then((fundData) => {
         setFundData(fundData);
       })
@@ -110,10 +112,14 @@ const RaiseFund = () => {
       });
   };
   console.log("fundraised", fundData);
+  console.log("donatedAmount:",fundData.donated);
+  console.log("fundraisecount:",fundData.id);
+
 
   return (
     <Container>
       <FormWrapper>
+        <form>
         <div>
           <FormLabel htmlFor="project">Project Id</FormLabel>
           <FormInput
@@ -163,7 +169,9 @@ const RaiseFund = () => {
         <Button type="submit" onClick={handleFundRaising}>
           Raise Fund
         </Button>
-        <div></div>
+        </form>
+       
+        <form>
         <div>
           <FormInput
             placeholder="id"
@@ -174,16 +182,21 @@ const RaiseFund = () => {
           />
         </div>
         <Button onClick={handleFundRaisingCancel}>Cancel</Button>
+        </form>
+     
+        <form>
         <div>
           <FormInput
             placeholder="id"
-            name="frId"
+            name="getId"
             type="text"
-            value={frId}
-            onChange={(e) => setFrId(e.target.value)}
+            value={getId}
+            onChange={(e) => setGetId(e.target.value)}
           />
         </div>
         <Button onClick={handleFund}>GetFundRaiseData</Button>
+        </form>
+      
       </FormWrapper>
     </Container>
   );
