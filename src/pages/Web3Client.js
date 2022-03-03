@@ -161,3 +161,9 @@ export const getRaiseFunds = async (id) => {
   }
   return frContract.methods.raiseFunds(id).call();
 };
+export const getProjectCount = async () => {
+  if (!isInitialized) {
+    await getBlockchain();
+  }
+  return frContract.methods.count().call();
+};

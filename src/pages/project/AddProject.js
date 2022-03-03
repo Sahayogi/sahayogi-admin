@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { countOfProject } from '../../utils/fetchBlockchainData'
 // import Upload from "./Upload";
 import { createProject } from '../Web3Client';
 
@@ -142,7 +143,8 @@ const AddProject = () => {
   //   // });
   //   // filepreview:URL.createObjectURL(e.target.files[0]),
   // };
-
+  const relateProjId = countOfProject();
+  console.log(relateProjId);
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
@@ -172,11 +174,16 @@ const AddProject = () => {
           console.log(err, 'err');
         }
       };
+           
+
       const handleBlockchain = () => {
         setLoading(true);
         createProject(values.projectName)
           .then((tx) => {
             console.log(tx);
+            // const relateProjId = countOfProject();
+
+            // fetchApi(relateProjId);
             fetchApi();
             setAdded(true);
             setSuccess(true);
