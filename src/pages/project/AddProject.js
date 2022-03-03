@@ -108,10 +108,6 @@ const AddProject = () => {
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [count, setCount] = useState('');
-  countOfProject().then((mycount) => {
-    console.log(mycount);
-  });
   const initialValues = {
     projectName: '',
     targetedArea: '',
@@ -186,12 +182,10 @@ const AddProject = () => {
             // Get count => latest count value => APiPathaune =>relateProjId
             countOfProject()
               .then((projectCount) => {
-                setCount(projectCount);
                 console.log(projectCount);
-                console.log(count);
                 console.log('Proj count is up');
                 // fetchApi(relateProjId);
-                fetchApi(count);
+                fetchApi(projectCount);
               })
               .catch((err) => {
                 console.log(err);

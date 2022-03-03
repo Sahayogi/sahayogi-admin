@@ -121,7 +121,7 @@ const Projects = () => {
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>Id</TableCell>
+                <TableCell>Project Id</TableCell>
                 <TableCell align='center'>Donation Projects</TableCell>
                 <TableCell align='center'>Number of Beneficiaries</TableCell>
                 <TableCell align='center'>Tokens</TableCell>
@@ -135,7 +135,7 @@ const Projects = () => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component='th' scope='row'>
-                    {index + 1}
+                    {row.relateBlockProj}
                   </TableCell>
                   <TableCell align='center'>
                     <Link to={`/projects/${row._id}`}>
