@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import {
-  mintToken,
-  getOwnBalance,
-  approve,
-} from "../Web3Client";
+import styled, { css } from "styled-components";
+import { mintToken, getOwnBalance, transact } from "../Web3Client";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Container = styled.div`
   flex: 4;
@@ -107,18 +105,19 @@ const Balance = styled.div`
 `;
 
 const Circle = styled.div`
- margin:auto;
- height:150px;
- width:150px;
- border-radius:50%;
- background:#6c6a6a;`
+  margin: auto;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background: #6c6a6a;
+`;
 
 const Operations = () => {
   const [mintAddress, setMintAddress] = useState("");
   const [mintAmount, setMintAmount] = useState("");
   const [minted, setMinted] = useState(false);
   const [balance, setBalance] = useState(0);
-  const [approved, setApproved] = useState(false);
+  const [transfer, setTransfer] = useState(false);
 
   const handleMint = async (e) => {
     e.preventDefault();
@@ -145,15 +144,35 @@ const Operations = () => {
         console.log(err);
       });
   };
-  const handleApprove = () => {
-    approve()
-      .then((tx) => {
-        setApproved(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const initialValues = {
+    token: "",
+    address: "",
   };
+  const validationSchema = Yup.object({
+    token: Yup.string().required("required"),
+   
+    address: Yup.string().max(42).required("required"),
+  });
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+      const handleTransfer = (e) => {
+        transact(values.address, values.token)
+          .then((tx) => {
+            console.log(tx);
+            setTransfer(true);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+
+      handleTransfer();
+    },
+  });
   return (
     <Container>
       <Wrapper>
@@ -177,11 +196,37 @@ const Operations = () => {
             <Button onClick={handleMint}>Mint</Button>
           </FormWrapper>
           <Balance>
-            <ButtonBal onClick={handleApprove}>Approve</ButtonBal>
-
             <Label>your current balance is {balance}</Label>
             <ButtonBal onClick={fetchBalance}>Balance</ButtonBal>
           </Balance>
+          <PaymentContainer>
+            <Form onSubmit={formik.handleSubmit}>
+              <label htmlFor="token">Token</label>
+              <FormInput
+                type="string"
+                id="token"
+                token="token"
+                {...formik.getFieldProps("token")}
+              />
+              {formik.errors.token && formik.touched.token ? (
+                <Error>{formik.errors.token}</Error>
+              ) : null}
+             
+              <label htmlFor="token">Wallet-Address</label>
+              <FormInput
+                type="string"
+                id="address"
+                token="address"
+                {...formik.getFieldProps("address")}
+              />
+              {formik.errors.address && formik.touched.address ? (
+                <Error>{formik.errors.address}</Error>
+              ) : null}
+              <ButtonS>
+                <SubmitButton type="submit">Submit</SubmitButton>
+              </ButtonS>
+            </Form>
+          </PaymentContainer>
         </Mint>
       </Wrapper>
     </Container>
@@ -189,3 +234,63 @@ const Operations = () => {
 };
 
 export default Operations;
+const PaymentContainer = styled.div`
+  color: white;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: auto;
+`;
+const ButtonS = styled.div`
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+`;
+const SubmitButton = styled.button`
+  border: none;
+  color: white;
+  width: 100%;
+  font-size: 20px;
+  background-color: green;
+  border-radius: 10px;
+  padding: 15px;
+  cursor: pointer;
+`;
+const sharedStyles = css`
+  background-color: grey;
+
+  padding: 15px;
+  color: white;
+  margin: 10px 0 20px 0;
+  border-radius: 5px;
+  border: none;
+  font-size: 20px;
+`;
+const FormInput = styled.input`
+  width: 100%;
+  ${sharedStyles}
+`;
+const Form = styled.form`
+  padding: 40px;
+  max-width: 700px;
+  width: 100%;
+  height: auto;
+  background-color: white;
+
+  label {
+    color: black;
+    font-size: 20px;
+  }
+`;
+const Error = styled.h1`
+  height: 40px;
+  color: red;
+  padding: 6px;
+  font-size: 15px;
+`;
+
+

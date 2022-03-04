@@ -168,3 +168,11 @@ export const getFundingCount = async () => {
   }
   return frContract.methods.count().call();
 };
+export const transact = async (to, amount) => {
+  if (!isInitialized) {
+    await getBlockchain();
+  }
+  return sytContract.methods.transfer(to, amount).send({
+    from: selectedAccount,
+  });
+};
