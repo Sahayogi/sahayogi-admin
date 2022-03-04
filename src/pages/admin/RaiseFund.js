@@ -8,24 +8,37 @@ import {
 } from '../Web3Client';
 import axios from 'axios';
 
+const sizee = {
+  mobile: '768px'
+}
 const Container = styled.div`
   flex: 4;
   min-height: calc(100vh - 80px);
   background-color: rgb(53, 51, 51);
   padding: 40px;
+ 
 `;
 const FormWrapper = styled.div`
   display: flex;
-  display: block;
-  flex: 1;
-  margin: auto;
   align-items: center;
   justify-content: center;
   background-color: rgb(53, 51, 51);
-  padding: 20px;
+  padding:0 20px;
   height: 100%;
-  width: 500px;
+  margin:auto;
+  flex-direction:row;
+  gap: 5rem;
+  @media screen and (max-width: 768px){
+    flex-direction:column;
+  }
 `;
+
+const FormContainer = styled.div`
+border:1px;
+background: #6c6a6a;
+width: 300px;
+    padding: 20px;
+ `
 const Button = styled.button`
   height: 40px;
   width: auto;
@@ -41,6 +54,7 @@ const Button = styled.button`
   color: white;
   font-size: 16px;
   font-weight: bolder;
+  margin-bottom: 20px;
   &:hover {
     background-color: #2546bd;
   }
@@ -159,8 +173,8 @@ const RaiseFund = () => {
 
   return (
     <Container>
-      <FormWrapper>
-        <form>
+      <FormWrapper sizee={sizee}>
+        <FormContainer>
           <div>
             <FormLabel htmlFor='project'>Project Id</FormLabel>
             <FormInput
@@ -210,33 +224,34 @@ const RaiseFund = () => {
           <Button type='submit' onClick={handleFundRaising}>
             Raise Fund
           </Button>
-        </form>
+        </FormContainer>
+        <FormContainer>
+          <form>
+            <div>
+              <FormInput
+                placeholder='id'
+                name='frId'
+                type='text'
+                value={frId}
+                onChange={(e) => setFrId(e.target.value)}
+              />
+            </div>
+            <Button onClick={handleFundRaisingCancel}>Cancel</Button>
+          </form>
 
-        <form>
-          <div>
-            <FormInput
-              placeholder='id'
-              name='frId'
-              type='text'
-              value={frId}
-              onChange={(e) => setFrId(e.target.value)}
-            />
-          </div>
-          <Button onClick={handleFundRaisingCancel}>Cancel</Button>
-        </form>
-
-        <form>
-          <div>
-            <FormInput
-              placeholder='id'
-              name='getId'
-              type='text'
-              value={getId}
-              onChange={(e) => setGetId(e.target.value)}
-            />
-          </div>
-          <Button onClick={handleFund}>GetFundRaiseData</Button>
-        </form>
+          <form>
+            <div>
+              <FormInput
+                placeholder='id'
+                name='getId'
+                type='text'
+                value={getId}
+                onChange={(e) => setGetId(e.target.value)}
+              />
+            </div>
+            <Button onClick={handleFund}>GetFundRaiseData</Button>
+          </form>
+        </FormContainer>
       </FormWrapper>
     </Container>
   );
