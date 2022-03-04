@@ -42,7 +42,6 @@ const FormWrapper = styled.div`
 const H3 = styled.h3`
 display: block;
 padding:20px;
-color: white;
 `;
 
 const P = styled.p`
@@ -109,35 +108,41 @@ const ProjectDetail = () => {
         </div>
         <div>
           <H3>Beneficiary</H3>
-          <TableHead>
-            <TableRow>
-              <TableCell> Email </TableCell>
-              <TableCell>Wallet Address</TableCell>
-            </TableRow>
-          </TableHead>
-          {posts.users.map((row, index) => (
-            <TableRow
-              key={index}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell align='center'>{row.email}</TableCell>
-              <TableCell align='center'>
-                {row.walletAddress}
-                {row.walletAddress ? (
-                  <CopyButton
-                    style={{ height: '10px' }}
-                    onClick={() => {
-                      navigator.clipboard.writeText(row.walletAddress);
-                    }}
-                  >
-                    <ContentCopyIcon />
-                  </CopyButton>
-                ) : (
-                  ''
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell> Email </TableCell>
+                <TableCell>Wallet Address</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {posts.users.map((row, index) => (
+                <TableRow
+                  key={index}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell >{row.email}</TableCell>
+                  <TableCell >
+                    {row.walletAddress}
+                    {row.walletAddress ? (
+                      <CopyButton
+                        style={{ height: '10px' }}
+                        onClick={() => {
+                          navigator.clipboard.writeText(row.walletAddress);
+                        }}
+                      >
+                        <ContentCopyIcon />
+                      </CopyButton>
+                    ) : (
+                      ''
+                    )}
+                  </TableCell>
+                </TableRow>
+
+
+              ))}
+            </TableBody>
+          </Table>
         </div>
       </FormWrapper>
     </Container>

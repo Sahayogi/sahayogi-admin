@@ -26,7 +26,7 @@ const Mint = styled.div`
   padding: 50px;
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 3rem;
 `;
 const LoginInput = styled.input`
   display: block;
@@ -106,6 +106,13 @@ const Balance = styled.div`
   margin: auto;
 `;
 
+const Circle = styled.div`
+ margin:auto;
+ height:150px;
+ width:150px;
+ border-radius:50%;
+ background:#6c6a6a;`
+
 const Operations = () => {
   const [mintAddress, setMintAddress] = useState("");
   const [mintAmount, setMintAmount] = useState("");
@@ -151,6 +158,7 @@ const Operations = () => {
     <Container>
       <Wrapper>
         <Mint>
+          <Circle></Circle>
           <FormWrapper>
             <Loginlabel>Amount</Loginlabel>
             <LoginInput
