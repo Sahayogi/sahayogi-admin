@@ -86,6 +86,9 @@ export const getBlockchain = async (setAccountAddress) => {
 };
 export const getOwnBalance = () => {
   return sytContract.methods.balanceOf(selectedAccount).call();
+  // return sytContract.methods
+  //   .balanceOf('0x994e98e32198b42903404b9fee2aaa205ceab13e')
+  //   .call();
 };
 export const getTotalSupply = async () => {
   if (!isInitialized) {
@@ -177,9 +180,18 @@ export const transact = async (to, amount) => {
     from: selectedAccount,
   });
 };
-export const claimFunds = async (id,projectId) => {
+// export const claimFunds = async (id,projectId) => {
+//   if (!isInitialized) {
+//     await getBlockchain();
+//   }
+//   return saContract.methods.claimFunds(id,projectId).call();
+// };
+
+export const claimFunds = async (id, projectId) => {
   if (!isInitialized) {
     await getBlockchain();
   }
-  return saContract.methods.claimFunds(id,projectId).call();
+  return saContract.methods.claimFunds(id, projectId).send({
+    from: selectedAccount,
+  });
 };
