@@ -111,7 +111,7 @@ const RaiseFund = () => {
   const handleFundRaising = (e) => {
     e.preventDefault();
     const { project, agency, goal, start, end } = formData;
-
+     console.log("BEFORE BLOCKCHAIN");
     raiseFund(project, agency, goal, start, end)
       .then((tx) => {
         console.log('success');
