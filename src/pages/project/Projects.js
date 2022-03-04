@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -10,20 +10,11 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from '@mui/material';
+} from "@mui/material";
 
-import { useAuth } from '../../context/UserContext';
-
-function createData(id, projectName, numOfBene, tokens, status) {
-  return { id, projectName, numOfBene, tokens, status };
-}
-
-const rows = [
-  createData(1, 'LandSlide', 20, 23000, 'closed'),
-  createData(2, 'Earthquake', 2, 3000, 'active'),
-  createData(3, 'Covid', 3, 5000, 'active'),
-  createData(4, 'Orphanage', 11, 2000, 'closed'),
-];
+import { useAuth } from "../../context/UserContext";
+import { countOfFunding } from "../../utils/fetchBlockchainData";
+import { claimFunds } from "../Web3Client";
 const ProjectName = styled.div`
   color: black;
 `;
@@ -69,27 +60,79 @@ const Loader = styled.div`
     }
   }
 `;
+const ToBlockchain = styled.button`
+  height: 40px;
+  width: auto;
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 4px;
+  background-color: green;
+  color: white;
+  font-size: 16px;
+  font-weight: bolder;
+  &:hover {
+    background-color: pink;
+  }
+`;
 const Projects = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [click, setClick] = useState(false);
+  //blockchain
+  const [success, setSuccess] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [claim, setClaim] = useState(false);
+
+  const handleClick = (pidForClaim, setSuccess, setFailed) => {
+    setClick(!click);
+    countOfFunding()
+      .then((fundCountForClaim) => {
+        console.log(fundCountForClaim);
+        console.log("Proj count is up");
+        {
+          click &&
+            claimFunds(fundCountForClaim, pidForClaim).then((tx) => {
+              console.log(tx);
+              if (setClaim(true)) {
+                setSuccess(true);
+                setTimeout(() => {
+                  setSuccess("");
+                }, 5000);
+              } else {
+                setFailed(true);
+                setTimeout(() => {
+                  setFailed("");
+                }, 5000);
+              }
+          });
+        }
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const fetchPosts = async () => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
       };
       const { data } = await axios.get(
-        'http://localhost:5000/api/project/',
+        "http://localhost:5000/api/project/",
         config
       );
       setPosts(data.data);
       console.log(posts);
       setLoading(false);
     } catch (err) {
-      console.log(err, 'error occured');
+      console.log(err, "error occured");
     }
   };
   useEffect(() => {
@@ -104,8 +147,8 @@ const Projects = () => {
 
   return (
     <Container>
-      {role && role !== 'Admin' && (
-        <Link to='/addProject'>
+      {role && role !== "Admin" && (
+        <Link to="/addProject">
           <AddDiv> + Add Projects</AddDiv>
         </Link>
       )}
@@ -118,37 +161,52 @@ const Projects = () => {
       )}
       {!loading && (
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Project Id</TableCell>
-                <TableCell align='center'>Donation Projects</TableCell>
-                <TableCell align='center'>Number of Beneficiaries</TableCell>
-                <TableCell align='center'>Tokens</TableCell>
-                <TableCell align='center'>Status</TableCell>
+                <TableCell align="center">Donation Projects</TableCell>
+                <TableCell align="center">Number of Beneficiaries</TableCell>
+                <TableCell align="center">Tokens</TableCell>
+                <TableCell align="center">Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {posts.map((row, index) => (
                 <TableRow
                   key={row._id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component='th' scope='row'>
+                  <TableCell component="th" scope="row">
                     {row.relateBlockProj}
+                    {row.relateBlockProj ? (
+                      <ToBlockchain
+                        onClick={() =>
+                          handleClick(
+                            row.relateBlockProj,
+                            setSuccess,
+                            setFailed
+                          )
+                        }
+                      >
+                        {success ? "Claimed" : "Claim Funds"}
+                      </ToBlockchain>
+                    ) : (
+                      ""
+                    )}
                   </TableCell>
-                  <TableCell align='center'>
+                  <TableCell align="center">
                     <Link to={`/projects/${row._id}`}>
                       <ProjectName>{row.projectName}</ProjectName>
                     </Link>
                   </TableCell>
-                  <TableCell align='center'>
+                  <TableCell align="center">
                     {row.beneficiaries.length}
                   </TableCell>
-                  <TableCell align='center'>{row.collectedToken}</TableCell>
-                  <TableCell align='center'>
-                    <button className='statusButton'>
-                      {row.status === true ? 'Active' : 'Unverified'}
+                  <TableCell align="center">{row.collectedToken}</TableCell>
+                  <TableCell align="center">
+                    <button className="statusButton">
+                      {row.status === true ? "Active" : "Unverified"}
                     </button>
                   </TableCell>
                 </TableRow>

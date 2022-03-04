@@ -75,11 +75,10 @@ const ToBlockchain = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
-  /* display: block; */
+  display: block;
   border: none;
   border-radius: 4px;
-  /* background-color: rgb(61, 60, 60); */
-  background-color: blue;
+  background-color: green;
   color: white;
   font-size: 16px;
   font-weight: bolder;

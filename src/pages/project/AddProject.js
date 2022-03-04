@@ -4,7 +4,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { countOfProject } from '../../utils/fetchBlockchainData';
-// import Upload from "./Upload";
 import { createProject } from '../Web3Client';
 
 const sharedStyles = css`
@@ -16,11 +15,12 @@ const sharedStyles = css`
   border-radius: 5px;
   border: none;
   font-size: 20px;
+
 `;
 
 const Container = styled.div`
   flex: 4;
-  height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
   background-color: rgb(53, 51, 51);
   padding: 40px;
 `;

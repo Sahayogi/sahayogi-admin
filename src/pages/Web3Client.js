@@ -168,6 +168,7 @@ export const getFundingCount = async () => {
   }
   return frContract.methods.count().call();
 };
+
 export const transact = async (to, amount) => {
   if (!isInitialized) {
     await getBlockchain();
@@ -175,4 +176,10 @@ export const transact = async (to, amount) => {
   return sytContract.methods.transfer(to, amount).send({
     from: selectedAccount,
   });
+};
+export const claimFunds = async (id,projectId) => {
+  if (!isInitialized) {
+    await getBlockchain();
+  }
+  return saContract.methods.claimFunds(id,projectId).call();
 };
