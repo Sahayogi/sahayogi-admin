@@ -13,6 +13,7 @@ import {
 import { Link } from 'react-router-dom';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useAuth } from '../../context/UserContext';
+import { sliceWalletAddress } from '../../components/constants/Constant';
 
 const Container = styled.div`
   flex: 4;
@@ -164,7 +165,7 @@ const Vendor = () => {
                   <TableCell align='center'>{row.email}</TableCell>
                   <TableCell align='center'>{row.address}</TableCell>
                   <TableCell align='center'>
-                    {row.walletAddress ? row.walletAddress : '-'}
+                    {row.walletAddress ? sliceWalletAddress(row.walletAddress) : '-'}
                     {row.walletAddress ? (
                       <CopyButton
                         style={{ height: '10px' }}
