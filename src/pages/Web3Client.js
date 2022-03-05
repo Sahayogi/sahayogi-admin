@@ -180,13 +180,6 @@ export const transact = async (to, amount) => {
     from: selectedAccount,
   });
 };
-// export const claimFunds = async (id,projectId) => {
-//   if (!isInitialized) {
-//     await getBlockchain();
-//   }
-//   return saContract.methods.claimFunds(id,projectId).call();
-// };
-
 export const claimFunds = async (id, projectId) => {
   if (!isInitialized) {
     await getBlockchain();

@@ -20,7 +20,6 @@ const Wrapper = styled.div`
 const Mint = styled.div`
   height: 100%;
   width: 100%;
-  /* background-color: white; */
   padding: 50px;
   display: flex;
   flex-direction: column;
@@ -41,7 +40,7 @@ const LoginInput = styled.input`
     border: none;
   }
 `;
-const FormWrapper = styled.div`
+const FormWrapper = styled.form`
   display: flex;
   display: block;
   flex: 1;
@@ -66,7 +65,7 @@ const Label = styled.label`
 `;
 
 const ButtonBal = styled.button`
-  background: green;
+  background: black;
   color: white;
   text-transform: uppercase;
   border: none;
@@ -78,6 +77,9 @@ const ButtonBal = styled.button`
   border-radius: 4px;
   width: auto;
   cursor: pointer;
+  &:hover{
+    background-color: gray;
+  }
 `;
 
 const Balance = styled.div`
@@ -247,10 +249,13 @@ const SubmitButton = styled.button`
   color: white;
   width: 100%;
   font-size: 20px;
-  background-color: green;
+  background-color: black;
   border-radius: 10px;
   padding: 15px;
   cursor: pointer;
+  &:hover{
+    background-color: gray;
+  }
 `;
 const Error = styled.h1`
   height: 40px;

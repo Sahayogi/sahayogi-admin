@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
   getCurrentWalletAddress,
   sliceWalletAddress,
-} from '../../components/constants/Constant';
+} from "../../components/constants/Constant";
 import {
   Table,
   TableBody,
@@ -13,12 +13,12 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from '@mui/material';
+} from "@mui/material";
 
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useAuth } from '../../context/UserContext';
-import { createAgency } from '../Web3Client';
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../../context/UserContext";
+import { createAgency } from "../Web3Client";
 
 const Container = styled.div`
   flex: 4;
@@ -69,21 +69,20 @@ const Loader = styled.div`
   }
 `;
 const ToBlockchain = styled.button`
-  height: 40px;
+  height: 10px;
   width: auto;
-  padding: 20px;
+  padding: 15px 20px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  display: block;
   border: none;
   border-radius: 4px;
-  background-color: green;
+  background-color: black;
   color: white;
   font-size: 16px;
   font-weight: bolder;
   &:hover {
-    background-color: pink;
+    background-color: grey;
   }
 `;
 
@@ -99,13 +98,13 @@ const AidAgency = () => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
       };
 
       const { data } = await axios.get(
-        'http://localhost:5000/api/user/aidagencies',
+        "http://localhost:5000/api/user/aidagencies",
         config
       );
 
@@ -123,13 +122,13 @@ const AidAgency = () => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
       };
 
       const { data } = await axios.post(
-        'http://localhost:5000/api/admin/agency/addtoblock',
+        "http://localhost:5000/api/admin/agency/addtoblock",
         { id },
         config
       );
@@ -152,12 +151,12 @@ const AidAgency = () => {
           setSuccess(true);
           addToBlockchain(userId);
           setTimeout(() => {
-            setSuccess('');
+            setSuccess("");
           }, 5000);
         } else {
           setFailed(true);
           setTimeout(() => {
-            setFailed('');
+            setFailed("");
           }, 5000);
         }
       })
@@ -174,8 +173,8 @@ const AidAgency = () => {
 
   return (
     <Container>
-      {role && role === 'Admin' && (
-        <Link to='/addAgency'>
+      {role && role === "Admin" && (
+        <Link to="/addAgency">
           <AddDiv>Register Aid Agency</AddDiv>
         </Link>
       )}
@@ -191,60 +190,55 @@ const AidAgency = () => {
 
       {!loading && (
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Id</TableCell>
-                <TableCell align='left'> Aid Agency</TableCell>
-                <TableCell align='center'>Email</TableCell>
-                <TableCell align='center'>Location</TableCell>
-                <TableCell align='center'>Wallet Adress</TableCell>
-                <TableCell align='center'>Status</TableCell>
+                <TableCell align="left"> Aid Agency</TableCell>
+                <TableCell align="center">Email</TableCell>
+                <TableCell align="center">Location</TableCell>
+                <TableCell align="center">Wallet Adress</TableCell>
+                <TableCell align="center">Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {agencyData.map((row, index) => (
                 <TableRow
                   key={row._id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component='th' scope='row'>
+                  <TableCell component="th" scope="row">
                     {index + 1}
                   </TableCell>
-                  <TableCell align='left'>{row.username}</TableCell>
-                  <TableCell align='center'>{row.email}</TableCell>
-                  <TableCell align='center'>{row.address}</TableCell>
-                  <TableCell align='center'>
-                    {row.walletAddress
-                      ? sliceWalletAddress(row.walletAddress)
-                      : '-'}
-                    {row.walletAddress && !row.addedToBlockchain ? (
-                      // <CopyButton
-                      //   style={{ height: "10px" }}
-                      //   onClick={() => {
-                      //     navigator.clipboard.writeText(sliceWalletAddress(row.walletAddress));
-                      //   }}
-                      // >
-                      <ToBlockchain
-                        onClick={() =>
-                          handleAdd(
-                            row.walletAddress,
-                            setSuccess,
-                            setFailed,
-                            row._id
-                          )
-                        }
-                      >
-                        Add
-                      </ToBlockchain>
-                    ) : (
-                      // </CopyButton>
-                      ''
-                    )}
+                  <TableCell align="left">{row.username}</TableCell>
+                  <TableCell align="center">{row.email}</TableCell>
+                  <TableCell align="center">{row.address}</TableCell>
+                  <TableCell align="center">
+                    <Wallet>
+                      {row.walletAddress
+                        ? sliceWalletAddress(row.walletAddress)
+                        : "-"}
+                      {row.walletAddress && !row.addedToBlockchain ? (
+                        <ToBlockchain
+                          onClick={() =>
+                            handleAdd(
+                              row.walletAddress,
+                              setSuccess,
+                              setFailed,
+                              row._id
+                            )
+                          }
+                        >
+                          Add
+                        </ToBlockchain>
+                      ) : (
+                        ""
+                      )}
+                    </Wallet>
                   </TableCell>
-                  <TableCell align='center'>
-                    <button className='statusButton'>
-                      {row.status === true ? 'Active' : 'Inactive'}
+                  <TableCell align="center">
+                    <button className="statusButton">
+                      {row.status === true ? "Active" : "Inactive"}
                     </button>
                   </TableCell>
                 </TableRow>
@@ -258,3 +252,10 @@ const AidAgency = () => {
 };
 
 export default AidAgency;
+
+const Wallet = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
