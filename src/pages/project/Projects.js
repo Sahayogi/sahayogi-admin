@@ -88,30 +88,31 @@ const Projects = () => {
 
   const handleClick = (pidForClaim, setSuccess, setFailed, frCount) => {
     // setClick(!click);
+    // axios req to update project.claimed to true
     console.log(pidForClaim);
     console.log(frCount);
     console.log('btn clikced');
-    {
-      claimFunds(frCount, pidForClaim)
-        .then((tx) => {
-          console.log(tx);
-          if (setClaim(true)) {
-            setSuccess(true);
-            setTimeout(() => {
-              setSuccess('');
-            }, 5000);
-          } else {
-            setFailed(true);
-            setTimeout(() => {
-              setFailed('');
-            }, 5000);
-          }
-        })
-        .catch((err) => {
-          console.log('Catch error');
-          console.log(err);
-        });
-    }
+    // {
+    //   claimFunds(frCount, pidForClaim)
+    //     .then((tx) => {
+    //       console.log(tx);
+    //       if (setClaim(true)) {
+    //         setSuccess(true);
+    //         setTimeout(() => {
+    //           setSuccess('');
+    //         }, 5000);
+    //       } else {
+    //         setFailed(true);
+    //         setTimeout(() => {
+    //           setFailed('');
+    //         }, 5000);
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log('Catch error');
+    //       console.log(err);
+    //     });
+    // }
     // countOfFunding()
     //   .then((fundCountForClaim) => {
     //     console.log(fundCountForClaim);
@@ -187,22 +188,6 @@ const Projects = () => {
                 >
                   <TableCell component='th' scope='row'>
                     {row.relateBlockProj}
-                    {row.relateBlockProj ? (
-                      <ToBlockchain
-                        onClick={() =>
-                          handleClick(
-                            row.relateBlockProj,
-                            setSuccess,
-                            setFailed,
-                            row.frCount
-                          )
-                        }
-                      >
-                        {success ? 'Claimed' : 'Claim Funds'}
-                      </ToBlockchain>
-                    ) : (
-                      ''
-                    )}
                   </TableCell>
                   <TableCell align='center'>
                     <Link to={`/projects/${row._id}`}>
@@ -214,9 +199,25 @@ const Projects = () => {
                   </TableCell>
                   <TableCell align='center'>{row.collectedToken}</TableCell>
                   <TableCell align='center'>
-                    <button className='statusButton'>
+                    {row.claimed ? (
+                      'Claimed'
+                    ) : (
+                      <ToBlockchain
+                        onClick={() =>
+                          handleClick(
+                            row.relateBlockProj,
+                            setSuccess,
+                            setFailed,
+                            row.frCount
+                          )
+                        }
+                      >
+                        Claim Funds
+                      </ToBlockchain>
+                    )}
+                    {/* <button className='statusButton'>
                       {row.status === true ? 'Active' : 'Unverified'}
-                    </button>
+                    </button> */}
                   </TableCell>
                 </TableRow>
               ))}

@@ -119,13 +119,38 @@ const AidAgency = () => {
   useEffect(() => {
     getAgency();
   }, []);
-  const handleAdd = (currentAddress, setSuccess, setFailed) => {
+  const addToBlockchain = async (id) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        'http://localhost:5000/api/admin/agency/addtoblock',
+        { id },
+        config
+      );
+      // alert(data.data.username);
+      // setAgencyData(data.agencyList);
+      // setLoading(false);
+    } catch (err) {
+      // setError(err.response.data.error);
+      // setLoading(false);
+    }
+  };
+  const handleAdd = (currentAddress, setSuccess, setFailed, userId) => {
+    alert(userId);
+
     createAgency(currentAddress)
       .then((tx) => {
         console.log(tx);
         if (setAdded(true)) {
-          // Axios call
+          // Axios call to update user.claimed to True
           setSuccess(true);
+          addToBlockchain(userId);
           setTimeout(() => {
             setSuccess('');
           }, 5000);
@@ -193,7 +218,7 @@ const AidAgency = () => {
                     {row.walletAddress
                       ? sliceWalletAddress(row.walletAddress)
                       : '-'}
-                    {row.walletAddress ? (
+                    {row.walletAddress && !row.addedToBlockchain ? (
                       // <CopyButton
                       //   style={{ height: "10px" }}
                       //   onClick={() => {
@@ -202,7 +227,12 @@ const AidAgency = () => {
                       // >
                       <ToBlockchain
                         onClick={() =>
-                          handleAdd(row.walletAddress, setSuccess, setFailed)
+                          handleAdd(
+                            row.walletAddress,
+                            setSuccess,
+                            setFailed,
+                            row._id
+                          )
                         }
                       >
                         Add
