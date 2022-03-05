@@ -77,7 +77,7 @@ const ButtonBal = styled.button`
   border-radius: 4px;
   width: auto;
   cursor: pointer;
-  &:hover{
+  &:hover {
     background-color: gray;
   }
 `;
@@ -91,8 +91,7 @@ const Balance = styled.div`
 const FormContainer = styled.div`
   display: flex;
   height: 100%;
-@media only screen and (min-width: 280px) and (max-width: 1080px) {
- 
+  @media only screen and (min-width: 280px) and (max-width: 1080px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -254,7 +253,7 @@ const SubmitButton = styled.button`
   border-radius: 10px;
   padding: 15px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     background-color: gray;
   }
 `;

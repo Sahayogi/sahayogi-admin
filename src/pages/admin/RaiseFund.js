@@ -30,15 +30,14 @@ const FormWrapper = styled.form`
   background-color: rgb(53, 51, 51);
   padding: 20px;
   width: 500px;
-  height:auto;
+  height: auto;
   border: 1px solid gray;
 `;
 
 const FormContainer = styled.div`
   display: flex;
   height: 100%;
-@media only screen and (min-width: 280px) and (max-width: 1080px) {
- 
+  @media only screen and (min-width: 280px) and (max-width: 1080px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -181,7 +180,6 @@ const RaiseFund = () => {
       <Wrapper>
         <FormContainer>
           <FormWrapper>
-           
             <div>
               <FormLabel htmlFor="project">Project Id</FormLabel>
               <FormInput
@@ -231,11 +229,9 @@ const RaiseFund = () => {
             <Button type="submit" onClick={handleFundRaising}>
               Raise Fund
             </Button>
-            
           </FormWrapper>
-        
+
           <FormWrapper>
-           
             <div>
               <FormInput
                 placeholder="id"
@@ -246,8 +242,7 @@ const RaiseFund = () => {
               />
             </div>
             <Button onClick={handleFundRaisingCancel}>Cancel</Button>
-            
-           
+
             <div>
               <FormInput
                 placeholder="id"
@@ -258,7 +253,6 @@ const RaiseFund = () => {
               />
             </div>
             <Button onClick={handleFund}>GetFundRaiseData</Button>
-            
           </FormWrapper>
         </FormContainer>
       </Wrapper>
