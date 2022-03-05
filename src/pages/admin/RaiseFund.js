@@ -37,7 +37,8 @@ const FormWrapper = styled.form`
 const FormContainer = styled.div`
   display: flex;
   height: 100%;
-  @media screen and (max-width: 768px) {
+@media only screen and (min-width: 280px) and (max-width: 1080px) {
+ 
     flex-direction: column;
     justify-content: center;
     align-items: center;

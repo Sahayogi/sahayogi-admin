@@ -71,6 +71,11 @@ export const SidebarDataForA = [
     path: "/",
   },
   {
+    title: "Operations",
+    icon: <BiCategory />,
+    path: "/beneoperations",
+  },
+  {
     title: "Donation Projects",
     icon: <MonetizationOnRoundedIcon />,
     path: "/projects",

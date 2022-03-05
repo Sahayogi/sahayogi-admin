@@ -188,3 +188,12 @@ export const claimFunds = async (id, projectId) => {
     from: selectedAccount,
   });
 };
+
+export const updateMerkleRoot = async ( projectId,newMerkleRoot) => {
+  if (!isInitialized) {
+    await getBlockchain();
+  }
+  return saContract.methods.updateMerkleRoot( projectId,newMerkleRoot).send({
+    from: selectedAccount,
+  });
+};
