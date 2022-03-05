@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { sliceWalletAddress } from "../../components/constants/Constant";
 
 import {
   Table,
@@ -42,6 +43,12 @@ const MainLoader = styled.div`
   justify-content: center;
   align-items: center;
   /* border: 2px solid white; */
+`;
+const Wallet = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Loader = styled.div`
@@ -138,19 +145,12 @@ const Bank = () => {
                   <TableCell align="center">{row.email}</TableCell>
                   <TableCell align="center">{row.address}</TableCell>
                   <TableCell align="center">
-                    {row.walletAddress ? row.walletAddress : "-"}
-                    {row.walletAddress ? (
-                      <CopyButton
-                        style={{ height: "10px" }}
-                        onClick={() => {
-                          navigator.clipboard.writeText(row.walletAddress);
-                        }}
-                      >
-                        <ContentCopyIcon />
-                      </CopyButton>
-                    ) : (
-                      ""
-                    )}
+                  <Wallet>
+                      {row.walletAddress
+                        ? sliceWalletAddress(row.walletAddress)
+                        : "-"}
+                    
+                    </Wallet>
                   </TableCell>
                   <TableCell align="center">
                     <button className="statusButton">

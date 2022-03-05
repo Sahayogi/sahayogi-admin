@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+// import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { sliceWalletAddress } from '../../components/constants/Constant';
 import {
   Table,
   TableBody,
@@ -67,6 +68,13 @@ const Loader = styled.div`
       transform: rotate(360deg);
     }
   }
+`;
+
+const Wallet = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const BeneficiaryList = () => {
@@ -139,19 +147,12 @@ const BeneficiaryList = () => {
                   <TableCell align='center'>{row.email}</TableCell>
 
                   <TableCell align='center'>
-                    {row.walletAddress ? row.walletAddress : ' - '}
-                    {row.walletAddress ? (
-                      <CopyButton
-                        style={{ height: '10px' }}
-                        onClick={() => {
-                          navigator.clipboard.writeText(row.walletAddress);
-                        }}
-                      >
-                        <ContentCopyIcon />
-                      </CopyButton>
-                    ) : (
-                      ''
-                    )}
+                  <Wallet>
+                      {row.walletAddress
+                        ? sliceWalletAddress(row.walletAddress)
+                        : "-"}
+                    
+                    </Wallet>
                   </TableCell>
                   <TableCell align='center'>
                     <button className='statusButton'>

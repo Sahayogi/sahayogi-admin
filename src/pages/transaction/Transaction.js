@@ -9,6 +9,8 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { sliceWalletAddress } from "../../components/constants/Constant";
+
 
 function createData(id, from, to,token, timestamp, status) {
   return { id, from, to,token, timestamp, status };
@@ -61,8 +63,8 @@ const Transaction = () => {
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="left">{row.from}</TableCell>
-                <TableCell align="left">{row.to}</TableCell>
+                <TableCell align="left">{sliceWalletAddress(row.from)}</TableCell>
+                <TableCell align="left">{sliceWalletAddress(row.to)}</TableCell>
                 <TableCell align="left">{row.token}</TableCell>
                 <TableCell align="left">{row.timestamp}</TableCell>
                 <TableCell align="center">
