@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import {
   Table,
   TableBody,
@@ -10,22 +11,9 @@ import {
   Paper,
 } from "@mui/material";
 import { sliceWalletAddress } from "../../components/constants/Constant";
-
-
-function createData(id, from, to,token, timestamp, status) {
-  return { id, from, to,token, timestamp, status };
-}
-
-const rows = [
-  createData(
-    1,
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    "0xc30004803f5dc1f6ad15193a197fd1fbd0d471d1",
-    2000,
-    "2022-01-27T14:13:23+00:00",
-    "failed"
-  ),
-];
+const ADDRESS = "0xb780522e0941142AA1AA97c6b58440fC618d1C56";
+const apikey = "C1ZSWKRYWAZNKY6P2RX7BTTTGCAQ4QS4KJ";
+const endpoints = "https://api-ropsten.etherscan.io/api";
 
 const Container = styled.div`
   flex: 4;
@@ -40,13 +28,32 @@ const Container = styled.div`
 `;
 
 const Transaction = () => {
+  const [from, setFrom] = useState([]);
+
+  const handleEtherScan = async () => {
+    const etherscan = await axios.get(
+      endpoints +
+        `?module=account&action=txlist&address=${ADDRESS}&apikey=${apikey}`
+    );
+    let { result } = etherscan.data;
+    setFrom(result);
+    console.log(from);
+  };
+
+  useEffect(() => {
+    handleEtherScan();
+  }, []);
+
   return (
     <Container>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Id</TableCell>
+              <TableCell>TransIndex</TableCell>
+              <TableCell align="left">BlockHash</TableCell>
+              <TableCell align="left">BlockNumber</TableCell>
+
               <TableCell align="left">From</TableCell>
               <TableCell align="left">To</TableCell>
               <TableCell align="left">Tokens</TableCell>
@@ -55,20 +62,29 @@ const Transaction = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {from.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.id}
+                  {row.transactionIndex}
                 </TableCell>
-                <TableCell align="left">{sliceWalletAddress(row.from)}</TableCell>
+                <TableCell align="left">{sliceWalletAddress(row.blockHash)}</TableCell>
+                <TableCell align="left">{row.blockNumber}</TableCell>
+
+                <TableCell align="left">
+                  {sliceWalletAddress(row.from)}
+                </TableCell>
                 <TableCell align="left">{sliceWalletAddress(row.to)}</TableCell>
-                <TableCell align="left">{row.token}</TableCell>
-                <TableCell align="left">{row.timestamp}</TableCell>
+                <TableCell align="left">{row.for}</TableCell>
+                <TableCell align="left">
+                  {new Date(row.timeStamp * 1000).toLocaleString()}
+                </TableCell>
                 <TableCell align="center">
-                  <button className="statusButton">{row.status}</button>
+                  <button className="statusButton">
+                    {row.isError == 0 ? "Success" : "Failed"}
+                  </button>
                 </TableCell>
               </TableRow>
             ))}
