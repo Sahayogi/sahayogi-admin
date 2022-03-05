@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import logo from "../assets/sahayogi.png";
-import { useAuth } from "../context/UserContext";
-import { login as loginApi } from "../apis";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import logo from '../assets/sahayogi.png';
+import { useAuth } from '../context/UserContext';
+import { login as loginApi } from '../apis';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Container = styled.div`
   height: 100%;
@@ -121,10 +121,20 @@ const LoginButton = styled.button`
     align-items: center;
   }
 `;
+
+const StatusLabel = styled.div`
+  background-color: red;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+  border-radius: 2px;
+`;
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [show, setShow] = useState(false);
+  const [status, setStatus] = useState(undefined);
+  const [timeOut, setTimeOut] = useState(null);
   const handleShow = () => {
     setShow(!show);
   };
@@ -137,16 +147,25 @@ const Login = () => {
       const res = await loginApi({
         email: email,
         password,
-      
       });
       loadUser(res.data);
       if (res.status === 200) {
         loginSuccess(res.data);
-        console.log("login sucessful");
+        console.log('login sucessful');
       }
+      setStatus({ type: 'success' });
+      setTimeout(() => {
+        setTimeOut(1);
+      }, 3000);
     } catch (err) {
-      console.log(err, "err");
+      console.log(err, 'err');
       loginError(err);
+      setStatus({ type: 'error', err });
+      setTimeout(() => {
+        setTimeOut(1);
+      }, 3000);
+      setEmail('');
+      setPassword('');
     }
   };
 
@@ -154,7 +173,7 @@ const Login = () => {
     <Container>
       <LoginLeft>
         <Wrapper>
-          <img src={logo} alt="" />
+          <img src={logo} alt='' />
           <h1>CASH AND VOUCHER ASSISTANCE USING BLOCKCHAIN</h1>
         </Wrapper>
       </LoginLeft>
@@ -163,17 +182,27 @@ const Login = () => {
         <Wrapper>
           <h1>Login</h1>
           <LoginForm>
-            <InputLabel htmlFor="email"> Email: </InputLabel>
+            {timeOut !== 1 && (
+              <div>
+                {status?.type === 'success' && (
+                  <StatusLabel>success</StatusLabel>
+                )}
+                {status?.type === 'error' && (
+                  <StatusLabel>Invalid Credentials</StatusLabel>
+                )}
+              </div>
+            )}
+            <InputLabel htmlFor='email'> Email: </InputLabel>
             <LoginInput
-              type="email"
+              type='email'
               value={email}
-              placeholder="email"
+              placeholder='email'
               onChange={(e) => setEmail(e.target.value)}
             />
-            <InputLabel htmlFor="password"> Password: </InputLabel>
+            <InputLabel htmlFor='password'> Password: </InputLabel>
             <PasswordField>
               <LoginInput
-                type={show ? "text" : "password"}
+                type={show ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

@@ -1,8 +1,8 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
 
 const sharedStyles = css`
   background-color: grey;
@@ -65,46 +65,61 @@ const Error = styled.h1`
   font-size: 15px;
 `;
 
+const StatusLabel = styled.div`
+  text-align: center;
+  background-color: green;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+`;
+
 const AddVendor = () => {
+  const [status, setStatus] = useState(undefined);
+  const [timeOut, setTimeOut] = useState(null);
   const initialValues = {
-    username: "",
-    address: "",
-    phoneNumber: "",
-    email: "",
-    password: "",
+    username: '',
+    address: '',
+    phoneNumber: '',
+    email: '',
+    password: '',
   };
   const validationSchema = Yup.object({
-    username: Yup.string().required("required").max(20),
-    address: Yup.string().required("required").max(100),
-    phoneNumber: Yup.string().max(10).required("required"),
-    email: Yup.string().email("INVALID EMAIL").required("required"),
-    password: Yup.string().required("required").min(6),
+    username: Yup.string().required('required').max(20),
+    address: Yup.string().required('required').max(100),
+    phoneNumber: Yup.string().max(10).required('required'),
+    email: Yup.string().email('INVALID EMAIL').required('required'),
+    password: Yup.string().required('required').min(6),
   });
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const config = {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('access-token')}`,
           },
         };
         const { data } = await axios.post(
-          "http://localhost:5000/api/aidagency/add/vendor",
+          'http://localhost:5000/api/aidagency/add/vendor',
           values,
           config
         );
-        console.log("data:", data);
+        console.log('data:', data);
 
         if (data.success === true) {
-          alert(JSON.stringify(values, null, 2));
-          console.log("added sucessful");
+          // alert(JSON.stringify(values, null, 2));
+          resetForm({ values: '' });
+          setStatus({ type: 'success' });
+          setTimeout(() => {
+            setTimeOut(1);
+          }, 3000);
+          console.log('added sucessful');
         }
       } catch (err) {
-        console.log(err, "err");
+        console.log(err, 'err');
       }
     },
   });
@@ -113,60 +128,67 @@ const AddVendor = () => {
     <Container>
       <FormWrapper>
         <Form onSubmit={formik.handleSubmit}>
+          {timeOut !== 1 && (
+            <div>
+              {status?.type === 'success' && (
+                <StatusLabel>Vendor Added</StatusLabel>
+              )}
+            </div>
+          )}
           <NewBeneficiaryTitle> + Register New Vendor</NewBeneficiaryTitle>
-          <label htmlFor="username">Full Name</label>
+          <label htmlFor='username'>Full Name</label>
           <FormInput
-            type="text"
-            id="username"
-            name="username"
-            {...formik.getFieldProps("username")}
+            type='text'
+            id='username'
+            name='username'
+            {...formik.getFieldProps('username')}
           />
           {formik.errors.username && formik.touched.username ? (
             <Error>{formik.errors.username}</Error>
           ) : null}
-          <label htmlFor="address">Location</label>
+          <label htmlFor='address'>Location</label>
           <FormInput
-            type="text"
-            id="address"
-            name="address"
-            {...formik.getFieldProps("address")}
+            type='text'
+            id='address'
+            name='address'
+            {...formik.getFieldProps('address')}
           />
           {formik.errors.address && formik.touched.address ? (
             <Error>{formik.errors.address}</Error>
           ) : null}
-          <label htmlFor="phoneNumber">Phone Number</label>
+          <label htmlFor='phoneNumber'>Phone Number</label>
           <FormInput
-            type="string"
-            id="phoneNumber"
-            name="phoneNumber"
-            {...formik.getFieldProps("phoneNumber")}
+            type='string'
+            id='phoneNumber'
+            name='phoneNumber'
+            {...formik.getFieldProps('phoneNumber')}
           />
           {formik.errors.phoneNumber && formik.touched.phoneNumber ? (
             <Error>{formik.errors.phoneNumber}</Error>
           ) : null}
 
-          <label htmlFor="email">Email</label>
+          <label htmlFor='email'>Email</label>
           <FormInput
-            type="email"
-            id="email"
-            name="email"
-            {...formik.getFieldProps("email")}
+            type='email'
+            id='email'
+            name='email'
+            {...formik.getFieldProps('email')}
           />
           {formik.errors.email && formik.touched.email ? (
             <Error>{formik.errors.email}</Error>
           ) : null}
-          <label htmlFor="password">Password</label>
+          <label htmlFor='password'>Password</label>
           <FormInput
-            type="password"
-            id="password"
-            name="password"
-            {...formik.getFieldProps("password")}
+            type='password'
+            id='password'
+            name='password'
+            {...formik.getFieldProps('password')}
           />
           {formik.errors.password && formik.touched.password ? (
             <Error>{formik.errors.password}</Error>
           ) : null}
 
-          <FormButton type="submit">Register</FormButton>
+          <FormButton type='submit'>Register</FormButton>
         </Form>
       </FormWrapper>
     </Container>
