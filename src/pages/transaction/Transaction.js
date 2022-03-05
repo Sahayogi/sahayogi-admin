@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { sliceWalletAddress } from "../../components/constants/Constant";
 const ADDRESS = "0xb780522e0941142AA1AA97c6b58440fC618d1C56";
+// const ADDRESS = "0xC30004803F5dc1f6Ad15193A197fd1Fbd0D471D1";
 const apikey = "C1ZSWKRYWAZNKY6P2RX7BTTTGCAQ4QS4KJ";
 const endpoints = "https://api-ropsten.etherscan.io/api";
 
@@ -33,7 +34,7 @@ const Transaction = () => {
   const handleEtherScan = async () => {
     const etherscan = await axios.get(
       endpoints +
-        `?module=account&action=txlist&address=${ADDRESS}&apikey=${apikey}`
+        `?module=account&action=txlist&address=${ADDRESS}&sort=asc&apikey=${apikey}`
     );
     let { result } = etherscan.data;
     setFrom(result);
@@ -70,9 +71,10 @@ const Transaction = () => {
                 <TableCell component="th" scope="row">
                   {row.transactionIndex}
                 </TableCell>
-                <TableCell align="left">{sliceWalletAddress(row.blockHash)}</TableCell>
+                <TableCell align="left">
+                  {sliceWalletAddress(row.blockHash)}
+                </TableCell>
                 <TableCell align="left">{row.blockNumber}</TableCell>
-
                 <TableCell align="left">
                   {sliceWalletAddress(row.from)}
                 </TableCell>
