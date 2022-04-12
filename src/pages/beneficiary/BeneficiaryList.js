@@ -15,6 +15,8 @@ import {
 
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/UserContext';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 
 const CopyButton = styled.button`
   padding-bottom: 20px;
@@ -147,6 +149,14 @@ const BeneficiaryList = () => {
                   <TableCell align='center'>{row.email}</TableCell>
 
                   <TableCell align='center'>
+                  <CopyButton
+                        style={{ height: '10px' }}
+                        onClick={() => {
+                          navigator.clipboard.writeText(row.walletAddress);
+                        }}
+                      >
+                        <ContentCopyIcon />
+                      </CopyButton>
                   <Wallet>
                       {row.walletAddress
                         ? sliceWalletAddress(row.walletAddress)

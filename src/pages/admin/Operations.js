@@ -136,6 +136,22 @@ const Operations = () => {
         console.log(err);
       });
   };
+  // const handleTransfer = async (e) => {
+  //   e.preventDefault();
+
+  //   console.log("minttoken", mintToken);
+  //   console.log("mintAddress", mintAddress);
+  //   console.log("mintAmt", mintAmount);
+
+  //   transact(address, amount)
+  //     .then((tx) => {
+  //       console.log(tx);
+  //       setTransfer(true);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const initialValues = {
     token: "",
     address: "",
@@ -153,7 +169,7 @@ const Operations = () => {
       alert(JSON.stringify(values, null, 2));
       const handleTransfer = (e) => {
         transact(values.address, values.token)
-          .then((tx) => {
+         .then((tx) => {
             console.log(tx);
             setTransfer(true);
           })
@@ -191,10 +207,13 @@ const Operations = () => {
                 <SubmitButton onClick={handleMint}>Mint</SubmitButton>
               </ButtonS>
             </FormWrapper>
-            <FormWrapper>
+
+
+
+            <FormWrapper onSubmit={formik.handleSubmit}> 
               <H3>Transfer Token</H3>
               {/* <PaymentContainer> */}
-              <form onSubmit={formik.handleSubmit}>
+            
                 <Loginlabel htmlFor="token">Token</Loginlabel>
                 <LoginInput
                   type="string"
@@ -219,9 +238,9 @@ const Operations = () => {
                   <Error>{formik.errors.address}</Error>
                 ) : null}
                 <ButtonS>
-                  <SubmitButton type="submit">Submit</SubmitButton>
+                  <SubmitButton type="submit">Transfer</SubmitButton>
                 </ButtonS>
-              </form>
+             
               {/* </PaymentContainer> */}
             </FormWrapper>
           </FormContainer>

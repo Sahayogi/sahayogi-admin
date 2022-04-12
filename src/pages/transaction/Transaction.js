@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { AiOutlineEye } from "react-icons/ai";
 import { sliceWalletAddress } from "../../components/constants/Constant";
-const ADDRESS = "0xb780522e0941142AA1AA97c6b58440fC618d1C56";
+const ADDRESS = "0x994e98e32198B42903404B9FEe2aaA205ceaB13E";
 const apikey = "C1ZSWKRYWAZNKY6P2RX7BTTTGCAQ4QS4KJ";
 const endpoints = "https://api-ropsten.etherscan.io/api";
 
@@ -126,7 +126,7 @@ const Transaction = () => {
                   </TableCell>
                   <TableCell align="center">
                     <button className="statusButton">
-                      {row.isError == 0 ? "Success" : "Failed"}
+                      {row.isError === 0 ? "Success" : "Failed"}
                     </button>
                   </TableCell>
                 </TableRow>
