@@ -123,7 +123,7 @@ const BeneOperation = () => {
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
       const handleUpdate = (e) => {
-        updateMerkleRoot(values.merkleroot, values.projectId)
+        updateMerkleRoot(values.projectId,values.merkleroot,)
           .then((tx) => {
             console.log(tx);
             setUpdate(true);
@@ -156,12 +156,12 @@ const BeneOperation = () => {
                   <Error>{formik.errors.projectId}</Error>
                 ) : null}
 
-                <Loginlabel htmlFor="projectId">New Merkle Root</Loginlabel>
+                <Loginlabel htmlFor="merleroot">New Merkle Root</Loginlabel>
                 <LoginInput
                   type="string"
                   id="merkleroot"
                   placeholder="merkleroot"
-                  projectId="merkleroot"
+                  merkleroot="merkleroot"
                   {...formik.getFieldProps("merkleroot")}
                 />
                 {formik.errors.merkleroot && formik.touched.merkleroot ? (

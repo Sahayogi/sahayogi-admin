@@ -63,7 +63,7 @@ const Milstones = () => {
 
       <FeaturedItem>
         <FeaturedName>Total Tokens</FeaturedName>
-        <FeaturedCount>{supply}</FeaturedCount>
+        <FeaturedCount>{supply/10**18}</FeaturedCount>
       </FeaturedItem>
     </Featured>
   );

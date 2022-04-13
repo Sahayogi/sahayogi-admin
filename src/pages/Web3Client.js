@@ -71,16 +71,16 @@ export const getBlockchain = async (setAccountAddress) => {
     sytContract = new web3.eth.Contract(
       SahayogiTokenBuild.abi,
       // SahayogiTokenBuild.networks[networkId].address
-      '0xd4971aa8F6D5C7381F8c93987D54d5FB76cB4Fe9'
+      '0xe600c455278302F0C9eA2399bE9f104897BAe887'
     );
     frContract = new web3.eth.Contract(
       FundRaisingBuild.abi,
       // FundRaisingBuild.networks[networkId].address
-      '0xb780522e0941142AA1AA97c6b58440fC618d1C56'
+      '0x39456a87E4a7F1B25e0b5E58f61ba9B41072D4Cd'
     );
     saContract = new web3.eth.Contract(
       SahayogiAgencyBuild.abi,
-      '0x994e98e32198B42903404B9FEe2aaA205ceaB13E'
+      '0x1C92c66caA1040195270909bA44D3EA0c9322b6E'
     );
   }
 };
@@ -129,7 +129,7 @@ export const approve = async () => {
     await getBlockchain();
   }
   return sytContract.methods
-    .approve('0xb780522e0941142AA1AA97c6b58440fC618d1C56', 5000)
+    .approve('0x39456a87E4a7F1B25e0b5E58f61ba9B41072D4Cd', 10000000000000000000000000)
     .send({
       from: selectedAccount,
     });

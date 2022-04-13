@@ -136,22 +136,7 @@ const Operations = () => {
         console.log(err);
       });
   };
-  // const handleTransfer = async (e) => {
-  //   e.preventDefault();
 
-  //   console.log("minttoken", mintToken);
-  //   console.log("mintAddress", mintAddress);
-  //   console.log("mintAmt", mintAmount);
-
-  //   transact(address, amount)
-  //     .then((tx) => {
-  //       console.log(tx);
-  //       setTransfer(true);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
   const initialValues = {
     token: "",
     address: "",
@@ -168,7 +153,7 @@ const Operations = () => {
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
       const handleTransfer = (e) => {
-        transact(values.address, values.token)
+        transact(values.address,values.token)
          .then((tx) => {
             console.log(tx);
             setTransfer(true);
@@ -220,18 +205,19 @@ const Operations = () => {
                   id="token"
                   placeholder="amount"
                   token="token"
+                  value={formik.values.token}
                   {...formik.getFieldProps("token")}
                 />
                 {formik.errors.token && formik.touched.token ? (
                   <Error>{formik.errors.token}</Error>
                 ) : null}
 
-                <Loginlabel htmlFor="token">Wallet-Address</Loginlabel>
+                <Loginlabel htmlFor="address">Wallet-Address</Loginlabel>
                 <LoginInput
                   type="string"
                   id="address"
                   placeholder="address"
-                  token="address"
+                  address="address"
                   {...formik.getFieldProps("address")}
                 />
                 {formik.errors.address && formik.touched.address ? (
@@ -245,7 +231,7 @@ const Operations = () => {
             </FormWrapper>
           </FormContainer>
           <Balance>
-            <Label>your current balance is {balance}</Label>
+            <Label>your current balance is {balance/10**18}</Label>
             <ButtonBal onClick={fetchBalance}>Balance</ButtonBal>
           </Balance>
         </Mint>
