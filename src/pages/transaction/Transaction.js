@@ -7,12 +7,14 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   Paper,
+  TableSortLabel 
 } from "@mui/material";
 import { AiOutlineEye } from "react-icons/ai";
-import { sliceWalletAddress } from "../../components/constants/Constant";
-const ADDRESS = "0x994e98e32198B42903404B9FEe2aaA205ceaB13E";
+import { sliceWalletAddress } from "../../components/constants/Constant"
+const ADDRESS = "0xe600c455278302F0C9eA2399bE9f104897BAe887";
 const apikey = "C1ZSWKRYWAZNKY6P2RX7BTTTGCAQ4QS4KJ";
 const endpoints = "https://api-ropsten.etherscan.io/api";
 
@@ -60,16 +62,25 @@ const Loader = styled.div`
 const Transaction = () => {
   const [from, setFrom] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   const handleEtherScan = async () => {
     const etherscan = await axios.get(
       endpoints +
-        `?module=account&action=txlist&address=${ADDRESS}&apikey=${apikey}`
+        `?module=account&action=tokentx&contractaddress=${ADDRESS}&apikey=${apikey}`
     );
     let { result } = etherscan.data;
     setFrom(result);
     setLoading(false);
-    console.log(from);
+    console.log("from:", from);
   };
 
   useEffect(() => {
@@ -86,54 +97,75 @@ const Transaction = () => {
         </div>
       )}
       {!loading && (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>TransIndex</TableCell>
-                <TableCell align="left">BlockHash</TableCell>
-                <TableCell align="left">BlockNumber</TableCell>
-                <TableCell align="left">From</TableCell>
-                <TableCell align="left">To</TableCell>
-                {/* <TableCell align="left">Tokens</TableCell> */}
-                <TableCell align="left">Timestamp</TableCell>
-                <TableCell align="center">Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {from.map((row) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    <AiOutlineEye onClick={() => alert(row.blockHash)} />
-                    {row.transactionIndex}
-                  </TableCell>
-                  <TableCell align="left">
-                    {sliceWalletAddress(row.blockHash)}
-                  </TableCell>
-                  <TableCell align="left">{row.blockNumber}</TableCell>
+        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <TableContainer sx={{ maxHeight: 600 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  <TableCell></TableCell>
 
-                  <TableCell align="left">
-                    {sliceWalletAddress(row.from)}
+                  <TableCell align="left" style={{ minWidth: 170 }}>
+                    Block Hash
                   </TableCell>
-                  <TableCell align="left">
-                    {sliceWalletAddress(row.to)}
+                  <TableCell align="left" style={{ minWidth: 170 }}>
+                    TimeStamp
                   </TableCell>
-                  <TableCell align="left">
-                    {new Date(row.timeStamp * 1000).toLocaleString()}
+                  <TableCell align="left" style={{ minWidth: 170 }}>
+                    From
                   </TableCell>
-                  <TableCell align="center">
-                    <button className="statusButton">
-                      {row.isError === 0 ? "Success" : "Failed"}
-                    </button>
+                  <TableCell align="left" style={{ minWidth: 170 }}>
+                    To
+                  </TableCell>
+                  <TableCell align="left" style={{ minWidth: 100 }}>
+                    Tokens
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {from
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.id}
+                      >
+                        <TableCell align="left">
+                          <AiOutlineEye onClick={() => alert(row.blockHash)} />
+                        </TableCell>
+                        <TableCell align="left">
+                          {sliceWalletAddress(row.blockHash)}
+                        </TableCell>
+                        <TableCell align="left">
+                          {new Date(row.timeStamp * 1000).toLocaleString()}
+                        </TableCell>
+                        <TableCell align="left">
+                          {sliceWalletAddress(row.from)}
+                        </TableCell>
+                        <TableCell align="left">
+                          {sliceWalletAddress(row.to)}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.value / 10 ** 18} SYT
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={from.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
       )}
     </Container>
   );

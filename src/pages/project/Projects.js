@@ -14,7 +14,7 @@ import {
 
 import { useAuth } from "../../context/UserContext";
 import { countOfFunding } from "../../utils/fetchBlockchainData";
-import { claimFunds } from "../Web3Client";
+import { claimFunds, getFrInfo} from "../Web3Client";
 const ProjectName = styled.div`
   color: black;
 `;
@@ -85,34 +85,51 @@ const Projects = () => {
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
   const [claim, setClaim] = useState(false);
+  const [info,setInfo] = useState([]);
+ 
+  // const handleBlockchain = (post) => {
+  //   getFrInfo(post.relateBlockProj)    
+  //     .then((information) => {
+  //       console.log("information:",information);
+  //       setInfo(information);
+  //       post.donated = (information.DONATED_)/10**18 ;
+  //       setPosts()
+  //       console.log("post:",post);
+        
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+   
+  // };
 
   const handleClick = (pidForClaim, setSuccess, setFailed, frCount) => {
     // setClick(!click);
     // axios req to update project.claimed to true
-    console.log(pidForClaim);
-    console.log(frCount);
+    console.log("pidForClaim",pidForClaim);
+    console.log("frCount",frCount);
     console.log("btn clikced");
-    // {
-    //   claimFunds(frCount, pidForClaim)
-    //     .then((tx) => {
-    //       console.log(tx);
-    //       if (setClaim(true)) {
-    //         setSuccess(true);
-    //         setTimeout(() => {
-    //           setSuccess('');
-    //         }, 5000);
-    //       } else {
-    //         setFailed(true);
-    //         setTimeout(() => {
-    //           setFailed('');
-    //         }, 5000);
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log('Catch error');
-    //       console.log(err);
-    //     });
-    // }
+    {
+      claimFunds(frCount, pidForClaim)
+        .then((tx) => {
+          console.log(tx);
+          if (setClaim(true)) {
+            setSuccess(true);
+            setTimeout(() => {
+              setSuccess('');
+            }, 5000);
+          } else {
+            setFailed(true);
+            setTimeout(() => {
+              setFailed('');
+            }, 5000);
+          }
+        })
+        .catch((err) => {
+          console.log('Catch error');
+          console.log(err);
+        });
+    }
     // countOfFunding()
     //   .then((fundCountForClaim) => {
     //     console.log(fundCountForClaim);
@@ -124,6 +141,7 @@ const Projects = () => {
     //     console.log(err);
     //   });
   };
+ 
 
   const fetchPosts = async () => {
     try {
@@ -139,6 +157,12 @@ const Projects = () => {
       );
       setPosts(data.data);
       console.log(posts);
+      // posts.forEach((post)=>{
+      //  handleBlockchain(post);
+      //  console.log("afteffetch",post);
+
+        // post.information = information ;
+      // })
       setLoading(false);
     } catch (err) {
       console.log(err, "error occured");
@@ -146,6 +170,8 @@ const Projects = () => {
   };
   useEffect(() => {
     fetchPosts();
+    // handleBlockchain();
+   
   }, []);
   const {
     data: {
@@ -176,7 +202,8 @@ const Projects = () => {
                 <TableCell>Project Id</TableCell>
                 <TableCell align="center">Donation Projects</TableCell>
                 <TableCell align="center">Number of Beneficiaries</TableCell>
-                <TableCell align="center">Tokens</TableCell>
+                <TableCell align="center">Goal</TableCell>
+                <TableCell align="center">Tokens Donated</TableCell>
                 <TableCell align="center">Status</TableCell>
               </TableRow>
             </TableHead>
@@ -197,7 +224,9 @@ const Projects = () => {
                   <TableCell align="center">
                     {row.beneficiaries.length}
                   </TableCell>
-                  <TableCell align="center">{row.collectedToken}</TableCell>
+                  <TableCell align="center">{row.goal} SYT</TableCell>
+                  <TableCell align="center">{row.donated} SYT</TableCell>
+
                   <TableCell align="center">
                     <ClaimedC>
                       {row.claimed ? (
@@ -217,9 +246,7 @@ const Projects = () => {
                         </ToBlockchain>
                       )}
                     </ClaimedC>
-                    {/* <button className='statusButton'>
-                      {row.status === true ? 'Active' : 'Unverified'}
-                    </button> */}
+                   
                   </TableCell>
                 </TableRow>
               ))}

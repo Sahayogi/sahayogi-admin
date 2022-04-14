@@ -129,8 +129,10 @@ const RaiseFund = () => {
   const handleFundRaising = (e) => {
     e.preventDefault();
     const { project, agency, goal, start, end } = formData;
+    const newgoal = (goal*(10**18)).toString();
+    console.log("newgoal",newgoal);
     console.log("BEFORE BLOCKCHAIN");
-    raiseFund(project, agency, goal, start, end)
+    raiseFund(project, agency, newgoal, start, end)
       .then((tx) => {
         console.log("success");
         getFundingCount()
@@ -204,7 +206,7 @@ const RaiseFund = () => {
               <FormInput
                 placeholder="goal"
                 name="goal"
-                type="text"
+                type="string"
                 onChange={handleChange}
               />
             </div>

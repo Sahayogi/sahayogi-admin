@@ -128,8 +128,10 @@ export const approve = async () => {
   if (!isInitialized) {
     await getBlockchain();
   }
+  const amount = (1000000*10**18).toString();
+  console.log("amount",amount);
   return sytContract.methods
-    .approve('0x39456a87E4a7F1B25e0b5E58f61ba9B41072D4Cd', 10000000000000000000000000)
+    .approve('0x39456a87E4a7F1B25e0b5E58f61ba9B41072D4Cd', amount)
     .send({
       from: selectedAccount,
     });
@@ -197,3 +199,11 @@ export const updateMerkleRoot = async ( projectId,newMerkleRoot) => {
     from: selectedAccount,
   });
 };
+
+export const getFrInfo = async (fundRaiseId) =>{
+  if(!isInitialized ){
+    await getBlockchain();
+
+  }
+  return frContract.methods.getFrInfo(fundRaiseId).call();
+}
