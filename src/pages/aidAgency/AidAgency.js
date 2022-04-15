@@ -90,7 +90,6 @@ const AidAgency = () => {
   const [agencyData, setAgencyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [added, setAdded] = useState(false);
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
 
@@ -120,7 +119,6 @@ const AidAgency = () => {
   }, []);
   const addToBlockchain = async (id) => {
     try {
-      console.log(id);
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -148,21 +146,16 @@ const AidAgency = () => {
       .then((tx) => {
         console.log(tx);
         addToBlockchain(userId);
-        if (setAdded(true)) {
-          // Axios call to update user.claimed to True
-          setSuccess(true);
-
-          setTimeout(() => {
-            setSuccess('');
-          }, 5000);
-        } else {
-          setFailed(true);
-          setTimeout(() => {
-            setFailed('');
-          }, 5000);
-        }
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess('');
+        }, 5000);
       })
       .catch((err) => {
+        setFailed(true);
+        setTimeout(() => {
+          setFailed('');
+        }, 5000);
         console.log(err);
       });
   };

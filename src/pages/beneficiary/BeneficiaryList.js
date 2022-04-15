@@ -17,14 +17,6 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/UserContext';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-
-const CopyButton = styled.button`
-  padding-bottom: 20px;
-  font-size: 10px;
-  cursor: pointer;
-  border: none;
-  background: none;
-`;
 const Container = styled.div`
   flex: 4;
   min-height: calc(100vh - 80px);
@@ -32,11 +24,6 @@ const Container = styled.div`
   font-size: 1rem;
   background-color: rgb(53, 51, 51);
   padding: 40px;
-  @media only screen and (min-width: 280px) and (max-width: 1080px) {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
 `;
 const AddDiv = styled.div`
   padding-bottom: 20px;
@@ -70,6 +57,13 @@ const Loader = styled.div`
       transform: rotate(360deg);
     }
   }
+`;
+const CopyButton = styled.button`
+  padding-bottom: 20px;
+  font-size: 10px;
+  cursor: pointer;
+  border: none;
+  background: none;
 `;
 
 const Wallet = styled.div`
@@ -149,19 +143,18 @@ const BeneficiaryList = () => {
                   <TableCell align='center'>{row.email}</TableCell>
 
                   <TableCell align='center'>
-                  <CopyButton
-                        style={{ height: '10px' }}
-                        onClick={() => {
-                          navigator.clipboard.writeText(row.walletAddress);
-                        }}
-                      >
-                        <ContentCopyIcon />
-                      </CopyButton>
-                  <Wallet>
+                    <CopyButton
+                      style={{ height: '10px' }}
+                      onClick={() => {
+                        navigator.clipboard.writeText(row.walletAddress);
+                      }}
+                    >
+                      <ContentCopyIcon />
+                    </CopyButton>
+                    <Wallet>
                       {row.walletAddress
                         ? sliceWalletAddress(row.walletAddress)
-                        : "-"}
-                    
+                        : '-'}
                     </Wallet>
                   </TableCell>
                   <TableCell align='center'>

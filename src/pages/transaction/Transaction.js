@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import axios from 'axios';
 import {
   Table,
   TableBody,
@@ -10,13 +10,13 @@ import {
   TablePagination,
   TableRow,
   Paper,
-  TableSortLabel 
-} from "@mui/material";
-import { AiOutlineEye } from "react-icons/ai";
-import { sliceWalletAddress } from "../../components/constants/Constant"
-const ADDRESS = "0xe600c455278302F0C9eA2399bE9f104897BAe887";
-const apikey = "C1ZSWKRYWAZNKY6P2RX7BTTTGCAQ4QS4KJ";
-const endpoints = "https://api-ropsten.etherscan.io/api";
+  TableSortLabel,
+} from '@mui/material';
+import { AiOutlineEye } from 'react-icons/ai';
+import { sliceWalletAddress } from '../../components/constants/Constant';
+const ADDRESS = '0xe600c455278302F0C9eA2399bE9f104897BAe887';
+const apikey = 'C1ZSWKRYWAZNKY6P2RX7BTTTGCAQ4QS4KJ';
+const endpoints = 'https://api-ropsten.etherscan.io/api';
 
 const Container = styled.div`
   flex: 4;
@@ -80,7 +80,7 @@ const Transaction = () => {
     let { result } = etherscan.data;
     setFrom(result);
     setLoading(false);
-    console.log("from:", from);
+    console.log('from:', from);
   };
 
   useEffect(() => {
@@ -97,26 +97,30 @@ const Transaction = () => {
         </div>
       )}
       {!loading && (
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
           <TableContainer sx={{ maxHeight: 600 }}>
-            <Table stickyHeader aria-label="sticky table">
+            <Table stickyHeader aria-label='sticky table'>
               <TableHead>
                 <TableRow>
                   <TableCell></TableCell>
 
-                  <TableCell align="left" style={{ minWidth: 170 }}>
+                  <TableCell align='left' style={{ minWidth: 170 }}>
                     Block Hash
                   </TableCell>
-                  <TableCell align="left" style={{ minWidth: 170 }}>
+                  <TableCell align='left' style={{ minWidth: 170 }}>
                     TimeStamp
                   </TableCell>
-                  <TableCell align="left" style={{ minWidth: 170 }}>
+                  <TableCell align='left' style={{ minWidth: 170 }}>
                     From
                   </TableCell>
-                  <TableCell align="left" style={{ minWidth: 170 }}>
+                  <TableCell
+                    align='center'
+                    style={{ minWidth: 50 }}
+                  ></TableCell>
+                  <TableCell align='left' style={{ minWidth: 170 }}>
                     To
                   </TableCell>
-                  <TableCell align="left" style={{ minWidth: 100 }}>
+                  <TableCell align='left' style={{ minWidth: 100 }}>
                     Tokens
                   </TableCell>
                 </TableRow>
@@ -128,26 +132,37 @@ const Transaction = () => {
                     return (
                       <TableRow
                         hover
-                        role="checkbox"
+                        role='checkbox'
                         tabIndex={-1}
                         key={row.id}
                       >
-                        <TableCell align="left">
+                        <TableCell align='left'>
                           <AiOutlineEye onClick={() => alert(row.blockHash)} />
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align='left'>
                           {sliceWalletAddress(row.blockHash)}
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align='left'>
                           {new Date(row.timeStamp * 1000).toLocaleString()}
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align='left'>
                           {sliceWalletAddress(row.from)}
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align='center'>
+                          <>
+                            {' '}
+                            {row.from ==
+                            0x0000000000000000000000000000000000000000 ? (
+                              <Status>-</Status>
+                            ) : (
+                              <StatusOut>DONATE</StatusOut>
+                            )}
+                          </>
+                        </TableCell>
+                        <TableCell align='left'>
                           {sliceWalletAddress(row.to)}
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align='left'>
                           {row.value / 10 ** 18} SYT
                         </TableCell>
                       </TableRow>
@@ -158,7 +173,7 @@ const Transaction = () => {
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
-            component="div"
+            component='div'
             count={from.length}
             rowsPerPage={rowsPerPage}
             page={page}
@@ -172,3 +187,27 @@ const Transaction = () => {
 };
 
 export default Transaction;
+
+const Status = styled.div`
+  height: 20px;
+  width: 70px;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  background-color: grey;
+  border: none;
+  color: white;
+  /* padding: 5px; */
+  /* border: 2px solid white; */
+`;
+const StatusOut = styled.div`
+  height: 20px;
+  width: 70px;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  background-color: green;
+  border: none;
+  color: white;
+  /* border: 2px solid white; */
+`;
