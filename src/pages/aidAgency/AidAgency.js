@@ -147,10 +147,11 @@ const AidAgency = () => {
     createAgency(currentAddress)
       .then((tx) => {
         console.log(tx);
+        addToBlockchain(userId);
         if (setAdded(true)) {
           // Axios call to update user.claimed to True
           setSuccess(true);
-          addToBlockchain(userId);
+
           setTimeout(() => {
             setSuccess('');
           }, 5000);
