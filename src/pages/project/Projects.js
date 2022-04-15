@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -10,11 +10,11 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from "@mui/material";
+} from '@mui/material';
 
-import { useAuth } from "../../context/UserContext";
-import { countOfFunding } from "../../utils/fetchBlockchainData";
-import { claimFunds, getFrInfo} from "../Web3Client";
+import { useAuth } from '../../context/UserContext';
+import { countOfFunding } from '../../utils/fetchBlockchainData';
+import { claimFunds, getFrInfo } from '../Web3Client';
 const ProjectName = styled.div`
   color: black;
 `;
@@ -85,35 +85,54 @@ const Projects = () => {
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
   const [claim, setClaim] = useState(false);
-  const [info,setInfo] = useState([]);
- 
+  const [info, setInfo] = useState([]);
+
   // const handleBlockchain = (post) => {
-  //   getFrInfo(post.relateBlockProj)    
+  //   getFrInfo(post.relateBlockProj)
   //     .then((information) => {
   //       console.log("information:",information);
   //       setInfo(information);
   //       post.donated = (information.DONATED_)/10**18 ;
   //       setPosts()
   //       console.log("post:",post);
-        
+
   //     })
   //     .catch((err) => {
   //       console.log(err);
   //     });
-   
-  // };
 
-  const handleClick = (pidForClaim, setSuccess, setFailed, frCount) => {
+  // };
+  const updateClaim = async (projectId) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        },
+      };
+      const { data } = await axios.post(
+        'http://localhost:5000/api/aidagency/claim',
+        { projectId },
+        config
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClick = (proId, pidForClaim, setSuccess, setFailed, frCount) => {
     // setClick(!click);
     // axios req to update project.claimed to true
-    console.log("pidForClaim",pidForClaim);
-    console.log("frCount",frCount);
-    console.log("btn clikced");
+    console.log('pidForClaim', pidForClaim);
+    console.log('frCount', frCount);
+    console.log('btn clikced');
     {
       claimFunds(frCount, pidForClaim)
         .then((tx) => {
           console.log(tx);
           if (setClaim(true)) {
+            // Claim here axios call
+            updateClaim(proId);
             setSuccess(true);
             setTimeout(() => {
               setSuccess('');
@@ -141,18 +160,17 @@ const Projects = () => {
     //     console.log(err);
     //   });
   };
- 
 
   const fetchPosts = async () => {
     try {
       const config = {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
         },
       };
       const { data } = await axios.get(
-        "http://localhost:5000/api/project/",
+        'http://localhost:5000/api/project/',
         config
       );
       setPosts(data.data);
@@ -161,17 +179,16 @@ const Projects = () => {
       //  handleBlockchain(post);
       //  console.log("afteffetch",post);
 
-        // post.information = information ;
+      // post.information = information ;
       // })
       setLoading(false);
     } catch (err) {
-      console.log(err, "error occured");
+      console.log(err, 'error occured');
     }
   };
   useEffect(() => {
     fetchPosts();
     // handleBlockchain();
-   
   }, []);
   const {
     data: {
@@ -182,8 +199,8 @@ const Projects = () => {
 
   return (
     <Container>
-      {role && role !== "Admin" && (
-        <Link to="/addProject">
+      {role && role !== 'Admin' && (
+        <Link to='/addProject'>
           <AddDiv> + Add Projects</AddDiv>
         </Link>
       )}
@@ -196,45 +213,46 @@ const Projects = () => {
       )}
       {!loading && (
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
                 <TableCell>Project Id</TableCell>
-                <TableCell align="center">Donation Projects</TableCell>
-                <TableCell align="center">Number of Beneficiaries</TableCell>
-                <TableCell align="center">Goal</TableCell>
-                <TableCell align="center">Tokens Donated</TableCell>
-                <TableCell align="center">Status</TableCell>
+                <TableCell align='center'>Donation Projects</TableCell>
+                <TableCell align='center'>Number of Beneficiaries</TableCell>
+                <TableCell align='center'>Goal</TableCell>
+                <TableCell align='center'>Tokens Donated</TableCell>
+                <TableCell align='center'>Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {posts.map((row, index) => (
                 <TableRow
                   key={row._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell component='th' scope='row'>
                     {row.relateBlockProj}
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align='center'>
                     <Link to={`/projects/${row._id}`}>
                       <ProjectName>{row.projectName}</ProjectName>
                     </Link>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align='center'>
                     {row.beneficiaries.length}
                   </TableCell>
-                  <TableCell align="center">{row.goal} SYT</TableCell>
-                  <TableCell align="center">{row.donated} SYT</TableCell>
+                  <TableCell align='center'>{row.goal} SYT</TableCell>
+                  <TableCell align='center'>{row.donated} SYT</TableCell>
 
-                  <TableCell align="center">
+                  <TableCell align='center'>
                     <ClaimedC>
                       {row.claimed ? (
-                        "Claimed"
+                        'Claimed'
                       ) : (
                         <ToBlockchain
                           onClick={() =>
                             handleClick(
+                              row._id,
                               row.relateBlockProj,
                               setSuccess,
                               setFailed,
@@ -246,7 +264,6 @@ const Projects = () => {
                         </ToBlockchain>
                       )}
                     </ClaimedC>
-                   
                   </TableCell>
                 </TableRow>
               ))}
