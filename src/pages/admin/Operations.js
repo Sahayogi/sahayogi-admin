@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { mintToken, getOwnBalance, transact } from "../Web3Client";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { mintToken, getOwnBalance, transact } from '../Web3Client';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const Container = styled.div`
   flex: 4;
@@ -105,8 +105,8 @@ const H3 = styled.h2`
 `;
 
 const Operations = () => {
-  const [mintAddress, setMintAddress] = useState("");
-  const [mintAmount, setMintAmount] = useState("");
+  const [mintAddress, setMintAddress] = useState('');
+  const [mintAmount, setMintAmount] = useState('');
   const [minted, setMinted] = useState(false);
   const [balance, setBalance] = useState(0);
   const [transfer, setTransfer] = useState(false);
@@ -114,9 +114,9 @@ const Operations = () => {
   const handleMint = async (e) => {
     e.preventDefault();
 
-    console.log("minttoken", mintToken);
-    console.log("mintAddress", mintAddress);
-    console.log("mintAmt", mintAmount);
+    console.log('minttoken', mintToken);
+    console.log('mintAddress', mintAddress);
+    console.log('mintAmt', mintAmount);
 
     mintToken(mintAddress, mintAmount)
       .then((tx) => {
@@ -138,23 +138,25 @@ const Operations = () => {
   };
 
   const initialValues = {
-    token: "",
-    address: "",
+    token: '',
+    address: '',
   };
   const validationSchema = Yup.object({
-    token: Yup.string().required("required"),
+    token: Yup.string().required('required'),
 
-    address: Yup.string().max(42).required("required"),
+    address: Yup.string().max(42).required('required'),
   });
-
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
       const handleTransfer = (e) => {
-        transact(values.address,values.token)
-         .then((tx) => {
+        console.log('token value', values.token);
+        // const newtokenamount = ((values.token)*(10**18)).toString();
+        // console.log("newtokenamount",newtokenamount);
+        transact(values.address, values.token)
+          .then((tx) => {
             console.log(tx);
             setTransfer(true);
           })
@@ -176,16 +178,16 @@ const Operations = () => {
               <H3>Mint Token</H3>
               <Loginlabel>Token</Loginlabel>
               <LoginInput
-                type="string"
+                type='string'
                 value={mintAmount}
-                placeholder="amount"
+                placeholder='amount'
                 onChange={(e) => setMintAmount(e.target.value)}
               />
               <Loginlabel>Wallet-Address</Loginlabel>
               <LoginInput
-                type="string"
+                type='string'
                 value={mintAddress}
-                placeholder="address"
+                placeholder='address'
                 onChange={(e) => setMintAddress(e.target.value)}
               />
               <ButtonS>
@@ -193,45 +195,43 @@ const Operations = () => {
               </ButtonS>
             </FormWrapper>
 
-
-
-            <FormWrapper onSubmit={formik.handleSubmit}> 
+            <FormWrapper onSubmit={formik.handleSubmit}>
               <H3>Transfer Token</H3>
               {/* <PaymentContainer> */}
-            
-                <Loginlabel htmlFor="token">Token</Loginlabel>
-                <LoginInput
-                  type="string"
-                  id="token"
-                  placeholder="amount"
-                  token="token"
-                  value={formik.values.token}
-                  {...formik.getFieldProps("token")}
-                />
-                {formik.errors.token && formik.touched.token ? (
-                  <Error>{formik.errors.token}</Error>
-                ) : null}
 
-                <Loginlabel htmlFor="address">Wallet-Address</Loginlabel>
-                <LoginInput
-                  type="string"
-                  id="address"
-                  placeholder="address"
-                  address="address"
-                  {...formik.getFieldProps("address")}
-                />
-                {formik.errors.address && formik.touched.address ? (
-                  <Error>{formik.errors.address}</Error>
-                ) : null}
-                <ButtonS>
-                  <SubmitButton type="submit">Transfer</SubmitButton>
-                </ButtonS>
-             
+              <Loginlabel htmlFor='token'>Token</Loginlabel>
+              <LoginInput
+                type='string'
+                id='token'
+                placeholder='amount'
+                token='token'
+                value={formik.values.token}
+                {...formik.getFieldProps('token')}
+              />
+              {formik.errors.token && formik.touched.token ? (
+                <Error>{formik.errors.token}</Error>
+              ) : null}
+
+              <Loginlabel htmlFor='address'>Wallet-Address</Loginlabel>
+              <LoginInput
+                type='string'
+                id='address'
+                placeholder='address'
+                address='address'
+                {...formik.getFieldProps('address')}
+              />
+              {formik.errors.address && formik.touched.address ? (
+                <Error>{formik.errors.address}</Error>
+              ) : null}
+              <ButtonS>
+                <SubmitButton type='submit'>Transfer</SubmitButton>
+              </ButtonS>
+
               {/* </PaymentContainer> */}
             </FormWrapper>
           </FormContainer>
           <Balance>
-            <Label>your current balance is {balance/10**18}</Label>
+            <Label>your current balance is {balance / 10 ** 18}</Label>
             <ButtonBal onClick={fetchBalance}>Balance</ButtonBal>
           </Balance>
         </Mint>

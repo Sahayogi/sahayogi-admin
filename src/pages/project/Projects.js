@@ -130,23 +130,19 @@ const Projects = () => {
       claimFunds(frCount, pidForClaim)
         .then((tx) => {
           console.log(tx);
-          if (setClaim(true)) {
-            // Claim here axios call
-            updateClaim(proId);
-            setSuccess(true);
-            setTimeout(() => {
-              setSuccess('');
-            }, 5000);
-          } else {
-            setFailed(true);
-            setTimeout(() => {
-              setFailed('');
-            }, 5000);
-          }
+          updateClaim(proId);
+          setSuccess(true);
+          setTimeout(() => {
+            setSuccess('');
+          }, 5000);
         })
         .catch((err) => {
           console.log('Catch error');
           console.log(err);
+          setFailed(true);
+          setTimeout(() => {
+            setFailed('');
+          }, 5000);
         });
     }
     // countOfFunding()
