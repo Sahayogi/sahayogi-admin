@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const sharedStyles = css`
   background-color: grey;
@@ -65,14 +67,6 @@ const Error = styled.h1`
   font-size: 15px;
 `;
 
-const StatusLabel = styled.div`
-  text-align: center;
-  background-color: green;
-  padding: 20px;
-  margin-bottom: 10px;
-  border-radius: 2px;
-`;
-
 const AddVendor = () => {
   const [status, setStatus] = useState(undefined);
   const [timeOut, setTimeOut] = useState(null);
@@ -113,13 +107,28 @@ const AddVendor = () => {
           // alert(JSON.stringify(values, null, 2));
           resetForm({ values: '' });
           setStatus({ type: 'success' });
-          setTimeout(() => {
-            setTimeOut(1);
-          }, 3000);
+          toast.success("Agency Added Successfully", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
           console.log('added sucessful');
         }
       } catch (err) {
         console.log(err, 'err');
+        toast.error("Failed to Add", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     },
   });
@@ -128,13 +137,6 @@ const AddVendor = () => {
     <Container>
       <FormWrapper>
         <Form onSubmit={formik.handleSubmit}>
-          {timeOut !== 1 && (
-            <div>
-              {status?.type === 'success' && (
-                <StatusLabel>Vendor Added</StatusLabel>
-              )}
-            </div>
-          )}
           <NewBeneficiaryTitle> + Register New Vendor</NewBeneficiaryTitle>
           <label htmlFor='username'>Full Name</label>
           <FormInput
@@ -191,6 +193,17 @@ const AddVendor = () => {
           <FormButton type='submit'>Register</FormButton>
         </Form>
       </FormWrapper>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Container>
   );
 };

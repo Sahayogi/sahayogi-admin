@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Table,
   TableBody,
@@ -12,11 +12,10 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from '@mui/material';
+} from "@mui/material";
 
-import { useAuth } from '../../context/UserContext';
-import { countOfFunding } from '../../utils/fetchBlockchainData';
-import { claimFunds, getFrInfo } from '../Web3Client';
+import { useAuth } from "../../context/UserContext";
+import { claimFunds, getFrInfo } from "../Web3Client";
 const ProjectName = styled.div`
   color: black;
 `;
@@ -62,16 +61,6 @@ const Loader = styled.div`
     }
   }
 `;
-const Popupwrap = styled.div`
-  height: 200px;
-  width: 600px;
-  padding: 20px;
-  border-radius: 20px;
-  position:fixed
-  color: white;
-  z-index: 100;
-  background-color: black;
-`;
 const ToBlockchain = styled.button`
   height: 40px;
   width: auto;
@@ -89,22 +78,6 @@ const ToBlockchain = styled.button`
     background-color: grey;
   }
 `;
-const BlockComponent = ({ frId, info, setInfo }) => {
-  const mydata = '';
-  getFrInfo(frId)
-    .then((information) => {
-      mydata = information.DONATED_;
-      //       console.log("information:",information);
-
-      //       post.donated = (information.DONATED_)/10**18 ;
-      //       setPosts()
-      //       console.log("post:",post);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  return <p>Hi {mydata}</p>;
-};
 
 const Projects = () => {
   const [posts, setPosts] = useState([]);
@@ -112,18 +85,16 @@ const Projects = () => {
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
 
-  const [info, setInfo] = useState([]);
-
   const updateClaim = async (projectId) => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
       };
       const { data } = await axios.post(
-        'http://localhost:5000/api/aidagency/claim',
+        "http://localhost:5000/api/aidagency/claim",
         { projectId },
         config
       );
@@ -139,17 +110,28 @@ const Projects = () => {
           console.log(tx);
           updateClaim(proId);
           setSuccess(true);
-          setTimeout(() => {
-            setSuccess('');
-          }, 5000);
+          toast.success("Claimed Successfully", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         })
         .catch((err) => {
-          console.log('Catch error');
+          console.log("Catch error");
           console.log(err);
-          setFailed(true);
-          setTimeout(() => {
-            setFailed('');
-          }, 5000);
+          toast.error(`Claiming Fund is not available`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
     }
   };
@@ -158,31 +140,29 @@ const Projects = () => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
       };
       const { data } = await axios.get(
-        'http://localhost:5000/api/project/',
+        "http://localhost:5000/api/project/",
         config
       );
       setPosts(data.data);
       console.log(posts);
       setLoading(false);
     } catch (err) {
-      console.log(err, 'error occured');
+      console.log(err, "error occured");
     }
   };
   const showInfo = async (frInfo) => {
     getFrInfo(frInfo)
       .then((information) => {
-        setInfo(
-          `Donated: ${information.DONATED_ / 10 ** 18} SYT \n Goal: ${
-            information.GOAL_ / 10 ** 18
-          } SYT`
-        );
+        const message = `Donated: ${
+          information.DONATED_ / 10 ** 18
+        } SYT \n Goal: ${information.GOAL_ / 10 ** 18} SYT`;
         console.log(information);
-        toast.info(info);
+        toast.info(message);
       })
       .catch((error) => {
         console.log(error);
@@ -200,8 +180,8 @@ const Projects = () => {
   return (
     <Container>
       <ToastContainer />
-      {role && role !== 'Admin' && (
-        <Link to='/addProject'>
+      {role && role !== "Admin" && (
+        <Link to="/addProject">
           <AddDiv> + Add Projects</AddDiv>
         </Link>
       )}
@@ -214,50 +194,51 @@ const Projects = () => {
       )}
       {!loading && (
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Project Id</TableCell>
-                <TableCell align='center'>Donation Projects</TableCell>
-                <TableCell align='center'>Number of Beneficiaries</TableCell>
-                <TableCell align='center'>View</TableCell>
-                <TableCell align='center'>Status</TableCell>
+                <TableCell align="center">Donation Projects</TableCell>
+                <TableCell align="center">Number of Beneficiaries</TableCell>
+                <TableCell align="center">View</TableCell>
+                <TableCell align="center">Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {posts.map((row, index) => (
                 <TableRow
                   key={row._id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell
-                    component='th'
-                    scope='row'
+                    component="th"
+                    scope="row"
                     onClick={() => showInfo(row.relateBlockProj)}
                   >
                     {row.relateBlockProj}
                   </TableCell>
-                  <TableCell align='center'>
+                  <TableCell align="center">
                     <Link to={`/projects/${row._id}`}>
                       <ProjectName>{row.projectName}</ProjectName>
                     </Link>
                   </TableCell>
-                  <TableCell align='center'>
+                  <TableCell align="center">
                     {row.beneficiaries.length}
                   </TableCell>
                   {/* {/* <TableCell align='center'>{row.GOAL_} SYT</TableCell> */}
                   <TableCell
-                    align='center'
-                    cursor='pointer'
+                    align="center"
+                    cursor="pointer"
                     onClick={() => showInfo(row.relateBlockProj)}
                   >
                     *** SYT
                   </TableCell>
-                  <TableCell align='center'>
+                  <TableCell align="center">
                     <ClaimedC>
                       {row.claimed ? (
-                        'Claimed'
+                        "Claimed"
                       ) : (
+
                         <ToBlockchain
                           onClick={() =>
                             handleClick(

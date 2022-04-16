@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const sharedStyles = css`
   background-color: grey;
@@ -67,7 +69,6 @@ const Error = styled.h1`
   font-size: 15px;
 `;
 
-
 const AddBank = () => {
   const initialValues = {
     username: "",
@@ -75,7 +76,6 @@ const AddBank = () => {
     phoneNumber: "",
     email: "",
     password: "",
-   
   };
   const validationSchema = Yup.object({
     username: Yup.string().required("required").max(20),
@@ -83,14 +83,12 @@ const AddBank = () => {
     phoneNumber: Yup.string().max(10).required("required"),
     email: Yup.string().email("INVALID EMAIL").required("required"),
     password: Yup.string().required("required").min(6),
-    
   });
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: async(values) => {
-      
+    onSubmit: async (values) => {
       try {
         const config = {
           headers: {
@@ -106,84 +104,106 @@ const AddBank = () => {
         console.log("data:", data);
 
         if (data.success === true) {
-          alert(JSON.stringify(values, null, 2));
+          // alert(JSON.stringify(values, null, 2));
           console.log("added sucessful");
+          toast.success("Added Successfully", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
       } catch (err) {
         console.log(err, "err");
+        toast.error("Failed to Add", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     },
   });
 
   return (
-    <Container>
-      <FormWrapper>
-        <Form onSubmit={formik.handleSubmit}>
-          <NewBeneficiaryTitle> Register New Bank</NewBeneficiaryTitle>
-          <label htmlFor="username">Bank-Name</label>
-          <FormInput
-            type="text"
-            id="username"
-            name="username"
-            {...formik.getFieldProps("username")}
-          />
-          {formik.errors.username && formik.touched.username ? (
-            <Error>{formik.errors.username}</Error>
-          ) : null}
-          <label htmlFor="address">Location</label>
-          <FormInput
-            type="text"
-            id="address"
-            name="address"
-            {...formik.getFieldProps("address")}
-          />
-          {formik.errors.address && formik.touched.address ? (
-            <Error>{formik.errors.address}</Error>
-          ) : null}
-          <label htmlFor="phoneNumber">Phone-Number</label>
-          <FormInput
-            type="string"
-            id="phoneNumber"
-            name="phoneNumber"
-            {...formik.getFieldProps("phoneNumber")}
-          />
-          {formik.errors.phoneNumber && formik.touched.phoneNumber ? (
-            <Error>{formik.errors.phoneNumber}</Error>
-          ) : null}
-          <label htmlFor="email">Email</label>
-          <FormInput
-            type="email"
-            id="email"
-            name="email"
-            {...formik.getFieldProps("email")}
-          />
-          {formik.errors.email && formik.touched.email ? (
-            <Error>{formik.errors.email}</Error>
-          ) : null}
-          <label htmlFor="password">Password</label>
-          <FormInput
-            type="password"
-            id="password"
-            name="password"
-            {...formik.getFieldProps("password")}
-          />
-          {formik.errors.password && formik.touched.password ? (
-            <Error>{formik.errors.password}</Error>
-          ) : null}
-          {/* <label htmlFor="password">Confirm Password</label>
-          <FormInput
-            type="password"
-            id="cpassword"
-            name="cpassword"
-            {...formik.getFieldProps("cpassword")}
-          />
-          {formik.errors.cpassword && formik.touched.cpassword ? (
-            <Error>{formik.errors.cpassword}</Error>
-          ) : null} */}
-          <FormButton type="submit">Register</FormButton>
-        </Form>
-      </FormWrapper>
-    </Container>
+    <>
+      <Container>
+        <FormWrapper>
+          <Form onSubmit={formik.handleSubmit}>
+            <NewBeneficiaryTitle> Register New Bank</NewBeneficiaryTitle>
+            <label htmlFor="username">Bank-Name</label>
+            <FormInput
+              type="text"
+              id="username"
+              name="username"
+              {...formik.getFieldProps("username")}
+            />
+            {formik.errors.username && formik.touched.username ? (
+              <Error>{formik.errors.username}</Error>
+            ) : null}
+            <label htmlFor="address">Location</label>
+            <FormInput
+              type="text"
+              id="address"
+              name="address"
+              {...formik.getFieldProps("address")}
+            />
+            {formik.errors.address && formik.touched.address ? (
+              <Error>{formik.errors.address}</Error>
+            ) : null}
+            <label htmlFor="phoneNumber">Phone-Number</label>
+            <FormInput
+              type="string"
+              id="phoneNumber"
+              name="phoneNumber"
+              {...formik.getFieldProps("phoneNumber")}
+            />
+            {formik.errors.phoneNumber && formik.touched.phoneNumber ? (
+              <Error>{formik.errors.phoneNumber}</Error>
+            ) : null}
+            <label htmlFor="email">Email</label>
+            <FormInput
+              type="email"
+              id="email"
+              name="email"
+              {...formik.getFieldProps("email")}
+            />
+            {formik.errors.email && formik.touched.email ? (
+              <Error>{formik.errors.email}</Error>
+            ) : null}
+            <label htmlFor="password">Password</label>
+            <FormInput
+              type="password"
+              id="password"
+              name="password"
+              {...formik.getFieldProps("password")}
+            />
+            {formik.errors.password && formik.touched.password ? (
+              <Error>{formik.errors.password}</Error>
+            ) : null}
+
+            <FormButton type="submit">Register</FormButton>
+          </Form>
+        </FormWrapper>
+      </Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
   );
 };
 

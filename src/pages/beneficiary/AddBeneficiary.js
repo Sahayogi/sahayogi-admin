@@ -3,7 +3,8 @@ import styled, { css } from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const sharedStyles = css`
   background-color: grey;
   height: 40px;
@@ -101,10 +102,28 @@ const AddBeneficiary = () => {
         console.log("data:", data);
 
         if (data.success === true) {
-          alert(JSON.stringify(values, null, 2));
+          // alert(JSON.stringify(values, null, 2));
+          toast.success("Added Successfully", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
           console.log("added sucessful");
         }
       } catch (err) {
+        toast.error("Failed to Add", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         console.log(err, "err");
       }
     },
@@ -169,6 +188,17 @@ const AddBeneficiary = () => {
           <FormButton type="submit">Register</FormButton>
         </Form>
       </FormWrapper>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Container>
   );
 };

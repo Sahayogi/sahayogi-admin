@@ -90,6 +90,9 @@ export const getOwnBalance = () => {
   //   .balanceOf('0x994e98e32198b42903404b9fee2aaa205ceab13e')
   //   .call();
 };
+export const getAdminBalance = () => {
+  return sytContract.methods.balanceOf("0xC30004803F5dc1f6Ad15193A197fd1Fbd0D471D1").call();
+};
 export const getTotalSupply = async () => {
   if (!isInitialized) {
     await getBlockchain();

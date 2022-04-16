@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import { getTotalSupply } from "../../pages/Web3Client";
+import { getTotalSupply,getAdminBalance } from "../../pages/Web3Client";
 
 const Milstones = () => {
   const [posts, setPosts] = useState([]);
@@ -62,9 +62,10 @@ const Milstones = () => {
       </Link>
 
       <FeaturedItem>
-        <FeaturedName>Total Tokens</FeaturedName>
+        <FeaturedName>Total Supply</FeaturedName>
         <FeaturedCount>{supply/10**18}</FeaturedCount>
       </FeaturedItem>
+
     </Featured>
   );
 };

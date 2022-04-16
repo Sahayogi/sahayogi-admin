@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { updateMerkleRoot } from "../Web3Client";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Container = styled.div`
   flex: 4;
@@ -85,13 +87,10 @@ const Loginlabel = styled.label`
   color: white; ;
 `;
 
-
-
 const FormContainer = styled.div`
   display: flex;
   height: 100%;
   @media only screen and (min-width: 280px) and (max-width: 1080px) {
-
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -121,15 +120,33 @@ const BeneOperation = () => {
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
       const handleUpdate = (e) => {
-        updateMerkleRoot(values.projectId,values.merkleroot,)
+        updateMerkleRoot(values.projectId, values.merkleroot)
           .then((tx) => {
             console.log(tx);
             setUpdate(true);
+            toast.success("MerkleRoot updated Successfully", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
           })
           .catch((err) => {
             console.log(err);
+            toast.error("Failed to Update MerkleRoot", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
           });
       };
 
@@ -138,6 +155,17 @@ const BeneOperation = () => {
   });
   return (
     <Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Wrapper>
         <Mint>
           <FormContainer>
@@ -180,4 +208,3 @@ const BeneOperation = () => {
 };
 
 export default BeneOperation;
-

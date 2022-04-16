@@ -7,6 +7,9 @@ import {
   getRaiseFunds,
 } from '../Web3Client';
 import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Container = styled.div`
   flex: 4;
@@ -132,7 +135,7 @@ const RaiseFund = () => {
     const newgoal = (goal * 10 ** 18).toString();
     console.log('newgoal', newgoal);
     console.log('BEFORE BLOCKCHAIN');
-    raiseFund(project, agency, goal, start, end)
+    raiseFund(project, agency, newgoal, start, end)
       .then((tx) => {
         console.log('success');
         getFundingCount()
@@ -146,9 +149,27 @@ const RaiseFund = () => {
           });
         console.log(tx);
         setRaised(true);
+        toast.success("Fund raised Successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Failed to Add", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       });
   };
   const handleFundRaisingCancel = (e) => {
@@ -157,9 +178,26 @@ const RaiseFund = () => {
       .then((tx) => {
         console.log(tx);
         setCanceled(true);
+        toast.success("Fund Raising is Canceled Successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .catch((err) => {
-        console.log(err);
+        toast.error("Failed to Cancel", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       });
   };
   const handleFund = (e) => {
@@ -258,6 +296,17 @@ const RaiseFund = () => {
           </FormWrapper>
         </FormContainer>
       </Wrapper>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Container>
   );
 };

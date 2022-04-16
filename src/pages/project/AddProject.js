@@ -1,10 +1,12 @@
-import React, { useState, useRef } from 'react';
-import styled, { css } from 'styled-components';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios';
-import { countOfProject } from '../../utils/fetchBlockchainData';
-import { createProject } from '../Web3Client';
+import React, { useState, useRef } from "react";
+import styled, { css } from "styled-components";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+import { countOfProject } from "../../utils/fetchBlockchainData";
+import { createProject } from "../Web3Client";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const sharedStyles = css`
   background-color: grey;
@@ -15,7 +17,6 @@ const sharedStyles = css`
   border-radius: 5px;
   border: none;
   font-size: 20px;
-
 `;
 
 const Container = styled.div`
@@ -109,82 +110,57 @@ const AddProject = () => {
   const [failed, setFailed] = useState(false);
   const [loading, setLoading] = useState(false);
   const initialValues = {
-    projectName: '',
-    targetedArea: '',
-    description: '',
-    beneficiaries: '',
+    projectName: "",
+    targetedArea: "",
+    description: "",
+    beneficiaries: "",
   };
   const validationSchema = Yup.object({
-    projectName: Yup.string().required('required').max(20),
-    targetedArea: Yup.string().required('required').max(100),
-    description: Yup.string().required('required').max(1000),
-    beneficiaries: Yup.string().required('required').max(200),
+    projectName: Yup.string().required("required").max(20),
+    targetedArea: Yup.string().required("required").max(100),
+    description: Yup.string().required("required").max(1000),
+    beneficiaries: Yup.string().required("required").max(200),
   });
-  // const [projectImg, setProjectImg] = useState(
-  //   'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/male/45.png'
-  // );
-
-  // const [projectImgA, setProjectImgA] = useState({
-  //   file: [],
-  //   filepreview: null,
-  // });
-
-  // const handleInputChange = (e) => {
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     if (reader.readyState === 2) {
-  //       setProjectImg(reader.result);
-  //     }
-  //   };
-  //   reader.readAsDataURL(e.target.files[0]);
-  //   // setProjectImgA({
-  //   //   ...projectImg,
-  //   //   file: e.target.files[0],
-  //   // });
-  //   // filepreview:URL.createObjectURL(e.target.files[0]),
-  // };
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log('submited');
+      console.log("submited");
       const fetchApi = async (relateProjId) => {
         try {
           const config = {
             headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("access-token")}`,
             },
           };
           const { data } = await axios.post(
-            'http://localhost:5000/api/project/add',
+            "http://localhost:5000/api/project/add",
             { ...values, relateProjId },
             config
           );
-          console.log('data:', data);
+          console.log("data:", data);
 
           if (data.success === true) {
-            alert(JSON.stringify(values, null, 2));
-            console.log('added sucessful');
+            // alert(JSON.stringify(values, null, 2));
+            console.log("added sucessful");
             values = initialValues;
           }
         } catch (err) {
-          console.log(err, 'err');
+          console.log(err, "err");
         }
       };
-
       const handleBlockchain = () => {
         setLoading(true);
         createProject(values.projectName)
           .then((tx) => {
-            console.log('Success');
+            console.log("Success");
             // Get count => latest count value => APiPathaune =>relateProjId
             countOfProject()
               .then((projectCount) => {
                 console.log(projectCount);
-                console.log('Proj count is up');
-                // fetchApi(relateProjId);
+                console.log("Proj count is up");
                 fetchApi(projectCount);
               })
               .catch((err) => {
@@ -192,49 +168,37 @@ const AddProject = () => {
               });
 
             console.log(tx);
-            // const relateProjId = countOfProject();
-
             setAdded(true);
             setSuccess(true);
             setLoading(false);
-            setTimeout(() => {
-              setSuccess('');
-            }, 5000);
+            toast.success("Project Successfully added to Blockchain", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
           })
           .catch((err) => {
             setFailed(true);
             console.log(err);
             setLoading(false);
-            setTimeout(() => {
-              setFailed(false);
-            }, 5000);
+            toast.error("Failed to Add to Blockchain", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
           });
       };
       handleBlockchain();
-
-      //for image upload
-
-      // const formdata = new FormData();
-      // formdata.append('projectavatar', projectImgA.file);
-      // try {
-      //   const res = await axios.post(
-      //     'http://localhost:5000/imageupload',
-      //     formdata,
-      //     {
-      //       headers: { 'Content-Type': 'multipart/form-data' },
-      //     }
-      //   );
-      //   console.log(res);
-      //   if (res.data.success === 1) {
-      //     // setSuccess("Image uploaded sucessfully");
-      //     console.log('image uploaded sucessfully');
-      //   }
-      // } catch (err) {
-      //   console.log('err', err);
-      // }
     },
   });
-  // const fileRef = useRef(null);
   return (
     <Container>
       {loading && (
@@ -246,96 +210,70 @@ const AddProject = () => {
       )}
       {!loading && (
         <FormWrapper>
-          {success && <h1>Created Successfully</h1>}
-          {failed && <h1>Failed to create</h1>}
           <Form onSubmit={formik.handleSubmit}>
             <NewBeneficiaryTitle>
               Create New Donation Project
             </NewBeneficiaryTitle>
-            <label htmlFor='projectName'>Donation Project</label>
+            <label htmlFor="projectName">Donation Project</label>
             <FormInput
-              type='text'
-              id='projectName'
-              name='projectName'
-              {...formik.getFieldProps('projectName')}
+              type="text"
+              id="projectName"
+              name="projectName"
+              {...formik.getFieldProps("projectName")}
             />
             {formik.errors.projectName && formik.touched.projectName ? (
               <Error>{formik.errors.projectName}</Error>
             ) : null}
-            <label htmlFor='targetedArea'>Targeted Area</label>
+            <label htmlFor="targetedArea">Targeted Area</label>
             <FormInput
-              type='text'
-              id='targetedArea'
-              name='targetedArea'
-              {...formik.getFieldProps('targetedArea')}
+              type="text"
+              id="targetedArea"
+              name="targetedArea"
+              {...formik.getFieldProps("targetedArea")}
             />
             {formik.errors.targetedArea && formik.touched.targetedArea ? (
               <Error>{formik.errors.targetedArea}</Error>
             ) : null}
-            <label htmlFor='description'>Description</label>
+            <label htmlFor="description">Description</label>
             <FormInput
-              type='message'
-              id='description'
-              name='description'
-              {...formik.getFieldProps('description')}
+              type="message"
+              id="description"
+              name="description"
+              {...formik.getFieldProps("description")}
             />
             {formik.errors.description && formik.touched.description ? (
               <Error>{formik.errors.description}</Error>
             ) : null}
-            <label htmlFor='beneficiaries'>Beneficiaries</label>
+            <label htmlFor="beneficiaries">Beneficiaries</label>
             <FormInput
-              type='message'
-              id='beneficiaries'
-              name='beneficiaries'
-              placeholder='Email of beneficiary Separated by comma'
-              {...formik.getFieldProps('beneficiaries')}
+              type="message"
+              id="beneficiaries"
+              name="beneficiaries"
+              placeholder="Email of beneficiary Separated by comma"
+              {...formik.getFieldProps("beneficiaries")}
             />
             {formik.errors.beneficiaries && formik.touched.beneficiaries ? (
               <Error>{formik.errors.beneficiaries}</Error>
             ) : null}
 
-            <FormButton type='submit'>Add</FormButton>
+            <FormButton type="submit">Add</FormButton>
           </Form>
         </FormWrapper>
       )}
+       <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Container>
   );
 };
-const ImageForm = styled.div`
-  height: 50vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
-  /* border: 1px solid grey; */
-  gap: 1rem;
-`;
-const FileInput = styled.input`
-  color: lightgrey;
-`;
-const MidContainer = styled.div`
-  display: flex;
-  align-items: center;
-  display: flex;
-  gap: 2rem;
-  color: grey;
-  padding: 5px;
-`;
-const Image = styled.img`
-  height: 35vh;
-  width: 100%;
-  object-fit: cover;
-`;
-const UploadButton = styled.button`
-  justify-content: center;
-  background-color: blue;
-  color: white;
-  border: none;
-  padding: 7px;
-  &:hover {
-    background-color: blueviolet;
-  }
-`;
+
 
 export default AddProject;
