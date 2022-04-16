@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 import {
   getFundingCount,
   raiseFund,
   cancelRaiseFund,
   getRaiseFunds,
-} from '../Web3Client';
-import axios from 'axios';
+} from "../Web3Client";
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 
 const Container = styled.div`
   flex: 4;
@@ -85,18 +84,18 @@ const FormLabel = styled.label`
 const RaiseFund = () => {
   const [raised, setRaised] = useState(false);
   const [canceled, setCanceled] = useState(false);
-  const [frId, setFrId] = useState('');
-  const [getId, setGetId] = useState('');
+  const [frId, setFrId] = useState("");
+  const [getId, setGetId] = useState("");
 
   //fund raised data
-  const [fundData, setFundData] = useState(' ');
+  const [fundData, setFundData] = useState(" ");
 
   const [formData, setFormData] = useState({
-    project: '',
-    agency: '',
-    goal: '',
-    start: '',
-    end: '',
+    project: "",
+    agency: "",
+    goal: "",
+    start: "",
+    end: "",
   });
   const handleChange = (e) => {
     const name = e.target.name;
@@ -108,24 +107,24 @@ const RaiseFund = () => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
       };
       const { data } = await axios.post(
-        'http://localhost:5000/api/admin/project/map',
+        "http://localhost:5000/api/admin/project/map",
         { ...formData, fundingCount },
         config
       );
-      console.log('data:', data);
+      console.log("data:", data);
 
       if (data.success === true) {
         // alert(JSON.stringify(values, null, 2));
-        console.log('added sucessful');
+        console.log("added sucessful");
         // values = initialValues;
       }
     } catch (err) {
-      console.log(err, 'err');
+      console.log(err, "err");
     }
   };
 
@@ -133,15 +132,15 @@ const RaiseFund = () => {
     e.preventDefault();
     const { project, agency, goal, start, end } = formData;
     const newgoal = (goal * 10 ** 18).toString();
-    console.log('newgoal', newgoal);
-    console.log('BEFORE BLOCKCHAIN');
+    console.log("newgoal", newgoal);
+    console.log("BEFORE BLOCKCHAIN");
     raiseFund(project, agency, newgoal, start, end)
       .then((tx) => {
-        console.log('success');
+        console.log("success");
         getFundingCount()
           .then((fundingCount) => {
             console.log(fundingCount);
-            console.log('Proj count is up');
+            console.log("Proj count is up");
             fetchApi(fundingCount);
           })
           .catch((err) => {
@@ -206,6 +205,18 @@ const RaiseFund = () => {
     getRaiseFunds(getId)
       .then((fundData) => {
         setFundData(fundData);
+        console.log("fundDAta", fundData);
+        alert(
+          `
+          projectId:${fundData.projectId}
+          AidAgency:${fundData.aidAgency},donated:${
+            fundData.donated / 10 ** 18
+          },goal:${fundData.goal / 10 ** 18},
+          canceled:${fundData.canceled},
+          claimed:${fundData.claimed}
+
+        }`
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -221,52 +232,52 @@ const RaiseFund = () => {
         <FormContainer>
           <FormWrapper>
             <div>
-              <FormLabel htmlFor='project'>Project Id</FormLabel>
+              <FormLabel htmlFor="project">Project Id</FormLabel>
               <FormInput
-                placeholder='project'
-                id='project'
-                name='project'
-                type='number'
+                placeholder="project"
+                id="project"
+                name="project"
+                type="number"
                 onChange={handleChange}
               />
             </div>
             <div>
-              <FormLabel htmlFor='agency'>Aid Agency</FormLabel>
+              <FormLabel htmlFor="agency">Aid Agency</FormLabel>
               <FormInput
-                placeholder='Aid Agency'
-                name='agency'
-                type='text'
+                placeholder="Aid Agency"
+                name="agency"
+                type="text"
                 onChange={handleChange}
               />
             </div>
             <div>
-              <FormLabel htmlFor='goal'>Goal</FormLabel>
+              <FormLabel htmlFor="goal">Goal</FormLabel>
               <FormInput
-                placeholder='goal'
-                name='goal'
-                type='string'
+                placeholder="goal"
+                name="goal"
+                type="string"
                 onChange={handleChange}
               />
             </div>
             <div>
-              <FormLabel htmlFor='start'>Start</FormLabel>
+              <FormLabel htmlFor="start">Start</FormLabel>
               <FormInput
-                placeholder='start date'
-                name='start'
-                type='text'
+                placeholder="start date"
+                name="start"
+                type="text"
                 onChange={handleChange}
               />
             </div>
             <div>
-              <FormLabel htmlFor='end'>End</FormLabel>
+              <FormLabel htmlFor="end">End</FormLabel>
               <FormInput
-                placeholder='End time'
-                name='end'
-                type='text'
+                placeholder="End time"
+                name="end"
+                type="text"
                 onChange={handleChange}
               />
             </div>
-            <Button type='submit' onClick={handleFundRaising}>
+            <Button type="submit" onClick={handleFundRaising}>
               Raise Fund
             </Button>
           </FormWrapper>
@@ -274,9 +285,9 @@ const RaiseFund = () => {
           <FormWrapper>
             <div>
               <FormInput
-                placeholder='id'
-                name='frId'
-                type='text'
+                placeholder="id"
+                name="frId"
+                type="text"
                 value={frId}
                 onChange={(e) => setFrId(e.target.value)}
               />
@@ -285,9 +296,9 @@ const RaiseFund = () => {
 
             <div>
               <FormInput
-                placeholder='id'
-                name='getId'
-                type='text'
+                placeholder="id"
+                name="getId"
+                type="text"
                 value={getId}
                 onChange={(e) => setGetId(e.target.value)}
               />

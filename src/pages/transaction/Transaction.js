@@ -153,9 +153,9 @@ const Transaction = () => {
                             {' '}
                             {row.from ==
                             0x0000000000000000000000000000000000000000 ? (
-                              <Status>-</Status>
+                              <Status>Intial Supply</Status>
                             ) : (
-                              <StatusOut>DONATE</StatusOut>
+                              <StatusOut>Txns</StatusOut>
                             )}
                           </>
                         </TableCell>

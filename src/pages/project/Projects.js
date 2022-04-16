@@ -229,7 +229,7 @@ const Projects = () => {
                   <TableCell
                     align="center"
                     cursor="pointer"
-                    onClick={() => showInfo(row.relateBlockProj)}
+                    onClick={() => showInfo(row.frCount)}
                   >
                     *** SYT
                   </TableCell>

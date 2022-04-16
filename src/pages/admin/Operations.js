@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { mintToken, getOwnBalance, transact } from '../Web3Client';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Container = styled.div`
   flex: 4;
   min-height: calc(100vh - 80px);
@@ -150,7 +151,7 @@ const Operations = () => {
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
       const handleTransfer = (e) => {
         console.log('token value', values.token);
         const newtokenamount = ((values.token)*(10**18)).toString();
@@ -159,9 +160,27 @@ const Operations = () => {
           .then((tx) => {
             console.log(tx);
             setTransfer(true);
+            toast.success("Transfered SYT Successfully", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
           })
           .catch((err) => {
             console.log(err);
+            toast.error("Failed To Transfer", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
           });
       };
 
@@ -236,6 +255,7 @@ const Operations = () => {
           </Balance>
         </Mint>
       </Wrapper>
+      <ToastContainer/>
     </Container>
   );
 };
