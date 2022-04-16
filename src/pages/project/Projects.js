@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Table,
   TableBody,
@@ -60,6 +62,16 @@ const Loader = styled.div`
     }
   }
 `;
+const Popupwrap = styled.div`
+  height: 200px;
+  width: 600px;
+  padding: 20px;
+  border-radius: 20px;
+  position:fixed
+  color: white;
+  z-index: 100;
+  background-color: black;
+`;
 const ToBlockchain = styled.button`
   height: 40px;
   width: auto;
@@ -77,31 +89,31 @@ const ToBlockchain = styled.button`
     background-color: grey;
   }
 `;
+const BlockComponent = ({ frId, info, setInfo }) => {
+  const mydata = '';
+  getFrInfo(frId)
+    .then((information) => {
+      mydata = information.DONATED_;
+      //       console.log("information:",information);
+
+      //       post.donated = (information.DONATED_)/10**18 ;
+      //       setPosts()
+      //       console.log("post:",post);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return <p>Hi {mydata}</p>;
+};
+
 const Projects = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [click, setClick] = useState(false);
-  //blockchain
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
-  const [claim, setClaim] = useState(false);
+
   const [info, setInfo] = useState([]);
 
-  // const handleBlockchain = (post) => {
-  //   getFrInfo(post.relateBlockProj)
-  //     .then((information) => {
-  //       console.log("information:",information);
-  //       setInfo(information);
-  //       post.donated = (information.DONATED_)/10**18 ;
-  //       setPosts()
-  //       console.log("post:",post);
-
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-
-  // };
   const updateClaim = async (projectId) => {
     try {
       const config = {
@@ -121,11 +133,6 @@ const Projects = () => {
   };
 
   const handleClick = (proId, pidForClaim, setSuccess, setFailed, frCount) => {
-    // setClick(!click);
-    // axios req to update project.claimed to true
-    console.log('pidForClaim', pidForClaim);
-    console.log('frCount', frCount);
-    console.log('btn clikced');
     {
       claimFunds(frCount, pidForClaim)
         .then((tx) => {
@@ -145,16 +152,6 @@ const Projects = () => {
           }, 5000);
         });
     }
-    // countOfFunding()
-    //   .then((fundCountForClaim) => {
-    //     console.log(fundCountForClaim);
-    //     console.log("Proj count is up");
-
-    //   })
-
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   };
 
   const fetchPosts = async () => {
@@ -171,30 +168,38 @@ const Projects = () => {
       );
       setPosts(data.data);
       console.log(posts);
-      // posts.forEach((post)=>{
-      //  handleBlockchain(post);
-      //  console.log("afteffetch",post);
-
-      // post.information = information ;
-      // })
       setLoading(false);
     } catch (err) {
       console.log(err, 'error occured');
     }
   };
+  const showInfo = async (frInfo) => {
+    getFrInfo(frInfo)
+      .then((information) => {
+        setInfo(
+          `Donated: ${information.DONATED_ / 10 ** 18} SYT \n Goal: ${
+            information.GOAL_ / 10 ** 18
+          } SYT`
+        );
+        console.log(information);
+        toast.info(info);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
     fetchPosts();
-    // handleBlockchain();
   }, []);
   const {
     data: {
       user: { role },
     },
   } = useAuth();
-  // const [loading, setLoading] = useState(true);
 
   return (
     <Container>
+      <ToastContainer />
       {role && role !== 'Admin' && (
         <Link to='/addProject'>
           <AddDiv> + Add Projects</AddDiv>
@@ -215,8 +220,7 @@ const Projects = () => {
                 <TableCell>Project Id</TableCell>
                 <TableCell align='center'>Donation Projects</TableCell>
                 <TableCell align='center'>Number of Beneficiaries</TableCell>
-                <TableCell align='center'>Goal</TableCell>
-                <TableCell align='center'>Tokens Donated</TableCell>
+                <TableCell align='center'>View</TableCell>
                 <TableCell align='center'>Status</TableCell>
               </TableRow>
             </TableHead>
@@ -226,7 +230,11 @@ const Projects = () => {
                   key={row._id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell component='th' scope='row'>
+                  <TableCell
+                    component='th'
+                    scope='row'
+                    onClick={() => showInfo(row.relateBlockProj)}
+                  >
                     {row.relateBlockProj}
                   </TableCell>
                   <TableCell align='center'>
@@ -237,9 +245,14 @@ const Projects = () => {
                   <TableCell align='center'>
                     {row.beneficiaries.length}
                   </TableCell>
-                  <TableCell align='center'>{row.goal} SYT</TableCell>
-                  <TableCell align='center'>{row.donated} SYT</TableCell>
-
+                  {/* {/* <TableCell align='center'>{row.GOAL_} SYT</TableCell> */}
+                  <TableCell
+                    align='center'
+                    cursor='pointer'
+                    onClick={() => showInfo(row.relateBlockProj)}
+                  >
+                    *** SYT
+                  </TableCell>
                   <TableCell align='center'>
                     <ClaimedC>
                       {row.claimed ? (
