@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import styled from "styled-components";
 import {
   LineChart,
@@ -25,12 +25,13 @@ const Title = styled.h3`
 `;
 
 const Charts = ({ title, data, dataKey, grid }) => {
+ 
   return (
     <Container>
       <Title>{title}</Title>
       <ResponsiveContainer width="100%" aspect={4 / 1}>
-        <LineChart   data={data}>
-          <XAxis dataKey="projects" stroke="lightgrey" />
+        <LineChart data={data}>
+          <XAxis dataKey="projectName" stroke="lightgrey" />
           <Line type="monotone" dataKey={dataKey} stroke="green" />
           <Tooltip />
           <CartesianGrid stroke="grey" strokeDasharray="5 5" />
